@@ -1,0 +1,2152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>SENAR & KAYU — Alat Musik Gitar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F3F1;
+    --paper-deep:#E7E5E1;
+    --ink:#161616;
+    --ink-soft:#5A5A5A;
+    --walnut:#141414;
+    --walnut-deep:#000000;
+    --amber:#D8262C;
+    --cherry:#9E1B1F;
+    --line:#DEDBD5;
+    --white:#FFFFFF;
+    --radius:18px;
+    --shadow: 0 8px 24px -10px rgba(10,10,10,0.20);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:
+      linear-gradient(rgba(15,15,15,0.32), rgba(15,15,15,0.32)),
+      url('bgbody.jpg') center / cover fixed no-repeat;
+    background-color:var(--paper);
+    min-height:100vh;
+    color:var(--ink);
+    font-family:'Plus Jakarta Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    display:flex;
+    justify-content:center;
+  }
+  h1,h2,h3, .display{
+    font-family:'Fraunces', serif;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit; border:none; cursor:pointer;}
+  img{display:block; max-width:100%;}
+
+  .app{
+    width:100%;
+    max-width:480px;
+    min-height:100vh;
+    background:rgba(244,243,241,0.86);
+    backdrop-filter:blur(14px) saturate(120%);
+    -webkit-backdrop-filter:blur(14px) saturate(120%);
+    position:relative;
+    box-shadow: 0 0 60px rgba(0,0,0,0.18);
+  }
+
+  /* ---------- fret-dot motif divider ---------- */
+  .motif{
+    height:10px;
+    width:100%;
+    background-image: radial-gradient(circle at 6px 5px, var(--amber) 2.4px, transparent 2.5px);
+    background-size: 16px 10px;
+    opacity:0.9;
+  }
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    background: var(--walnut);
+    color: var(--paper);
+    padding:14px 16px 18px;
+    position:sticky;
+    top:0;
+    z-index:30;
+  }
+  .topbar-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:12px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:9px;
+  }
+  .brand-mark{
+    width:34px; height:34px;
+    border-radius:9px;
+    background:var(--amber);
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px;
+    overflow:hidden;
+  }
+  .brand-name{
+    font-family:'Fraunces', serif;
+    font-size:18px;
+    font-weight:600;
+    line-height:1;
+  }
+  .brand-tag{
+    font-size:10.5px;
+    color:#C9C7C4;
+    letter-spacing:0.04em;
+    margin-top:2px;
+  }
+  .topbar-icons{
+    display:flex;
+    gap:6px;
+  }
+  .desktop-nav{ display:none; }
+  .desktop-account{ display:none; }
+  .icon-btn{
+    width:38px; height:38px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.12);
+    color:var(--paper);
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+    font-size:17px;
+  }
+  .icon-btn .dot{
+    position:absolute;
+    top:6px; right:6px;
+    width:7px; height:7px;
+    border-radius:50%;
+    background:var(--cherry);
+    border:1.5px solid var(--walnut);
+  }
+
+  .location-pill{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:12.5px;
+    color:#E6D9BF;
+    margin-bottom:12px;
+  }
+  .location-pill b{ color:var(--paper); font-weight:600; }
+  .location-pill .chev{ opacity:0.7; }
+
+  .searchbar{
+    background:var(--white);
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:11px 14px;
+    box-shadow: var(--shadow);
+  }
+  .searchbar input{
+    border:none;
+    outline:none;
+    flex:1;
+    font-family:inherit;
+    font-size:14px;
+    color:var(--ink);
+    background:transparent;
+  }
+  .searchbar input::placeholder{ color:#A8A6A2; }
+  .searchbar .lens{ color:var(--ink-soft); font-size:15px; }
+
+  /* ---------- Section heads ---------- */
+  .section{
+    padding: 20px 16px 4px;
+  }
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:13px;
+  }
+  .section-head h2{
+    font-size:18px;
+    font-weight:600;
+    color:var(--ink);
+  }
+  .section-head .see-all{
+    font-size:12px;
+    font-weight:700;
+    color:var(--cherry);
+    letter-spacing:0.02em;
+  }
+  .eyebrow{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--walnut);
+    margin-bottom:3px;
+  }
+
+  /* ---------- Hero banner ---------- */
+  .hero{
+    margin:16px 16px 0;
+    border-radius:20px;
+    position:relative;
+    overflow:hidden;
+    padding:22px 18px 20px;
+    color:var(--paper);
+  }
+  .hero-slides{
+    position:absolute;
+    inset:0;
+    z-index:0;
+  }
+  .hero-slide{
+    position:absolute;
+    inset:0;
+    background-position:center;
+    background-size:cover;
+    background-repeat:no-repeat;
+    opacity:0;
+    transition:opacity 1.2s ease;
+  }
+  .hero-slide.active{ opacity:1; }
+  .hero-overlay{
+    position:absolute;
+    inset:0;
+    background: linear-gradient(135deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.55) 100%);
+    z-index:1;
+  }
+  .hero-dots{
+    position:absolute;
+    right:16px;
+    bottom:14px;
+    display:flex;
+    gap:5px;
+    z-index:3;
+  }
+  .hero-dot{
+    width:6px; height:6px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.4);
+    transition:background 0.3s ease, width 0.3s ease;
+  }
+  .hero-dot.active{
+    background:var(--amber);
+    width:16px;
+    border-radius:4px;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    right:-30px; top:-30px;
+    width:140px; height:140px;
+    border-radius:50%;
+    background:rgba(201,135,61,0.18);
+    z-index:1;
+  }
+  .hero::after{
+    content:"";
+    position:absolute;
+    left:-20px; bottom:-40px;
+    width:110px; height:110px;
+    border-radius:50%;
+    background:rgba(140,59,46,0.18);
+    z-index:1;
+  }
+  .hero-inner{ position:relative; z-index:2; }
+  .hero .eyebrow{ color:var(--amber); }
+  .hero h1{
+    font-size:25px;
+    line-height:1.18;
+    font-weight:600;
+    max-width:250px;
+    margin-bottom:8px;
+  }
+  .hero p{
+    font-size:12.5px;
+    color:#D6D4D0;
+    max-width:230px;
+    line-height:1.5;
+    margin-bottom:16px;
+  }
+  .hero-art{ display:none; }
+  .hero-cta{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:var(--amber);
+    color:var(--walnut-deep);
+    font-weight:700;
+    font-size:13px;
+    padding:10px 16px;
+    border-radius:11px;
+  }
+
+  /* ---------- Stats strip ---------- */
+  .stats{
+    display:flex;
+    margin:14px 16px 0;
+    background:var(--white);
+    border-radius:16px;
+    padding:14px 8px;
+    box-shadow:var(--shadow);
+  }
+  .stat{
+    flex:1;
+    text-align:center;
+    border-right:1px solid var(--line);
+  }
+  .stat:last-child{ border-right:none; }
+  .stat .num{
+    font-family:'Fraunces', serif;
+    font-size:18px;
+    font-weight:700;
+    color:var(--walnut);
+  }
+  .stat .lbl{
+    font-size:10px;
+    color:var(--ink-soft);
+    margin-top:2px;
+  }
+
+  /* ---------- Categories ---------- */
+  .cat-scroll{
+    display:flex;
+    gap:14px;
+    overflow-x:auto;
+    padding-bottom:4px;
+    scrollbar-width:none;
+  }
+  .cat-scroll::-webkit-scrollbar{ display:none; }
+  .cat-item{
+    flex:0 0 auto;
+    width:68px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:7px;
+  }
+  .cat-circle{
+    width:60px; height:60px;
+    border-radius:50%;
+    background:var(--white);
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-size:24px;
+    box-shadow:var(--shadow);
+  }
+  .cat-item span{
+    font-size:11px;
+    font-weight:600;
+    text-align:center;
+    color:var(--ink-soft);
+    line-height:1.2;
+  }
+
+  /* ---------- Promo strip ---------- */
+  .promo-strip{
+    margin:18px 16px 0;
+    border-radius:16px;
+    background:var(--cherry);
+    color:var(--paper);
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    background-image: repeating-linear-gradient(135deg, rgba(255,255,255,0.06) 0 8px, transparent 8px 16px);
+  }
+  .promo-strip .ps-text strong{
+    display:block;
+    font-family:'Fraunces',serif;
+    font-size:15px;
+    font-weight:600;
+  }
+  .promo-strip .ps-text span{
+    font-size:11px;
+    color:#F3C6C6;
+  }
+  .promo-strip .ps-code{
+    background:rgba(255,255,255,0.16);
+    border:1px dashed rgba(255,255,255,0.5);
+    padding:6px 10px;
+    border-radius:8px;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:0.04em;
+  }
+
+  /* ---------- Filter chips ---------- */
+  .chip-row{
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    padding-bottom:2px;
+    scrollbar-width:none;
+  }
+  .chip-row::-webkit-scrollbar{ display:none; }
+  .chip{
+    flex:0 0 auto;
+    padding:7px 13px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:600;
+    background:var(--white);
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+    white-space:nowrap;
+  }
+  .chip.active{
+    background:var(--walnut);
+    border-color:var(--walnut);
+    color:var(--paper);
+  }
+
+  /* ---------- Product grid ---------- */
+  .grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:14px;
+  }
+  .card{
+    background:var(--white);
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    border:1px solid var(--line);
+  }
+  .card-thumb{
+    aspect-ratio:1/1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:38px;
+    position:relative;
+  }
+  .card-thumb .badge{
+    position:absolute;
+    top:8px; left:8px;
+    background:var(--cherry);
+    color:var(--paper);
+    font-size:9.5px;
+    font-weight:700;
+    padding:3px 7px;
+    border-radius:6px;
+    letter-spacing:0.02em;
+  }
+  .card-thumb .fav{
+    position:absolute;
+    top:8px; right:8px;
+    width:26px; height:26px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.85);
+    display:flex; align-items:center; justify-content:center;
+    font-size:13px;
+    color:var(--cherry);
+  }
+  .card-body{ padding:10px 11px 12px; }
+  .card-shop{
+    font-size:10px;
+    color:var(--walnut);
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:4px;
+    margin-bottom:4px;
+  }
+  .card-shop .check{
+    color:var(--white);
+    background:var(--walnut);
+    width:11px; height:11px;
+    border-radius:50%;
+    font-size:7px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .card-name{
+    font-size:13px;
+    font-weight:600;
+    line-height:1.3;
+    margin-bottom:6px;
+    min-height:34px;
+  }
+  .card-price{
+    font-family:'Fraunces', serif;
+    font-size:15px;
+    font-weight:700;
+    color:var(--ink);
+  }
+  .card-price .old{
+    font-family:'Plus Jakarta Sans', sans-serif;
+    font-size:10.5px;
+    color:#A6A3A0;
+    text-decoration:line-through;
+    font-weight:500;
+    margin-left:5px;
+  }
+  .card-meta{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:6px;
+  }
+  .card-rating{
+    font-size:10.5px;
+    color:var(--ink-soft);
+    display:flex;
+    align-items:center;
+    gap:3px;
+  }
+  .card-add{
+    width:26px; height:26px;
+    border-radius:8px;
+    background:#25D366;
+    color:#FFFFFF;
+    display:flex; align-items:center; justify-content:center;
+    font-size:15px;
+    font-weight:700;
+  }
+  .card-add svg{ width:14px; height:14px; }
+
+  /* ---------- Featured brand strip ---------- */
+  .seller-scroll{
+    display:flex;
+    gap:12px;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .seller-scroll::-webkit-scrollbar{ display:none; }
+  .seller-card{
+    flex:0 0 auto;
+    width:140px;
+    background:var(--white);
+    border-radius:16px;
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+  .seller-banner{
+    height:54px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:24px;
+  }
+  .seller-info{ padding:10px 10px 12px; text-align:center; margin-top:-20px; }
+  .seller-avatar{
+    width:40px; height:40px;
+    border-radius:50%;
+    background:var(--white);
+    border:3px solid var(--white);
+    box-shadow:0 2px 6px rgba(0,0,0,0.12);
+    margin:0 auto 6px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px;
+  }
+  .seller-info b{
+    display:block;
+    font-size:12px;
+    font-weight:700;
+    margin-bottom:2px;
+  }
+  .seller-info span{
+    font-size:10px;
+    color:var(--ink-soft);
+  }
+
+  /* ---------- Trust footer note ---------- */
+  .trust-note{
+    margin:24px 16px 8px;
+    text-align:center;
+    padding:18px 14px;
+    border-radius:16px;
+    background:var(--paper-deep);
+    border:1px dashed var(--line);
+  }
+  .trust-note .display{
+    font-size:14px;
+    font-weight:600;
+    color:var(--walnut-deep);
+    margin-bottom:4px;
+  }
+  .trust-note p{
+    font-size:11.5px;
+    color:var(--ink-soft);
+    line-height:1.5;
+  }
+
+  @media (max-width: 360px){
+    .hero h1{ font-size:22px; }
+  }
+
+  /* ---------- WA Confirm Modal ---------- */
+  .wa-sheet{
+    max-width:340px;
+    padding:22px 22px 26px;
+    border-radius:22px;
+    text-align:center;
+  }
+  .wa-logo{
+    background:#25D366;
+    color:#FFFFFF;
+  }
+  .wa-logo svg{ width:30px; height:30px; }
+  .wa-product{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:10px 12px;
+    font-size:12.5px;
+    color:var(--ink);
+    font-weight:600;
+    margin-bottom:18px;
+  }
+  .btn-wa{
+    width:100%;
+    background:#25D366;
+    color:#FFFFFF;
+    font-weight:700;
+    font-size:14px;
+    padding:13px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+  }
+  .btn-wa svg{ width:17px; height:17px; }
+
+  /* ---------- Product Detail Modal (center popup) ---------- */
+  .pm-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(10,10,10,0.6);
+    backdrop-filter:blur(3px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:110;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.25s ease;
+  }
+  .pm-overlay.open{
+    opacity:1;
+    pointer-events:auto;
+  }
+  .pm-card{
+    width:100%;
+    max-width:440px;
+    max-height:92vh;
+    display:flex;
+    flex-direction:column;
+    background:var(--paper);
+    border-radius:24px;
+    position:relative;
+    box-shadow:0 24px 60px -12px rgba(0,0,0,0.45);
+    transform:translateY(18px) scale(0.96);
+    opacity:0;
+    transition:transform 0.28s cubic-bezier(.2,.8,.3,1), opacity 0.28s ease;
+    overflow:hidden;
+  }
+  .pm-overlay.open .pm-card{
+    transform:translateY(0) scale(1);
+    opacity:1;
+  }
+  .pm-close{
+    position:absolute;
+    top:14px; right:14px;
+    width:32px; height:32px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.9);
+    color:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    font-size:15px;
+    box-shadow:var(--shadow);
+    z-index:2;
+  }
+  .pm-thumb{
+    aspect-ratio:auto;
+    height:240px;
+    flex-shrink:0;
+    border-radius:24px 24px 0 0;
+    font-size:84px;
+  }
+  .pm-thumb-emoji{ line-height:1; }
+  .pm-body{
+    padding:20px 22px 22px;
+    display:flex;
+    flex-direction:column;
+    flex:1;
+    min-height:0;
+  }
+  .pm-shop{
+    font-size:11.5px;
+    color:var(--walnut);
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:5px;
+    margin-bottom:7px;
+    letter-spacing:0.02em;
+    flex-shrink:0;
+  }
+  .pm-shop .check{
+    color:var(--white);
+    background:var(--walnut);
+    width:13px; height:13px;
+    border-radius:50%;
+    font-size:8px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .pm-name{
+    font-family:'Fraunces', serif;
+    font-size:21px;
+    font-weight:600;
+    line-height:1.3;
+    margin-bottom:12px;
+    color:var(--ink);
+    flex-shrink:0;
+  }
+  .pm-price-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    margin-bottom:10px;
+    flex-shrink:0;
+  }
+  .pm-price-left{
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+  }
+  .pm-price{
+    font-family:'Fraunces', serif;
+    font-size:23px;
+    font-weight:700;
+    color:var(--cherry);
+  }
+  .pm-old{
+    font-size:12.5px;
+    color:#A6A3A0;
+    text-decoration:line-through;
+    font-weight:500;
+  }
+  .pm-stock{
+    font-size:11.5px;
+    font-weight:700;
+    color:#2E7D32;
+    background:#E3F1E4;
+    padding:5px 10px;
+    border-radius:20px;
+    white-space:nowrap;
+  }
+  .pm-rating{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    font-size:12px;
+    color:var(--ink-soft);
+    background:var(--paper-deep);
+    padding:4px 10px;
+    border-radius:20px;
+    margin-bottom:16px;
+    flex-shrink:0;
+    align-self:flex-start;
+  }
+  .pm-desc-wrap{
+    flex:1;
+    min-height:60px;
+    max-height:180px;
+    overflow-y:auto;
+    padding-right:4px;
+    margin-bottom:18px;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding-top:14px;
+    padding-bottom:14px;
+  }
+  .pm-desc{
+    font-size:13px;
+    color:var(--ink-soft);
+    line-height:1.7;
+  }
+  .pm-actions{
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+    flex-shrink:0;
+  }
+
+  /* ---------- Floating WhatsApp Button ---------- */
+  .fab-wa-wrap{
+    position:fixed;
+    left:50%;
+    bottom:0;
+    transform:translateX(-50%);
+    width:100%;
+    max-width:480px;
+    height:0;
+    z-index:45;
+    pointer-events:none;
+  }
+  .fab-wa{
+    position:absolute;
+    right:16px;
+    bottom:24px;
+    width:54px; height:54px;
+    border-radius:50%;
+    background:#25D366;
+    color:#FFFFFF;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 10px 24px -4px rgba(0,0,0,0.4);
+    pointer-events:auto;
+    transition:transform 0.2s ease;
+  }
+  .fab-wa:active{ transform:scale(0.92); }
+  .fab-wa svg{ width:28px; height:28px; }
+
+  @media (min-width:768px){
+    .fab-wa{ bottom:28px; }
+  }
+
+  /* ---------- Pagination ---------- */
+  .pagination{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    flex-wrap:wrap;
+    margin:22px 0 8px;
+  }
+  .page-btn{
+    min-width:34px;
+    height:34px;
+    padding:0 8px;
+    border-radius:10px;
+    background:var(--white);
+    color:var(--ink-soft);
+    font-size:13px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:var(--shadow);
+    transition:background 0.2s ease, color 0.2s ease;
+  }
+  .page-btn.active{
+    background:var(--walnut);
+    color:var(--paper);
+  }
+  .page-btn.nav{
+    background:transparent;
+    box-shadow:none;
+    color:var(--ink-soft);
+    font-size:16px;
+  }
+  .page-btn:disabled{
+    opacity:0.35;
+    cursor:not-allowed;
+  }
+
+  /* ---------- Login Modal ---------- */
+  .modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(10,10,10,0.55);
+    backdrop-filter:blur(2px);
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    z-index:100;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.25s ease;
+  }
+  .modal-overlay.open{
+    opacity:1;
+    pointer-events:auto;
+  }
+  .modal-sheet{
+    width:100%;
+    max-width:480px;
+    background:var(--paper);
+    border-radius:26px 26px 0 0;
+    padding:14px 22px 28px;
+    position:relative;
+    transform:translateY(24px);
+    transition:transform 0.3s ease;
+    box-shadow:0 -10px 40px rgba(10,10,10,0.25);
+    max-height:88vh;
+    overflow-y:auto;
+  }
+  .modal-overlay.open .modal-sheet{
+    transform:translateY(0);
+  }
+  .modal-drag{
+    width:36px; height:4px;
+    border-radius:4px;
+    background:var(--line);
+    margin:0 auto 16px;
+  }
+  .modal-close{
+    position:absolute;
+    top:16px; right:18px;
+    width:30px; height:30px;
+    border-radius:50%;
+    background:var(--paper-deep);
+    color:var(--ink-soft);
+    display:flex; align-items:center; justify-content:center;
+    font-size:14px;
+  }
+  .modal-logo{
+    width:64px; height:64px;
+    border-radius:16px;
+    overflow:hidden;
+    margin:6px auto 14px;
+    box-shadow:var(--shadow);
+    border:1px solid var(--line);
+    background:var(--amber);
+    display:flex; align-items:center; justify-content:center;
+    font-size:30px;
+  }
+  .modal-head{
+    text-align:center;
+    margin-bottom:22px;
+  }
+  .modal-head h2{
+    font-size:20px;
+    font-weight:600;
+    color:var(--ink);
+    margin-bottom:5px;
+  }
+  .modal-head p{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    line-height:1.5;
+  }
+  .form-group{
+    margin-bottom:13px;
+  }
+  .form-group label{
+    display:block;
+    font-size:11.5px;
+    font-weight:700;
+    color:var(--ink-soft);
+    margin-bottom:6px;
+    letter-spacing:0.02em;
+  }
+  .form-input{
+    width:100%;
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:12px 14px;
+    font-family:inherit;
+    font-size:13.5px;
+    color:var(--ink);
+    outline:none;
+  }
+  .form-input:focus{
+    border-color:var(--walnut);
+  }
+  .form-input::placeholder{ color:#A6A3A0; }
+  .form-extra{
+    display:flex;
+    justify-content:flex-end;
+    margin:-4px 0 16px;
+  }
+  .form-extra a{
+    font-size:11.5px;
+    font-weight:700;
+    color:var(--cherry);
+  }
+  .btn-primary{
+    width:100%;
+    background:var(--walnut);
+    color:var(--paper);
+    font-size:14px;
+    font-weight:700;
+    padding:14px;
+    border-radius:13px;
+    text-align:center;
+    box-shadow:0 6px 16px -6px rgba(59,42,28,0.5);
+  }
+  .modal-switch{
+    text-align:center;
+    margin-top:16px;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .modal-switch a{
+    color:var(--walnut);
+    font-weight:700;
+  }
+  .modal-divider{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:18px 0 16px;
+  }
+  .modal-divider .line{
+    flex:1;
+    height:1px;
+    background:var(--line);
+  }
+  .modal-divider span{
+    font-size:10.5px;
+    color:#A6A3A0;
+    font-weight:600;
+  }
+
+  @media (max-width:767px){
+    body{ background-attachment:scroll; }
+  }
+
+  /* =====================================================
+     TABLET (>=768px)
+  ===================================================== */
+  @media (min-width:768px){
+    body{ background:var(--paper-deep); }
+    .app{
+      max-width:900px;
+      min-height:auto;
+      padding-bottom:60px;
+      box-shadow:0 20px 60px -20px rgba(10,10,10,0.25);
+      margin:0 auto;
+    }
+    .desktop-nav{
+      display:flex;
+      gap:26px;
+      font-size:13.5px;
+      font-weight:600;
+      color:#C9C7C4;
+    }
+    .desktop-nav a{ transition:color .2s; white-space:nowrap; }
+    .desktop-nav a:hover, .desktop-nav a.active{ color:var(--amber); }
+    .desktop-account{
+      display:flex;
+      font-size:15px;
+    }
+    .topbar{ padding:18px 32px 22px; }
+    .topbar-row{ margin-bottom:14px; }
+    .location-pill,.searchbar{ max-width:420px; }
+
+    .hero{
+      margin:20px 32px 0;
+      padding:36px 40px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:32px;
+    }
+    .hero-inner{ max-width:60%; }
+    .hero h1{ font-size:32px; max-width:100%; }
+    .hero p{ font-size:13.5px; max-width:100%; }
+    .hero-art{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:88px;
+      opacity:0.9;
+      flex-shrink:0;
+    }
+
+    .stats{ margin:16px 32px 0; padding:18px 20px; }
+    .stat .num{ font-size:22px; }
+    .stat .lbl{ font-size:11px; }
+
+    .section{ padding:36px 32px 6px; }
+    .section-head h2{ font-size:21px; }
+
+    .cat-scroll{
+      display:grid;
+      grid-template-columns:repeat(6,1fr);
+      overflow:visible;
+      gap:18px;
+    }
+    .cat-item{ width:auto; }
+    .cat-circle{ width:64px; height:64px; margin:0 auto; }
+
+    .promo-strip{ margin:22px 32px 0; padding:18px 22px; }
+
+    .seller-scroll{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      overflow:visible;
+      gap:18px;
+    }
+    .seller-card{ width:auto; }
+
+    .grid{
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+    .card-thumb{ font-size:46px; }
+    .card-name{ font-size:14px; }
+
+    .trust-note{ margin:30px 32px 10px; padding:24px 30px; }
+  }
+
+  /* ---------- Footer ---------- */
+  .site-footer{
+    margin-top:26px;
+    background:var(--walnut);
+    color:var(--paper);
+    padding:30px 20px 18px;
+    position:relative;
+    overflow:hidden;
+  }
+  .site-footer::before{
+    content:"";
+    position:absolute;
+    right:-40px; top:-40px;
+    width:160px; height:160px;
+    border-radius:50%;
+    background:rgba(216,38,44,0.14);
+  }
+  .footer-inner{ position:relative; z-index:2; }
+  .footer-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:22px;
+  }
+  .footer-brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .footer-mark{
+    width:38px; height:38px;
+    border-radius:10px;
+    background:var(--amber);
+    display:flex; align-items:center; justify-content:center;
+    font-size:19px;
+    flex-shrink:0;
+  }
+  .footer-name{
+    font-family:'Fraunces', serif;
+    font-size:16.5px;
+    font-weight:600;
+    line-height:1.15;
+  }
+  .footer-tag{
+    font-size:11px;
+    color:#C9C7C4;
+    margin-top:2px;
+  }
+  .footer-wa{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    background:#25D366;
+    color:#FFFFFF;
+    font-size:12px;
+    font-weight:700;
+    padding:9px 13px;
+    border-radius:10px;
+    white-space:nowrap;
+    flex-shrink:0;
+  }
+  .footer-wa svg{ width:14px; height:14px; }
+  .footer-links{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:20px;
+    margin-bottom:22px;
+  }
+  .footer-col{
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+  }
+  .footer-col-title{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--amber);
+    margin-bottom:2px;
+  }
+  .footer-col a{
+    font-size:12.5px;
+    color:#D6D4D0;
+  }
+  .footer-socials{
+    display:flex;
+    gap:10px;
+    margin-bottom:22px;
+  }
+  .footer-social{
+    width:34px; height:34px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.1);
+    color:var(--paper);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .footer-social svg{ width:15px; height:15px; }
+  .footer-motif{
+    height:8px;
+    width:100%;
+    background-image: radial-gradient(circle at 6px 4px, var(--amber) 2px, transparent 2.2px);
+    background-size: 16px 8px;
+    opacity:0.55;
+    margin-bottom:14px;
+  }
+  .footer-bottom{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    font-size:10.5px;
+    color:#9E9C99;
+    flex-wrap:wrap;
+  }
+  .footer-bottom a{ color:#C9C7C4; }
+
+  /* =====================================================
+     DESKTOP (>=1024px)
+  ===================================================== */
+  @media (min-width:1024px){
+    .app{ max-width:1180px; }
+    .desktop-nav{ gap:34px; font-size:14.5px; }
+    .topbar{ padding:20px 44px 24px; }
+    .hero{ margin:24px 44px 0; padding:46px 56px; }
+    .hero-inner{ max-width:50%; }
+    .hero h1{ font-size:40px; }
+    .hero p{ font-size:14.5px; }
+    .hero-art{ font-size:120px; }
+    .stats{ margin:18px 44px 0; }
+    .section{ padding:44px 44px 6px; }
+    .cat-circle{ width:72px; height:72px; font-size:28px; }
+    .grid{ grid-template-columns:repeat(4,1fr); gap:20px; }
+    .promo-strip{ margin:26px 44px 0; }
+    .trust-note{ margin:36px 44px 12px; }
+    .site-footer{ padding:40px 44px 22px; margin-top:36px; }
+    .footer-links{ grid-template-columns:repeat(3,1fr); }
+  }
+
+  /* Center the login modal as a dialog instead of a bottom sheet on larger screens */
+  @media (min-width:768px){
+    .modal-overlay{ align-items:center; }
+    .modal-sheet{
+      max-width:420px;
+      border-radius:22px;
+      padding:20px 30px 32px;
+    }
+    .modal-drag{ display:none; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-row">
+      <div class="brand">
+        <div class="brand-mark">🎸</div>
+        <div>
+          <div class="brand-name">Senar & Kayu</div>
+          <div class="brand-tag">alat musik gitar</div>
+        </div>
+      </div>
+      <nav class="desktop-nav">
+        <a href="index.html" class="active">Beranda</a>
+        <a href="produk.html">Produk</a>
+        <a href="#produk">Kategori</a>
+        <a href="stok.html">Cek Stok</a>
+      </nav>
+      <div class="topbar-icons">
+        <a class="icon-btn desktop-account" href="#" onclick="openLoginModal(event)" aria-label="Akun">👤</a>
+        <a class="icon-btn" href="#" aria-label="Notifikasi">🔔<span class="dot"></span></a>
+        <a class="icon-btn" href="#" aria-label="Keranjang">🛍️</a>
+      </div>
+    </div>
+    <div class="location-pill">
+      📦 Dikirim dari <b>Bandung, Jawa Barat</b> <span class="chev">▾</span>
+    </div>
+    <div class="searchbar">
+      <span class="lens">🔍</span>
+      <input type="text" placeholder="Cari gitar, senar, pedal efek...">
+    </div>
+  </header>
+
+  <div class="motif"></div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-slides">
+      <div class="hero-slide active" style="background-image:url('carousel1.jpg');"></div>
+      <div class="hero-slide" style="background-image:url('carousel2.jpg');"></div>
+      <div class="hero-slide" style="background-image:url('carousel3.jpg');"></div>
+      <div class="hero-slide" style="background-image:url('carousel4.jpg');"></div>
+      <div class="hero-slide" style="background-image:url('carousel5.jpg');"></div>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-inner">
+      <div class="eyebrow">Koleksi Minggu Ini</div>
+      <h1>Gitar &amp; peripheral untuk caramu bermain</h1>
+      <p>Kami kurasi instrumen dan gear yang benar-benar dipakai musisi, bukan sekadar dipajang.</p>
+      <a href="produk.html" class="hero-cta">Jelajahi produk →</a>
+    </div>
+    <div class="hero-dots">
+      <span class="hero-dot active"></span>
+      <span class="hero-dot"></span>
+      <span class="hero-dot"></span>
+      <span class="hero-dot"></span>
+      <span class="hero-dot"></span>
+    </div>
+    <div class="hero-art">🎸</div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat"><div class="num">120+</div><div class="lbl">Produk tersedia</div></div>
+    <div class="stat"><div class="num">4.9★</div><div class="lbl">Rating pembeli</div></div>
+    <div class="stat"><div class="num">24 jam</div><div class="lbl">Respon konsultasi</div></div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <section class="section">
+    <div class="section-head">
+      <h2>Kategori</h2>
+      <a class="see-all" href="produk.html">Semua</a>
+    </div>
+    <div class="cat-scroll">
+      <a class="cat-item" href="produk.html"><div class="cat-circle">🎸</div><span>Elektrik</span></a>
+      <a class="cat-item" href="produk.html"><div class="cat-circle">🪕</div><span>Akustik</span></a>
+      <a class="cat-item" href="produk.html"><div class="cat-circle">🎛️</div><span>Efek &amp; Pedal</span></a>
+      <a class="cat-item" href="produk.html"><div class="cat-circle">〰️</div><span>Senar</span></a>
+      <a class="cat-item" href="produk.html"><div class="cat-circle">🪢</div><span>Aksesoris</span></a>
+      <a class="cat-item" href="produk.html"><div class="cat-circle">🔊</div><span>Ampli</span></a>
+    </div>
+  </section>
+
+  <!-- PROMO -->
+  <div class="promo-strip">
+    <div class="ps-text">
+      <strong>Ongkir Rp0 se-Indonesia</strong>
+      <span>Khusus pembelian gitar hari ini</span>
+    </div>
+    <div class="ps-code">SENARKAYU</div>
+  </div>
+
+  <!-- FEATURED BRANDS -->
+  <section class="section">
+    <div class="section-head">
+      <h2>Merek Pilihan</h2>
+      <a class="see-all" href="produk.html">Lihat semua</a>
+    </div>
+    <div class="seller-scroll">
+      <a class="seller-card" href="produk.html">
+        <div class="seller-banner" style="background:#F0E1C4;">🎸</div>
+        <div class="seller-info">
+          <div class="seller-avatar">🎸</div>
+          <b>Voxwood</b>
+          <span>Gitar elektrik</span>
+        </div>
+      </a>
+      <a class="seller-card" href="produk.html">
+        <div class="seller-banner" style="background:#E7DCC6;">🪕</div>
+        <div class="seller-info">
+          <div class="seller-avatar">🪵</div>
+          <b>Marrow</b>
+          <span>Gitar akustik</span>
+        </div>
+      </a>
+      <a class="seller-card" href="produk.html">
+        <div class="seller-banner" style="background:#DCE3D4;">🎛️</div>
+        <div class="seller-info">
+          <div class="seller-avatar">🎛️</div>
+          <b>Driftline</b>
+          <span>Efek &amp; pedal</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- FILTER CHIPS + PRODUCTS -->
+  <section class="section" id="produk">
+    <div class="section-head">
+      <h2>Produk Terbaru</h2>
+    </div>
+    <div class="chip-row">
+      <div class="chip active">Semua</div>
+      <div class="chip">Terlaris</div>
+      <div class="chip">Termurah</div>
+      <div class="chip">Baru</div>
+      <div class="chip">Rating 4.5+</div>
+    </div>
+
+    <div class="grid" id="productGrid">
+      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
+        <div class="card-thumb" style="background:#F0E1C4;">
+          <span class="badge">Diskon</span>
+          <span class="fav">♡</span>
+          🎸
+        </div>
+        <div class="card-body">
+          <div class="card-shop"><span class="check">✓</span> Voxwood</div>
+          <div class="card-name">Voxwood ST-62 Sunburst</div>
+          <div class="card-price">Rp7.225.000 <span class="old">Rp8,5jt</span></div>
+          <div class="card-meta">
+            <div class="card-rating">⭐ 4.9 · 118</div>
+            <div class="card-add" onclick="openWaModal(event,'Voxwood ST-62 Sunburst')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
+        <div class="card-thumb" style="background:#E7DCC6;">
+          <span class="fav">♡</span>
+          🪕
+        </div>
+        <div class="card-body">
+          <div class="card-shop"><span class="check">✓</span> Marrow</div>
+          <div class="card-name">Marrow Dreadnought D-100</div>
+          <div class="card-price">Rp3.100.000</div>
+          <div class="card-meta">
+            <div class="card-rating">⭐ 4.8 · 76</div>
+            <div class="card-add" onclick="openWaModal(event,'Marrow Dreadnought D-100')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
+        <div class="card-thumb" style="background:#DCE3D4;">
+          <span class="badge">Baru</span>
+          <span class="fav">♡</span>
+          🎛️
+        </div>
+        <div class="card-body">
+          <div class="card-shop"><span class="check">✓</span> Driftline</div>
+          <div class="card-name">Driftline Delay Pedal</div>
+          <div class="card-price">Rp1.150.000</div>
+          <div class="card-meta">
+            <div class="card-rating">⭐ 4.7 · 54</div>
+            <div class="card-add" onclick="openWaModal(event,'Driftline Delay Pedal')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
+        <div class="card-thumb" style="background:#F0DCD4;">
+          <span class="fav">♡</span>
+          〰️
+        </div>
+        <div class="card-body">
+          <div class="card-shop"><span class="check">✓</span> Coreline</div>
+          <div class="card-name">Coreline Senar Elektrik .010</div>
+          <div class="card-price">Rp95.000</div>
+          <div class="card-meta">
+            <div class="card-rating">⭐ 4.9 · 302</div>
+            <div class="card-add" onclick="openWaModal(event,'Coreline Senar Elektrik .010')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
+        <div class="card-thumb" style="background:#F5EBC9;">
+          <span class="badge">Baru</span>
+          <span class="fav">♡</span>
+          🎯
+        </div>
+        <div class="card-body">
+          <div class="card-shop"><span class="check">✓</span> Precision</div>
+          <div class="card-name">Clip Tuner Precision T3</div>
+          <div class="card-price">Rp145.000</div>
+          <div class="card-meta">
+            <div class="card-rating">⭐ 4.8 · 91</div>
+            <div class="card-add" onclick="openWaModal(event,'Clip Tuner Precision T3')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
+        <div class="card-thumb" style="background:#E3E9F0;">
+          <span class="fav">♡</span>
+          🪢
+        </div>
+        <div class="card-body">
+          <div class="card-shop"><span class="check">✓</span> Heritage</div>
+          <div class="card-name">Strap Kulit Heritage Brown</div>
+          <div class="card-price">Rp220.000</div>
+          <div class="card-meta">
+            <div class="card-rating">⭐ 4.7 · 63</div>
+            <div class="card-add" onclick="openWaModal(event,'Strap Kulit Heritage Brown')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
+        <div class="card-thumb" style="background:#F0E1C4;">
+          <span class="fav">♡</span>
+          🔊
+        </div>
+        <div class="card-body">
+          <div class="card-shop"><span class="check">✓</span> Amperio</div>
+          <div class="card-name">Amperio A-15 Combo Amp</div>
+          <div class="card-price">Rp2.450.000</div>
+          <div class="card-meta">
+            <div class="card-rating">⭐ 4.6 · 42</div>
+            <div class="card-add" onclick="openWaModal(event,'Amperio A-15 Combo Amp')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
+        <div class="card-thumb" style="background:#E7DCC6;">
+          <span class="fav">♡</span>
+          🪢
+        </div>
+        <div class="card-body">
+          <div class="card-shop"><span class="check">✓</span> Sonora</div>
+          <div class="card-name">Sonora Capo Quick Release</div>
+          <div class="card-price">Rp65.000</div>
+          <div class="card-meta">
+            <div class="card-rating">⭐ 4.8 · 210</div>
+            <div class="card-add" onclick="openWaModal(event,'Sonora Capo Quick Release')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
+        <div class="card-thumb" style="background:#DCE3D4;">
+          <span class="fav">♡</span>
+          🎒
+        </div>
+        <div class="card-body">
+          <div class="card-shop"><span class="check">✓</span> Ridgeline</div>
+          <div class="card-name">Ridgeline Gig Bag Padded</div>
+          <div class="card-price">Rp310.000</div>
+          <div class="card-meta">
+            <div class="card-rating">⭐ 4.7 · 58</div>
+            <div class="card-add" onclick="openWaModal(event,'Ridgeline Gig Bag Padded')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
+        <div class="card-thumb" style="background:#F0DCD4;">
+          <span class="badge">Terlaris</span>
+          <span class="fav">♡</span>
+          🎯
+        </div>
+        <div class="card-body">
+          <div class="card-shop"><span class="check">✓</span> Talonpick</div>
+          <div class="card-name">Talonpick Celluloid Pack</div>
+          <div class="card-price">Rp25.000</div>
+          <div class="card-meta">
+            <div class="card-rating">⭐ 4.9 · 401</div>
+            <div class="card-add" onclick="openWaModal(event,'Talonpick Celluloid Pack')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
+        <div class="card-thumb" style="background:#F5EBC9;">
+          <span class="fav">♡</span>
+          🎸
+        </div>
+        <div class="card-body">
+          <div class="card-shop"><span class="check">✓</span> Voxwood</div>
+          <div class="card-name">Voxwood TL-40 Butterscotch</div>
+          <div class="card-price">Rp6.850.000</div>
+          <div class="card-meta">
+            <div class="card-rating">⭐ 4.8 · 87</div>
+            <div class="card-add" onclick="openWaModal(event,'Voxwood TL-40 Butterscotch')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
+        <div class="card-thumb" style="background:#E3E9F0;">
+          <span class="fav">♡</span>
+          🪕
+        </div>
+        <div class="card-body">
+          <div class="card-shop"><span class="check">✓</span> Marrow</div>
+          <div class="card-name">Marrow Parlor P-200</div>
+          <div class="card-price">Rp2.750.000</div>
+          <div class="card-meta">
+            <div class="card-rating">⭐ 4.7 · 39</div>
+            <div class="card-add" onclick="openWaModal(event,'Marrow Parlor P-200')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
+        <div class="card-thumb" style="background:#F0E1C4;">
+          <span class="fav">♡</span>
+          🎛️
+        </div>
+        <div class="card-body">
+          <div class="card-shop"><span class="check">✓</span> Driftline</div>
+          <div class="card-name">Driftline Reverb Tank</div>
+          <div class="card-price">Rp1.320.000</div>
+          <div class="card-meta">
+            <div class="card-rating">⭐ 4.8 · 66</div>
+            <div class="card-add" onclick="openWaModal(event,'Driftline Reverb Tank')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
+        <div class="card-thumb" style="background:#E7DCC6;">
+          <span class="fav">♡</span>
+          〰️
+        </div>
+        <div class="card-body">
+          <div class="card-shop"><span class="check">✓</span> Coreline</div>
+          <div class="card-name">Coreline Senar Akustik Phosphor</div>
+          <div class="card-price">Rp85.000</div>
+          <div class="card-meta">
+            <div class="card-rating">⭐ 4.8 · 176</div>
+            <div class="card-add" onclick="openWaModal(event,'Coreline Senar Akustik Phosphor')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
+        <div class="card-thumb" style="background:#DCE3D4;">
+          <span class="fav">♡</span>
+          🎯
+        </div>
+        <div class="card-body">
+          <div class="card-shop"><span class="check">✓</span> Precision</div>
+          <div class="card-name">Precision Metronome Digital M2</div>
+          <div class="card-price">Rp180.000</div>
+          <div class="card-meta">
+            <div class="card-rating">⭐ 4.6 · 48</div>
+            <div class="card-add" onclick="openWaModal(event,'Precision Metronome Digital M2')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
+        <div class="card-thumb" style="background:#F0DCD4;">
+          <span class="fav">♡</span>
+          🪢
+        </div>
+        <div class="card-body">
+          <div class="card-shop"><span class="check">✓</span> Heritage</div>
+          <div class="card-name">Heritage Strap Kanvas Woven</div>
+          <div class="card-price">Rp165.000</div>
+          <div class="card-meta">
+            <div class="card-rating">⭐ 4.6 · 52</div>
+            <div class="card-add" onclick="openWaModal(event,'Heritage Strap Kanvas Woven')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
+        <div class="card-thumb" style="background:#F5EBC9;">
+          <span class="badge">Baru</span>
+          <span class="fav">♡</span>
+          🔊
+        </div>
+        <div class="card-body">
+          <div class="card-shop"><span class="check">✓</span> Amperio</div>
+          <div class="card-name">Amperio Tube Head 50W</div>
+          <div class="card-price">Rp9.400.000</div>
+          <div class="card-meta">
+            <div class="card-rating">⭐ 4.9 · 22</div>
+            <div class="card-add" onclick="openWaModal(event,'Amperio Tube Head 50W')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
+        <div class="card-thumb" style="background:#E3E9F0;">
+          <span class="fav">♡</span>
+          🪢
+        </div>
+        <div class="card-body">
+          <div class="card-shop"><span class="check">✓</span> Sonora</div>
+          <div class="card-name">Sonora Slide Brass Tone</div>
+          <div class="card-price">Rp95.000</div>
+          <div class="card-meta">
+            <div class="card-rating">⭐ 4.5 · 30</div>
+            <div class="card-add" onclick="openWaModal(event,'Sonora Slide Brass Tone')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
+        <div class="card-thumb" style="background:#F0E1C4;">
+          <span class="fav">♡</span>
+          🎸
+        </div>
+        <div class="card-body">
+          <div class="card-shop"><span class="check">✓</span> Voxwood</div>
+          <div class="card-name">Voxwood Bass VB-4</div>
+          <div class="card-price">Rp5.600.000</div>
+          <div class="card-meta">
+            <div class="card-rating">⭐ 4.7 · 61</div>
+            <div class="card-add" onclick="openWaModal(event,'Voxwood Bass VB-4')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
+        <div class="card-thumb" style="background:#E7DCC6;">
+          <span class="fav">♡</span>
+          🪕
+        </div>
+        <div class="card-body">
+          <div class="card-shop"><span class="check">✓</span> Marrow</div>
+          <div class="card-name">Marrow Travel Mini M-50</div>
+          <div class="card-price">Rp1.980.000</div>
+          <div class="card-meta">
+            <div class="card-rating">⭐ 4.8 · 44</div>
+            <div class="card-add" onclick="openWaModal(event,'Marrow Travel Mini M-50')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
+        <div class="card-thumb" style="background:#DCE3D4;">
+          <span class="fav">♡</span>
+          🎛️
+        </div>
+        <div class="card-body">
+          <div class="card-shop"><span class="check">✓</span> Driftline</div>
+          <div class="card-name">Driftline Fuzz Drive</div>
+          <div class="card-price">Rp980.000</div>
+          <div class="card-meta">
+            <div class="card-rating">⭐ 4.7 · 73</div>
+            <div class="card-add" onclick="openWaModal(event,'Driftline Fuzz Drive')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
+        <div class="card-thumb" style="background:#F0DCD4;">
+          <span class="fav">♡</span>
+          〰️
+        </div>
+        <div class="card-body">
+          <div class="card-shop"><span class="check">✓</span> Coreline</div>
+          <div class="card-name">Coreline Senar Bass .045</div>
+          <div class="card-price">Rp135.000</div>
+          <div class="card-meta">
+            <div class="card-rating">⭐ 4.9 · 128</div>
+            <div class="card-add" onclick="openWaModal(event,'Coreline Senar Bass .045')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
+        <div class="card-thumb" style="background:#F5EBC9;">
+          <span class="fav">♡</span>
+          🪢
+        </div>
+        <div class="card-body">
+          <div class="card-shop"><span class="check">✓</span> Precision</div>
+          <div class="card-name">Precision Wall Hanger Oak</div>
+          <div class="card-price">Rp210.000</div>
+          <div class="card-meta">
+            <div class="card-rating">⭐ 4.6 · 35</div>
+            <div class="card-add" onclick="openWaModal(event,'Precision Wall Hanger Oak')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
+          </div>
+        </div>
+      </a>
+
+      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
+        <div class="card-thumb" style="background:#E3E9F0;">
+          <span class="fav">♡</span>
+          🎒
+        </div>
+        <div class="card-body">
+          <div class="card-shop"><span class="check">✓</span> Heritage</div>
+          <div class="card-name">Heritage Case Hardshell</div>
+          <div class="card-price">Rp980.000</div>
+          <div class="card-meta">
+            <div class="card-rating">⭐ 4.8 · 27</div>
+            <div class="card-add" onclick="openWaModal(event,'Heritage Case Hardshell')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="pagination" id="productPagination"></div>
+  </section>
+
+  <!-- TRUST NOTE -->
+  <div class="trust-note">
+    <div class="display">Bergaransi resmi, siap kirim ke seluruh Indonesia</div>
+    <p>Setiap gitar dicek & di-setup dulu sebelum dikirim. Konsultasi langsung dengan tim yang musisi aktif.</p>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="footer-mark">🎸</div>
+          <div>
+            <div class="footer-name">Senar &amp; Kayu</div>
+            <div class="footer-tag">Gitar &amp; peripheral pilihan musisi</div>
+          </div>
+        </div>
+        <a class="footer-wa" href="#" onclick="openWaModal(event,'Konsultasi Umum')">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg>
+          Chat via WA
+        </a>
+      </div>
+
+      <div class="footer-links">
+        <div class="footer-col">
+          <span class="footer-col-title">Belanja</span>
+          <a href="produk.html">Semua Produk</a>
+          <a href="produk.html">Kategori</a>
+          <a href="stok.html">Cek Stok</a>
+        </div>
+        <div class="footer-col">
+          <span class="footer-col-title">Bantuan</span>
+          <a href="#">Cara Pemesanan</a>
+          <a href="#">Garansi &amp; Retur</a>
+          <a href="#">Kebijakan Privasi</a>
+        </div>
+        <div class="footer-col">
+          <span class="footer-col-title">Kontak</span>
+          <a href="#">0812-3456-7890</a>
+          <a href="#">halo@senarkayu.id</a>
+          <a href="#">Bangka Belitung, ID</a>
+        </div>
+      </div>
+
+      <div class="footer-socials">
+        <a class="footer-social" href="#" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+        </a>
+        <a class="footer-social" href="#" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14.5 2h3c.1 1.9 1.5 3.5 3.5 3.8v3c-1.3 0-2.5-.4-3.5-1.1v6.6c0 3.4-2.7 6.1-6.1 6.1S5.3 17.7 5.3 14.3s2.7-6.1 6.1-6.1c.4 0 .7 0 1.1.1v3.1c-.3-.1-.7-.2-1.1-.2-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3V2z"/></svg>
+        </a>
+        <a class="footer-social" href="#" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2s-.2-1.5-.8-2.2c-.8-.8-1.7-.8-2.1-.9C15.9 4 12 4 12 4h0s-3.9 0-6.7.1c-.4.1-1.3.1-2.1.9-.6.7-.8 2.2-.8 2.2S2.2 9 2.2 10.7v1.5c0 1.8.2 3.5.2 3.5s.2 1.5.8 2.2c.8.8 1.9.8 2.4.9 1.7.2 7.4.2 7.4.2s3.9 0 6.7-.2c.4 0 1.3-.1 2.1-.9.6-.7.8-2.2.8-2.2s.2-1.7.2-3.5v-1.5c0-1.7-.2-3.5-.2-3.5zM9.9 14.6V8.9l5.4 2.9-5.4 2.8z"/></svg>
+        </a>
+        <a class="footer-social" href="#" aria-label="Akun" onclick="openLoginModal(event)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+        </a>
+      </div>
+
+      <div class="footer-motif"></div>
+      <div class="footer-bottom">
+        <span>© 2026 Senar &amp; Kayu. Semua hak dilindungi.</span>
+        <span>Dibuat dengan ♥ untuk musisi Indonesia</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal-sheet">
+    <div class="modal-drag"></div>
+    <button class="modal-close" onclick="closeLoginModal()" aria-label="Tutup">✕</button>
+
+    <div class="modal-logo">🎸</div>
+
+    <div class="modal-head">
+      <h2>Masuk ke Akunmu</h2>
+      <p>Belanja lebih cepat & lacak pesanan gitarmu di Senar &amp; Kayu</p>
+    </div>
+
+    <form onsubmit="return false;">
+      <div class="form-group">
+        <label>Nomor HP atau Email</label>
+        <input class="form-input" type="text" placeholder="08xx-xxxx-xxxx atau email@kamu.com">
+      </div>
+      <div class="form-group">
+        <label>Kata Sandi</label>
+        <input class="form-input" type="password" placeholder="Masukkan kata sandi">
+      </div>
+      <div class="form-extra">
+        <a href="#">Lupa kata sandi?</a>
+      </div>
+      <button class="btn-primary" type="submit">Masuk</button>
+    </form>
+  </div>
+</div>
+
+<!-- WHATSAPP CONFIRM MODAL -->
+<div class="modal-overlay" id="waModal">
+  <div class="modal-sheet wa-sheet">
+    <div class="modal-drag"></div>
+    <button class="modal-close" onclick="closeWaModal()" aria-label="Tutup">✕</button>
+
+    <div class="modal-logo wa-logo">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg>
+    </div>
+
+    <div class="modal-head">
+      <h2 id="waModalTitle">Pesan Lewat WA</h2>
+      <p id="waModalDesc">Konfirmasi produk berikut untuk melanjutkan pemesanan via WhatsApp</p>
+    </div>
+
+    <div class="wa-product" id="waProductName">Nama produk</div>
+
+    <button class="btn-wa" type="button" onclick="confirmWaOrder()">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg>
+      Konfirmasi
+    </button>
+  </div>
+</div>
+
+<!-- PRODUCT DETAIL MODAL -->
+<div class="pm-overlay" id="productModal">
+  <div class="pm-card">
+    <button class="pm-close" onclick="closeProductModal()" aria-label="Tutup">✕</button>
+
+    <div class="card-thumb pm-thumb" id="pmThumb">
+      <span class="badge" id="pmBadge" style="display:none;"></span>
+      <span class="pm-thumb-emoji" id="pmThumbEmoji"></span>
+    </div>
+
+    <div class="pm-body">
+      <div class="pm-shop"><span class="check">✓</span><span id="pmShop">Toko</span></div>
+      <div class="pm-name" id="pmName">Nama produk</div>
+
+      <div class="pm-price-row">
+        <div class="pm-price-left">
+          <span class="pm-price" id="pmPrice">Rp0</span>
+          <span class="pm-old" id="pmOld" style="display:none;"></span>
+        </div>
+        <span class="pm-stock" id="pmStock">Stok 0</span>
+      </div>
+
+      <div class="pm-rating" id="pmRating">⭐ 0.0</div>
+
+      <div class="pm-desc-wrap">
+        <p class="pm-desc" id="pmDesc">Produk pilihan dari toko terpercaya di Senar &amp; Kayu. Kualitas terjamin, siap dikirim, dan bisa langsung ditanyakan ketersediaannya lewat WhatsApp. Setiap unit melalui pemeriksaan kualitas sebelum dikirim ke pelanggan, mulai dari kondisi fisik, kelengkapan aksesori, hingga performa dasar produk. Material dipilih dari supplier tepercaya sehingga daya tahan dan kenyamanan penggunaan tetap terjaga untuk pemakaian jangka panjang. Cocok untuk pemain pemula hingga musisi berpengalaman yang menginginkan alat musik dan aksesori dengan kualitas konsisten. Garansi resmi toko berlaku untuk cacat produksi, dan tim kami siap membantu konsultasi pemilihan produk sebelum kamu memutuskan untuk membeli. Pengiriman dilakukan dengan packing aman menggunakan bubble wrap dan kardus tebal agar produk sampai dalam kondisi terbaik. Untuk pertanyaan seputar spesifikasi, kelengkapan, atau ketersediaan warna lain, silakan hubungi kami langsung melalui tombol WhatsApp di bawah ini.</p>
+      </div>
+
+      <div class="pm-actions">
+        <button class="btn-wa" type="button" onclick="orderProductFromModal()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg>
+          Pesan via WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FLOATING WHATSAPP BUTTON -->
+<div class="fab-wa-wrap">
+  <a class="fab-wa" href="#" onclick="openWaModal(event,'Konsultasi Umum')" aria-label="Chat WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg>
+  </a>
+</div>
+
+<script>
+  var waProduct = '';
+  var waPhoneNumber = '6281234567890'; // ganti dengan nomor WhatsApp toko (format 62xxxxxxxxxx)
+
+  function openWaModal(e, productName){
+    if(e){ e.preventDefault(); e.stopPropagation(); }
+    waProduct = productName;
+    var productBox = document.getElementById('waProductName');
+    var desc = document.getElementById('waModalDesc');
+    if(productName === 'Konsultasi Umum'){
+      productBox.style.display = 'none';
+      desc.textContent = 'Klik konfirmasi untuk mulai chat dengan tim kami via WhatsApp';
+    } else {
+      productBox.style.display = 'block';
+      productBox.textContent = productName;
+      desc.textContent = 'Konfirmasi produk berikut untuk melanjutkan pemesanan via WhatsApp';
+    }
+    document.getElementById('waModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeWaModal(){
+    document.getElementById('waModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function confirmWaOrder(){
+    var text;
+    if(waProduct === 'Konsultasi Umum'){
+      text = encodeURIComponent('Halo, saya mau tanya-tanya seputar produk di Senar & Kayu.');
+    } else {
+      text = encodeURIComponent('Halo, apakah produk ini ' + waProduct + ' tersedia?');
+    }
+    window.open('https://wa.me/' + waPhoneNumber + '?text=' + text, '_blank');
+    closeWaModal();
+  }
+  document.getElementById('waModal').addEventListener('click', function(e){
+    if(e.target === this) closeWaModal();
+  });
+
+  // ---------- Product Detail Modal ----------
+  var currentProductName = '';
+
+  function openProductModal(e, card){
+    if(e){ e.preventDefault(); e.stopPropagation(); }
+
+    var thumb = card.querySelector('.card-thumb');
+    var badgeEl = thumb.querySelector('.badge');
+    var bg = thumb.style.background || '#F0E1C4';
+
+    var emoji = '';
+    thumb.childNodes.forEach(function(n){
+      if(n.nodeType === 3){ emoji += n.textContent; }
+    });
+    emoji = emoji.trim();
+
+    var shop = card.querySelector('.card-shop').textContent.replace('✓','').trim();
+    var name = card.querySelector('.card-name').textContent.trim();
+
+    var priceEl = card.querySelector('.card-price');
+    var price = priceEl.childNodes[0].textContent.trim();
+    var oldEl = priceEl.querySelector('.old');
+
+    var rating = card.querySelector('.card-rating').textContent.trim();
+
+    currentProductName = name;
+
+    document.getElementById('pmThumb').style.background = bg;
+    document.getElementById('pmThumbEmoji').textContent = emoji;
+
+    var pmBadge = document.getElementById('pmBadge');
+    if(badgeEl){
+      pmBadge.textContent = badgeEl.textContent;
+      pmBadge.style.display = 'inline-block';
+    } else {
+      pmBadge.style.display = 'none';
+    }
+
+    document.getElementById('pmShop').textContent = shop;
+    document.getElementById('pmName').textContent = name;
+    document.getElementById('pmPrice').textContent = price;
+
+    var pmOld = document.getElementById('pmOld');
+    if(oldEl){
+      pmOld.textContent = oldEl.textContent.trim();
+      pmOld.style.display = 'inline';
+    } else {
+      pmOld.style.display = 'none';
+    }
+
+    document.getElementById('pmRating').textContent = rating;
+
+    var stock = card.getAttribute('data-stock');
+    if(!stock){
+      var hash = 0;
+      for(var i = 0; i < name.length; i++){ hash = (hash * 31 + name.charCodeAt(i)) % 97; }
+      stock = 3 + (hash % 40);
+    }
+    document.getElementById('pmStock').textContent = 'Stok ' + stock;
+
+    document.getElementById('productModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeProductModal(){
+    document.getElementById('productModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function orderProductFromModal(){
+    closeProductModal();
+    setTimeout(function(){ openWaModal(null, currentProductName); }, 200);
+  }
+
+  document.getElementById('productModal').addEventListener('click', function(e){
+    if(e.target === this) closeProductModal();
+  });
+
+  function openLoginModal(e){
+    if(e) e.preventDefault();
+    document.getElementById('loginModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLoginModal(){
+    document.getElementById('loginModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('loginModal').addEventListener('click', function(e){
+    if(e.target === this) closeLoginModal();
+  });
+
+  // ---------- Hero carousel auto-slide ----------
+  (function(){
+    var slides = document.querySelectorAll('.hero-slide');
+    var dots = document.querySelectorAll('.hero-dot');
+    var current = 0;
+    if(slides.length > 1){
+      setInterval(function(){
+        slides[current].classList.remove('active');
+        if(dots[current]) dots[current].classList.remove('active');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('active');
+        if(dots[current]) dots[current].classList.add('active');
+      }, 5000);
+    }
+  })();
+
+  // ---------- Product pagination (10 per halaman) ----------
+  (function(){
+    var PAGE_SIZE = 10;
+    var grid = document.getElementById('productGrid');
+    var pagination = document.getElementById('productPagination');
+    if(!grid || !pagination) return;
+
+    var cards = Array.prototype.slice.call(grid.querySelectorAll('.card'));
+    var totalPages = Math.max(1, Math.ceil(cards.length / PAGE_SIZE));
+    var currentPage = 1;
+
+    function showPage(page){
+      currentPage = page;
+      cards.forEach(function(card, i){
+        var cardPage = Math.floor(i / PAGE_SIZE) + 1;
+        card.style.display = (cardPage === page) ? '' : 'none';
+      });
+      renderPagination();
+    }
+
+    function renderPagination(){
+      pagination.innerHTML = '';
+      if(totalPages <= 1) return;
+
+      var prevBtn = document.createElement('button');
+      prevBtn.type = 'button';
+      prevBtn.className = 'page-btn nav';
+      prevBtn.innerHTML = '‹';
+      prevBtn.disabled = currentPage === 1;
+      prevBtn.onclick = function(){ if(currentPage > 1) showPage(currentPage - 1); };
+      pagination.appendChild(prevBtn);
+
+      for(var p = 1; p <= totalPages; p++){
+        (function(p){
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'page-btn' + (p === currentPage ? ' active' : '');
+          btn.textContent = p;
+          btn.onclick = function(){ showPage(p); };
+          pagination.appendChild(btn);
+        })(p);
+      }
+
+      var nextBtn = document.createElement('button');
+      nextBtn.type = 'button';
+      nextBtn.className = 'page-btn nav';
+      nextBtn.innerHTML = '›';
+      nextBtn.disabled = currentPage === totalPages;
+      nextBtn.onclick = function(){ if(currentPage < totalPages) showPage(currentPage + 1); };
+      pagination.appendChild(nextBtn);
+    }
+
+    showPage(1);
+  })();
+</script>
+
+</body>
+</html>
