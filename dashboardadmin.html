@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Dashboard Admin — ARYA MUSIC STORE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F3F1;
+    --paper-deep:#E7E5E1;
+    --ink:#161616;
+    --ink-soft:#5A5A5A;
+    --walnut:#141414;
+    --walnut-deep:#000000;
+    --amber:#D8262C;
+    --cherry:#9E1B1F;
+    --green:#1F8A4C;
+    --line:#DEDBD5;
+    --white:#FFFFFF;
+    --radius:18px;
+    --shadow: 0 8px 24px -10px rgba(10,10,10,0.20);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--paper-deep);
+    min-height:100vh;
+    color:var(--ink);
+    font-family:'Plus Jakarta Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    display:flex;
+    justify-content:center;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit; border:none; cursor:pointer;}
+  img{display:block; max-width:100%;}
+  ::-webkit-scrollbar{width:8px; height:8px;}
+  ::-webkit-scrollbar-thumb{background:#CFCCC7; border-radius:8px;}
+
+  .app{
+    width:100%;
+    max-width:480px;
+    min-height:100vh;
+    background:var(--paper);
+    position:relative;
+    box-shadow: 0 0 60px rgba(0,0,0,0.18);
+    padding-bottom:24px;
+  }
+
+  /* ---------- fret-dot motif divider ---------- */
+  .motif{
+    height:10px;
+    width:100%;
+    background-image: radial-gradient(circle at 6px 5px, var(--amber) 2.4px, transparent 2.5px);
+    background-size: 16px 10px;
+    opacity:0.9;
+  }
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    background: var(--walnut);
+    color: var(--paper);
+    padding:14px 16px 16px;
+    position:sticky;
+    top:0;
+    z-index:30;
+  }
+  .topbar-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:9px;
+  }
+  .brand-mark{
+    width:34px; height:34px;
+    border-radius:9px;
+    background:var(--amber);
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px;
+    overflow:hidden;
+  }
+  .brand-name{
+    font-family:'Fraunces', serif;
+    font-size:16px;
+    font-weight:600;
+    line-height:1;
+  }
+  .brand-tag{
+    font-size:10px;
+    color:#C9C7C4;
+    letter-spacing:0.04em;
+    margin-top:2px;
+  }
+  .topbar-icons{
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .icon-btn{
+    width:38px; height:38px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.12);
+    color:var(--paper);
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+    font-size:17px;
+  }
+  .icon-btn .dot{
+    position:absolute;
+    top:6px; right:6px;
+    width:7px; height:7px;
+    border-radius:50%;
+    background:var(--amber);
+    border:1.5px solid var(--walnut);
+  }
+  .admin-chip{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:rgba(255,255,255,0.1);
+    padding:5px 10px 5px 5px;
+    border-radius:30px;
+  }
+  .admin-chip .av{
+    width:28px; height:28px;
+    border-radius:50%;
+    background:var(--amber);
+    display:flex; align-items:center; justify-content:center;
+    font-size:13px;
+    font-weight:700;
+    color:var(--walnut-deep);
+  }
+  .admin-chip .info{ line-height:1.2; }
+  .admin-chip b{ font-size:11.5px; font-weight:700; display:block; }
+  .admin-chip span{ font-size:9.5px; color:#C9C7C4; }
+
+  .searchbar{
+    background:var(--white);
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:11px 14px;
+    box-shadow: var(--shadow);
+    margin-top:14px;
+  }
+  .searchbar input{
+    border:none;
+    outline:none;
+    flex:1;
+    font-family:inherit;
+    font-size:14px;
+    color:var(--ink);
+    background:transparent;
+  }
+  .searchbar input::placeholder{ color:#A8A6A2; }
+  .searchbar .lens{ color:var(--ink-soft); font-size:15px; }
+
+  /* ---------- Section heads ---------- */
+  .section{ padding: 20px 16px 4px; }
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:13px;
+  }
+  .section-head h2{
+    font-size:18px;
+    font-weight:600;
+    color:var(--ink);
+  }
+  .section-head .see-all{
+    font-size:12px;
+    font-weight:700;
+    color:var(--cherry);
+    letter-spacing:0.02em;
+  }
+  .eyebrow{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--walnut);
+    margin-bottom:3px;
+  }
+
+  /* ---------- Welcome banner ---------- */
+  .hero{
+    margin:16px 16px 0;
+    border-radius:20px;
+    position:relative;
+    overflow:hidden;
+    padding:22px 18px 20px;
+    color:var(--paper);
+    background:var(--walnut);
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    right:-30px; top:-30px;
+    width:140px; height:140px;
+    border-radius:50%;
+    background:rgba(216,38,44,0.18);
+    z-index:1;
+  }
+  .hero::after{
+    content:"";
+    position:absolute;
+    left:-20px; bottom:-40px;
+    width:110px; height:110px;
+    border-radius:50%;
+    background:rgba(158,27,31,0.18);
+    z-index:1;
+  }
+  .hero-inner{ position:relative; z-index:2; }
+  .hero .eyebrow{ color:var(--amber); }
+  .hero h1{
+    font-size:23px;
+    line-height:1.18;
+    font-weight:600;
+    max-width:260px;
+    margin-bottom:6px;
+  }
+  .hero p{
+    font-size:12.5px;
+    color:#D6D4D0;
+    max-width:260px;
+    line-height:1.5;
+  }
+  .hero-art{ display:none; }
+
+  /* ---------- Stats grid ---------- */
+  .stat-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin:14px 16px 0;
+  }
+  .stat-card{
+    background:var(--white);
+    border-radius:16px;
+    padding:14px;
+    box-shadow:var(--shadow);
+    border:1px solid var(--line);
+  }
+  .stat-card .ic{
+    width:34px; height:34px;
+    border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:16px;
+    margin-bottom:10px;
+  }
+  .stat-card.c1 .ic{ background:rgba(216,38,44,0.12); }
+  .stat-card.c2 .ic{ background:rgba(31,138,76,0.12); }
+  .stat-card.c3 .ic{ background:rgba(20,20,20,0.08); }
+  .stat-card.c4 .ic{ background:rgba(158,27,31,0.12); }
+  .stat-card .num{
+    font-family:'Fraunces', serif;
+    font-size:19px;
+    font-weight:700;
+    color:var(--walnut);
+    line-height:1.1;
+  }
+  .stat-card .lbl{
+    font-size:10.5px;
+    color:var(--ink-soft);
+    margin-top:3px;
+  }
+  .stat-card .trend{
+    font-size:10px;
+    font-weight:700;
+    margin-top:7px;
+    display:inline-flex;
+    align-items:center;
+    gap:3px;
+  }
+  .trend.up{ color:var(--green); }
+  .trend.down{ color:var(--cherry); }
+
+  /* ---------- Filter chips ---------- */
+  .chip-row{
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    padding-bottom:2px;
+    scrollbar-width:none;
+  }
+  .chip-row::-webkit-scrollbar{ display:none; }
+  .chip{
+    flex:0 0 auto;
+    padding:7px 13px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:600;
+    background:var(--white);
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+    white-space:nowrap;
+  }
+  .chip.active{
+    background:var(--walnut);
+    border-color:var(--walnut);
+    color:var(--paper);
+  }
+
+  /* ---------- Card panel (table wrapper) ---------- */
+  .panel{
+    background:var(--white);
+    border-radius:16px;
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+    transition:box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  @media (hover:hover){
+    .panel:hover, .chart-card:hover{
+      box-shadow:0 14px 30px -12px rgba(10,10,10,0.25);
+    }
+  }
+  .panel-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 14px 0;
+  }
+  .panel-head h3{
+    font-size:14.5px;
+    font-weight:700;
+    color:var(--ink);
+  }
+  .btn-mini{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    background:var(--amber);
+    color:var(--walnut-deep);
+    font-weight:700;
+    font-size:11.5px;
+    padding:8px 12px;
+    border-radius:10px;
+  }
+  .btn-mini.ghost{
+    background:transparent;
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+  }
+
+  /* ---------- Modal (Transaksi Pengeluaran) ---------- */
+  .modal-overlay{
+    display:flex;
+    position:fixed;
+    inset:0;
+    background:rgba(10,10,10,0);
+    z-index:100;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity 0.28s ease, background 0.28s ease, visibility 0s linear 0.28s;
+  }
+  .modal-overlay.open{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+    background:rgba(10,10,10,0.55);
+    transition:opacity 0.28s ease, background 0.28s ease, visibility 0s linear 0s;
+  }
+  .modal-box{
+    background:var(--paper);
+    width:100%;
+    max-width:420px;
+    max-height:88vh;
+    border-radius:20px;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    transform:scale(0.94);
+    opacity:0;
+    transition:transform 0.28s cubic-bezier(0.32,0.72,0,1), opacity 0.28s ease;
+  }
+  .modal-overlay.open .modal-box{
+    transform:scale(1);
+    opacity:1;
+  }
+  .modal-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 16px 10px;
+    border-bottom:1px solid var(--line);
+  }
+  .modal-title{
+    font-family:'Fraunces', serif;
+    font-size:16px;
+    font-weight:600;
+    color:var(--ink);
+  }
+  .modal-close{
+    width:30px; height:30px;
+    border-radius:50%;
+    background:var(--paper-deep);
+    color:var(--ink-soft);
+    font-size:14px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .modal-body{
+    flex:1;
+    min-height:0;
+    overflow-y:auto;
+    padding:16px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .modal-hint{
+    font-size:12px;
+    color:var(--ink-soft);
+    line-height:1.5;
+    margin-bottom:2px;
+  }
+  .choice-btn{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    width:100%;
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:13px;
+    text-align:left;
+    transition:background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+  }
+  .choice-btn:active{ transform:scale(0.98); }
+  .choice-btn .choice-ic{
+    width:42px; height:42px;
+    border-radius:12px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-size:19px;
+    flex-shrink:0;
+  }
+  .choice-btn .choice-text b{
+    display:block;
+    font-size:13px;
+    font-weight:700;
+    color:var(--ink);
+  }
+  .choice-btn .choice-text span{
+    font-size:10.5px;
+    color:var(--ink-soft);
+  }
+  @media (hover:hover){
+    .choice-btn:hover{
+      background:var(--walnut);
+      border-color:var(--walnut);
+    }
+    .choice-btn:hover .choice-ic{
+      background:var(--amber);
+      border-color:var(--amber);
+    }
+    .choice-btn:hover .choice-text b{ color:var(--paper); }
+    .choice-btn:hover .choice-text span{ color:#C9C7C4; }
+  }
+
+  /* ---------- Order list (mobile-friendly rows) ---------- */
+  .order-list{ padding:8px 6px 10px; }
+  .order-row{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:10px 8px;
+    border-radius:12px;
+  }
+  .order-row:hover{ background:var(--paper); }
+  .order-thumb{
+    width:42px; height:42px;
+    border-radius:11px;
+    background:#F0E1C4;
+    display:flex; align-items:center; justify-content:center;
+    font-size:19px;
+    flex-shrink:0;
+  }
+  .order-info{ flex:1; min-width:0; }
+  .order-info b{
+    display:block;
+    font-size:12.5px;
+    font-weight:700;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .order-info span{
+    font-size:10.5px;
+    color:var(--ink-soft);
+  }
+  .order-right{ text-align:right; flex-shrink:0; }
+  .order-right .amt{
+    font-family:'Fraunces', serif;
+    font-size:13px;
+    font-weight:700;
+    color:var(--ink);
+  }
+  .status-pill{
+    display:inline-block;
+    margin-top:4px;
+    font-size:9.5px;
+    font-weight:700;
+    padding:3px 8px;
+    border-radius:20px;
+    letter-spacing:0.02em;
+  }
+  .status-pill.pending{ background:rgba(216,38,44,0.12); color:var(--cherry); }
+  .status-pill.process{ background:rgba(20,20,20,0.08); color:var(--walnut); }
+  .status-pill.done{ background:rgba(31,138,76,0.12); color:var(--green); }
+
+  /* ---------- Product table ---------- */
+  .table-wrap{ overflow-x:auto; }
+  table.admin-table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:560px;
+  }
+  .admin-table thead th{
+    text-align:left;
+    font-size:10.5px;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    color:var(--ink-soft);
+    font-weight:700;
+    padding:12px 14px;
+    border-bottom:1px solid var(--line);
+    white-space:nowrap;
+  }
+  .admin-table tbody td{
+    padding:11px 14px;
+    font-size:12.5px;
+    border-bottom:1px solid var(--line);
+    vertical-align:middle;
+  }
+  .admin-table tbody tr:last-child td{ border-bottom:none; }
+  .admin-table tbody tr:hover{ background:var(--paper); }
+  .prod-cell{ display:flex; align-items:center; gap:10px; }
+  .prod-cell .th{
+    width:36px; height:36px;
+    border-radius:9px;
+    background:#F0E1C4;
+    display:flex; align-items:center; justify-content:center;
+    font-size:16px;
+    flex-shrink:0;
+  }
+  .prod-cell b{ font-size:12.5px; font-weight:700; display:block; }
+  .prod-cell span{ font-size:10px; color:var(--ink-soft); }
+  .stock-pill{
+    font-size:10.5px;
+    font-weight:700;
+    padding:4px 9px;
+    border-radius:20px;
+  }
+  .stock-pill.ok{ background:rgba(31,138,76,0.12); color:var(--green); }
+  .stock-pill.low{ background:rgba(216,38,44,0.12); color:var(--cherry); }
+  .row-actions{ display:flex; gap:6px; }
+  .row-btn{
+    width:28px; height:28px;
+    border-radius:8px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .row-btn.danger{ color:var(--cherry); }
+
+  /* ---------- Simple bar chart ---------- */
+  .chart-card{
+    background:var(--white);
+    border-radius:16px;
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+    padding:16px 14px 10px;
+    transition:box-shadow 0.2s ease;
+  }
+  .chart-legend{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:14px;
+  }
+  .chart-legend .amt{
+    font-family:'Fraunces', serif;
+    font-size:20px;
+    font-weight:700;
+  }
+  .chart-legend .lbl{ font-size:11px; color:var(--ink-soft); }
+  .bars{
+    display:flex;
+    align-items:flex-end;
+    gap:8px;
+    height:120px;
+    padding-top:4px;
+  }
+  .bar-col{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+    height:100%;
+    justify-content:flex-end;
+  }
+  .bar-col .bar{
+    width:100%;
+    max-width:26px;
+    border-radius:6px 6px 3px 3px;
+    background:var(--paper-deep);
+    position:relative;
+  }
+  .bar-col .bar.fill{ background:var(--amber); }
+  .bar-col .day{ font-size:9.5px; color:var(--ink-soft); font-weight:600; }
+
+  /* ---------- Trust footer note ---------- */
+  .trust-note{
+    margin:24px 16px 8px;
+    text-align:center;
+    padding:18px 14px;
+    border-radius:16px;
+    background:var(--paper-deep);
+    border:1px dashed var(--line);
+  }
+  .trust-note .display{
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--walnut-deep);
+    margin-bottom:4px;
+  }
+  .trust-note p{
+    font-size:11.5px;
+    color:var(--ink-soft);
+    line-height:1.5;
+  }
+
+  /* ---------- Admin menu grid ---------- */
+  .menu-panel{
+    margin:16px 16px 0;
+    background:var(--white);
+    border-radius:16px;
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+    padding:16px 14px;
+  }
+  .menu-panel-title{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-bottom:14px;
+  }
+  .menu-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px 8px;
+  }
+  .menu-item{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:7px;
+    text-align:center;
+  }
+  .menu-circle{
+    width:52px; height:52px;
+    border-radius:16px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-size:21px;
+    transition:transform 0.15s ease, background 0.15s ease;
+  }
+  .menu-item:active .menu-circle{ transform:scale(0.94); }
+  .menu-item span{
+    font-size:10px;
+    font-weight:600;
+    color:var(--ink-soft);
+    line-height:1.25;
+    transition:color 0.2s ease;
+  }
+  .menu-item.logout .menu-circle{
+    background:rgba(216,38,44,0.1);
+    border-color:rgba(216,38,44,0.25);
+  }
+  .menu-item.logout span{ color:var(--cherry); font-weight:700; }
+
+  @media (hover:hover){
+    .menu-item:hover .menu-circle{
+      background:var(--walnut);
+      border-color:var(--walnut);
+      transform:translateY(-3px);
+      box-shadow:0 10px 18px -8px rgba(20,20,20,0.35);
+    }
+    .menu-item:hover span{ color:var(--walnut); }
+    .menu-item.logout:hover .menu-circle{
+      background:var(--cherry);
+      border-color:var(--cherry);
+      box-shadow:0 10px 18px -8px rgba(158,27,31,0.4);
+    }
+    .menu-item.logout:hover span{ color:var(--cherry); }
+  }
+
+  @media (min-width:768px){
+    .menu-panel{ margin:16px 32px 0; padding:20px 22px; }
+    .menu-grid{ grid-template-columns:repeat(8,1fr); gap:16px 10px; }
+    .menu-circle{ width:58px; height:58px; font-size:23px; }
+  }
+  @media (min-width:1024px){
+    .menu-panel{ margin:18px 44px 0; }
+  }
+
+  @media (max-width: 360px){
+    .hero h1{ font-size:20px; }
+  }
+
+  /* =====================================================
+     TABLET (>=768px)
+  ===================================================== */
+  @media (min-width:768px){
+    body{ background:var(--paper-deep); }
+    .app{
+      max-width:900px;
+      min-height:auto;
+      padding-bottom:60px;
+      box-shadow:0 20px 60px -20px rgba(10,10,10,0.25);
+      margin:0 auto;
+    }
+
+
+    .topbar{ padding:18px 32px 20px; }
+    .searchbar{ max-width:420px; }
+
+    .hero{
+      margin:20px 32px 0;
+      padding:34px 40px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:32px;
+    }
+    .hero-inner{ max-width:60%; }
+    .hero h1{ font-size:28px; max-width:100%; }
+    .hero p{ font-size:13.5px; max-width:100%; }
+    .hero-art{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:76px;
+      opacity:0.9;
+      flex-shrink:0;
+    }
+
+    .stat-grid{
+      grid-template-columns:repeat(4,1fr);
+      margin:16px 32px 0;
+      gap:14px;
+    }
+    .stat-card .num{ font-size:22px; }
+
+    .section{ padding:32px 32px 6px; }
+    .section-head h2{ font-size:20px; }
+
+    .dash-cols{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      grid-auto-rows:1fr;
+      gap:18px;
+      padding:0 32px;
+      margin-top:22px;
+      align-items:stretch;
+    }
+    .dash-cols .section{
+      padding:0;
+      display:flex;
+      flex-direction:column;
+    }
+    .dash-cols .panel,
+    .dash-cols .chart-card{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+    }
+    .dash-cols .order-list{ flex:1; }
+
+    .trust-note{ margin:30px 32px 10px; padding:24px 30px; }
+  }
+
+  /* =====================================================
+     DESKTOP (>=1024px)
+  ===================================================== */
+  @media (min-width:1024px){
+    .app{ max-width:1180px; }
+    .topbar{ padding:20px 44px 22px; }
+    .hero{ margin:24px 44px 0; padding:40px 56px; }
+    .hero-inner{ max-width:52%; }
+    .hero h1{ font-size:34px; }
+    .hero p{ font-size:14.5px; }
+    .hero-art{ font-size:100px; }
+    .stat-grid{ margin:18px 44px 0; }
+    .section{ padding:40px 44px 6px; }
+    .dash-cols{ padding:0 44px; }
+    .trust-note{ margin:36px 44px 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-row">
+      <div class="brand">
+        <div class="brand-mark" id="navbarLogo">🎸</div>
+        <div>
+          <div class="brand-name">Arya Music Store</div>
+          <div class="brand-tag">Panel Admin</div>
+        </div>
+      </div>
+      <div class="topbar-icons">
+        <a class="icon-btn" href="#" aria-label="Notifikasi">🔔<span class="dot"></span></a>
+        <div class="admin-chip">
+          <div class="av">RA</div>
+          <div class="info">
+            <b>Rian A.</b>
+            <span>Admin Toko</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="searchbar">
+      <span class="lens">🔍</span>
+      <input type="text" placeholder="Cari produk, pesanan, pelanggan...">
+    </div>
+  </header>
+
+  <div class="motif"></div>
+
+  <!-- WELCOME -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Selamat Datang Kembali</div>
+      <h1>Ringkasan toko kamu hari ini</h1>
+      <p>Pantau pesanan masuk, stok produk, dan performa penjualan Arya Music Store secara real-time.</p>
+    </div>
+    <div class="hero-art">📊</div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stat-grid">
+    <div class="stat-card c1">
+      <div class="ic">🧾</div>
+      <div class="num">38</div>
+      <div class="lbl">Pesanan Baru</div>
+      <div class="trend up">▲ 12% minggu ini</div>
+    </div>
+    <div class="stat-card c2">
+      <div class="ic">💰</div>
+      <div class="num">Rp18,4jt</div>
+      <div class="lbl">Omzet Hari Ini</div>
+      <div class="trend up">▲ 8% dari kemarin</div>
+    </div>
+    <div class="stat-card c3">
+      <div class="ic">🎸</div>
+      <div class="num">126</div>
+      <div class="lbl">Produk Aktif</div>
+      <div class="trend down">▼ 3 stok menipis</div>
+    </div>
+    <div class="stat-card c4">
+      <div class="ic">👥</div>
+      <div class="num">842</div>
+      <div class="lbl">Total Pelanggan</div>
+      <div class="trend up">▲ 24 baru</div>
+    </div>
+  </div>
+
+  <!-- ADMIN MENU -->
+  <div class="menu-panel">
+    <div class="menu-panel-title">Menu Admin</div>
+    <div class="menu-grid">
+      <a class="menu-item" href="pengaturan.html"><div class="menu-circle">⚙️</div><span>Menu Pengaturan</span></a>
+      <a class="menu-item" href="dataproduk.html"><div class="menu-circle">🎸</div><span>Produk</span></a>
+      <a class="menu-item" href="stok.html"><div class="menu-circle">📦</div><span>Stok</span></a>
+      <a class="menu-item" href="penjualan.html"><div class="menu-circle">💵</div><span>Transaksi Penjualan</span></a>
+      <a class="menu-item" href="#" id="openPengeluaranModalBtn"><div class="menu-circle">🛒</div><span>Transaksi Pengeluaran</span></a>
+      <a class="menu-item" href="#"><div class="menu-circle">📊</div><span>Neraca Keuangan</span></a>
+      <a class="menu-item" href="youtubemarketing.html"><div class="menu-circle">📺</div><span>Youtube Marketing</span></a>
+      <a class="menu-item" href="#"><div class="menu-circle">🔄</div><span>Back up &amp; Restore</span></a>
+      <a class="menu-item logout" href="#"><div class="menu-circle">🚪</div><span>Log Out</span></a>
+    </div>
+  </div>
+
+  <div class="dash-cols">
+
+  <!-- RIWAYAT PEMBELIAN PRODUK -->
+  <section class="section" style="padding-top:8px;">
+    <div class="section-head">
+      <h2>Riwayat Pembelian Produk</h2>
+      <a class="see-all" href="#">Semua</a>
+    </div>
+    <div class="panel">
+      <div class="order-list">
+        <div class="order-row">
+          <div class="order-thumb">🎸</div>
+          <div class="order-info">
+            <b>CV Tone Wood Supplier</b>
+            <span>Fender Player Stratocaster · 2 unit</span>
+          </div>
+          <div class="order-right">
+            <div class="amt">Rp21,4jt</div>
+            <span class="status-pill done">Diterima</span>
+          </div>
+        </div>
+        <div class="order-row">
+          <div class="order-thumb">🪕</div>
+          <div class="order-info">
+            <b>Yamaha Music Indonesia</b>
+            <span>Yamaha F310 Akustik · 10 unit</span>
+          </div>
+          <div class="order-right">
+            <div class="amt">Rp16,8jt</div>
+            <span class="status-pill process">Diproses</span>
+          </div>
+        </div>
+        <div class="order-row">
+          <div class="order-thumb">🎛️</div>
+          <div class="order-info">
+            <b>Boss Audio Distributor</b>
+            <span>Boss DS-1 Distortion · 15 unit</span>
+          </div>
+          <div class="order-right">
+            <div class="amt">Rp16,2jt</div>
+            <span class="status-pill pending">Dikirim</span>
+          </div>
+        </div>
+        <div class="order-row">
+          <div class="order-thumb">〰️</div>
+          <div class="order-info">
+            <b>Ernie Ball Indonesia</b>
+            <span>Senar 2221 · 100 unit</span>
+          </div>
+          <div class="order-right">
+            <div class="amt">Rp8,5jt</div>
+            <span class="status-pill done">Diterima</span>
+          </div>
+        </div>
+        <div class="order-row">
+          <div class="order-thumb">🔊</div>
+          <div class="order-info">
+            <b>Marshall Distributor</b>
+            <span>MG15 Amplifier · 8 unit</span>
+          </div>
+          <div class="order-right">
+            <div class="amt">Rp17,6jt</div>
+            <span class="status-pill process">Diproses</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RIWAYAT TRANSAKSI PENJUALAN -->
+  <section class="section" style="padding-top:8px;">
+    <div class="section-head">
+      <h2>Riwayat Transaksi Penjualan</h2>
+      <a class="see-all" href="#">Semua</a>
+    </div>
+    <div class="panel">
+      <div class="order-list">
+        <div class="order-row">
+          <div class="order-thumb">🎸</div>
+          <div class="order-info">
+            <b>Dimas Prasetyo</b>
+            <span>Fender Player Stratocaster</span>
+          </div>
+          <div class="order-right">
+            <div class="amt">Rp11,5jt</div>
+            <span class="status-pill pending">Menunggu</span>
+          </div>
+        </div>
+        <div class="order-row">
+          <div class="order-thumb">🪕</div>
+          <div class="order-info">
+            <b>Siti Rahma</b>
+            <span>Yamaha F310 Akustik</span>
+          </div>
+          <div class="order-right">
+            <div class="amt">Rp1,85jt</div>
+            <span class="status-pill process">Diproses</span>
+          </div>
+        </div>
+        <div class="order-row">
+          <div class="order-thumb">🎛️</div>
+          <div class="order-info">
+            <b>Bagus Wicaksono</b>
+            <span>Boss DS-1 Distortion</span>
+          </div>
+          <div class="order-right">
+            <div class="amt">Rp1,25jt</div>
+            <span class="status-pill done">Selesai</span>
+          </div>
+        </div>
+        <div class="order-row">
+          <div class="order-thumb">〰️</div>
+          <div class="order-info">
+            <b>Nabila Putri</b>
+            <span>Ernie Ball Senar 2221</span>
+          </div>
+          <div class="order-right">
+            <div class="amt">Rp95rb</div>
+            <span class="status-pill done">Selesai</span>
+          </div>
+        </div>
+        <div class="order-row">
+          <div class="order-thumb">🔊</div>
+          <div class="order-info">
+            <b>Fajar Ramadhan</b>
+            <span>Marshall MG15 Amplifier</span>
+          </div>
+          <div class="order-right">
+            <div class="amt">Rp2,4jt</div>
+            <span class="status-pill pending">Menunggu</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT TABLE -->
+  <section class="section">
+    <div class="section-head">
+      <h2>Manajemen Produk</h2>
+      <a class="see-all" href="#">Lihat Semua</a>
+    </div>
+    <div class="chip-row" style="margin-bottom:12px;">
+      <span class="chip active">Semua</span>
+      <span class="chip">Gitar Elektrik</span>
+      <span class="chip">Gitar Akustik</span>
+      <span class="chip">Efek &amp; Pedal</span>
+      <span class="chip">Senar</span>
+    </div>
+    <div class="panel">
+      <div class="panel-head">
+        <h3>Daftar Produk</h3>
+        <button class="btn-mini" type="button">+ Tambah Produk</button>
+      </div>
+      <div class="table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Produk</th>
+              <th>Kategori</th>
+              <th>Harga</th>
+              <th>Stok</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="prod-cell">
+                  <div class="th">🎸</div>
+                  <div><b>Fender Player Stratocaster</b><span>SKU: FPS-001</span></div>
+                </div>
+              </td>
+              <td>Elektrik</td>
+              <td>Rp11.500.000</td>
+              <td><span class="stock-pill ok">24 unit</span></td>
+              <td>
+                <div class="row-actions">
+                  <button class="row-btn" type="button">✎</button>
+                  <button class="row-btn danger" type="button">🗑</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="prod-cell">
+                  <div class="th">🪕</div>
+                  <div><b>Yamaha F310 Akustik</b><span>SKU: YMH-F310</span></div>
+                </div>
+              </td>
+              <td>Akustik</td>
+              <td>Rp1.850.000</td>
+              <td><span class="stock-pill ok">40 unit</span></td>
+              <td>
+                <div class="row-actions">
+                  <button class="row-btn" type="button">✎</button>
+                  <button class="row-btn danger" type="button">🗑</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="prod-cell">
+                  <div class="th">🎛️</div>
+                  <div><b>Boss DS-1 Distortion</b><span>SKU: BOS-DS1</span></div>
+                </div>
+              </td>
+              <td>Efek &amp; Pedal</td>
+              <td>Rp1.250.000</td>
+              <td><span class="stock-pill low">3 unit</span></td>
+              <td>
+                <div class="row-actions">
+                  <button class="row-btn" type="button">✎</button>
+                  <button class="row-btn danger" type="button">🗑</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="prod-cell">
+                  <div class="th">〰️</div>
+                  <div><b>Ernie Ball Senar 2221</b><span>SKU: EB-2221</span></div>
+                </div>
+              </td>
+              <td>Senar</td>
+              <td>Rp95.000</td>
+              <td><span class="stock-pill low">6 unit</span></td>
+              <td>
+                <div class="row-actions">
+                  <button class="row-btn" type="button">✎</button>
+                  <button class="row-btn danger" type="button">🗑</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="prod-cell">
+                  <div class="th">🔊</div>
+                  <div><b>Marshall MG15 Amplifier</b><span>SKU: MSH-MG15</span></div>
+                </div>
+              </td>
+              <td>Ampli</td>
+              <td>Rp2.400.000</td>
+              <td><span class="stock-pill ok">15 unit</span></td>
+              <td>
+                <div class="row-actions">
+                  <button class="row-btn" type="button">✎</button>
+                  <button class="row-btn danger" type="button">🗑</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- STOK MENIPIS -->
+  <section class="section" style="padding-top:8px;">
+    <div class="section-head">
+      <h2>Stok Menipis</h2>
+      <a class="see-all" href="#">Kelola</a>
+    </div>
+    <div class="panel">
+      <div class="order-list">
+        <div class="order-row">
+          <div class="order-thumb">🎛️</div>
+          <div class="order-info">
+            <b>Boss DS-1 Distortion</b>
+            <span>Sisa 3 unit</span>
+          </div>
+          <div class="order-right">
+            <span class="status-pill pending">Kritis</span>
+          </div>
+        </div>
+        <div class="order-row">
+          <div class="order-thumb">〰️</div>
+          <div class="order-info">
+            <b>Ernie Ball Senar 2221</b>
+            <span>Sisa 6 unit</span>
+          </div>
+          <div class="order-right">
+            <span class="status-pill pending">Kritis</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </div>
+
+  <div class="trust-note">
+    <div class="display">Arya Music Store — Panel Admin</div>
+    <p>Data pada dashboard ini bersifat contoh (dummy) dan dapat dihubungkan ke backend/API kamu sendiri.</p>
+  </div>
+
+  <!-- MODAL: Transaksi Pengeluaran -->
+  <div class="modal-overlay" id="pengeluaranModalOverlay">
+    <div class="modal-box">
+      <div class="modal-head">
+        <div class="modal-title">Transaksi Pengeluaran</div>
+        <button class="modal-close" type="button" id="closePengeluaranModalBtn">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-hint">Pilih jenis pengeluaran yang ingin dicatat.</p>
+        <a class="choice-btn" href="pembelian.html">
+          <div class="choice-ic">🛒</div>
+          <div class="choice-text">
+            <b>Pengeluaran Pembelian Produk</b>
+            <span>Catat pembelian stok & produk baru</span>
+          </div>
+        </a>
+        <a class="choice-btn" href="operasional.html">
+          <div class="choice-ic">🧾</div>
+          <div class="choice-text">
+            <b>Pengeluaran Operasional</b>
+            <span>Catat biaya operasional toko</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  /* ---------- Ambil logo toko dari Supabase untuk navbar ---------- */
+  const SUPABASE_URL = 'https://gkkwhehaxumgoxqklauu.supabase.co/rest/v1/';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdra3doZWhheHVtZ294cWtsYXV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMwMzgyOTksImV4cCI6MjA5ODYxNDI5OX0.zRTCMwQfuMI4vEfOIq6ABi4rOOHOZShjFWaofCfwX6g';
+  const navbarLogo = document.getElementById('navbarLogo');
+
+  async function loadNavbarLogo(){
+    try{
+      const res = await fetch(SUPABASE_URL + 'identitas?select=logo&limit=1', {
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+        }
+      });
+      if(!res.ok){
+        const errBody = await res.text();
+        throw new Error(errBody || ('HTTP ' + res.status));
+      }
+      const rows = await res.json();
+      const logoUrl = (rows && rows.length && rows[0].logo) ? rows[0].logo : '';
+      if(logoUrl){
+        navbarLogo.innerHTML = '<img src="' + logoUrl + '" alt="Logo toko" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">';
+      }
+      // kalau belum ada logo tersimpan, biarkan ikon 🎸 default tampil
+    }catch(err){
+      console.error('Gagal memuat logo navbar dari Supabase:', err);
+    }
+  }
+
+  loadNavbarLogo();
+
+  /* ---------- Modal: Transaksi Pengeluaran ---------- */
+  const pengeluaranModalOverlay = document.getElementById('pengeluaranModalOverlay');
+  const openPengeluaranModalBtn = document.getElementById('openPengeluaranModalBtn');
+  const closePengeluaranModalBtn = document.getElementById('closePengeluaranModalBtn');
+
+  function openPengeluaranModal(){
+    pengeluaranModalOverlay.classList.add('open');
+  }
+  function closePengeluaranModal(){
+    pengeluaranModalOverlay.classList.remove('open');
+  }
+
+  openPengeluaranModalBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    openPengeluaranModal();
+  });
+  closePengeluaranModalBtn.addEventListener('click', closePengeluaranModal);
+  pengeluaranModalOverlay.addEventListener('click', (e) => {
+    if(e.target === pengeluaranModalOverlay) closePengeluaranModal();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,2119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Pengaturan — ARYA MUSIC STORE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+  :root{
+    --paper:#F4F3F1;
+    --paper-deep:#E7E5E1;
+    --ink:#161616;
+    --ink-soft:#5A5A5A;
+    --walnut:#141414;
+    --walnut-deep:#000000;
+    --amber:#D8262C;
+    --cherry:#9E1B1F;
+    --green:#1F8A4C;
+    --line:#DEDBD5;
+    --white:#FFFFFF;
+    --radius:18px;
+    --shadow: 0 8px 24px -10px rgba(10,10,10,0.20);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--paper-deep);
+    min-height:100vh;
+    color:var(--ink);
+    font-family:'Plus Jakarta Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    display:flex;
+    justify-content:center;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit; border:none; cursor:pointer;}
+  img{display:block; max-width:100%;}
+  ::-webkit-scrollbar{width:8px; height:8px;}
+  ::-webkit-scrollbar-thumb{background:#CFCCC7; border-radius:8px;}
+
+  .app{
+    width:100%;
+    max-width:480px;
+    min-height:100vh;
+    background:var(--paper);
+    position:relative;
+    box-shadow: 0 0 60px rgba(0,0,0,0.18);
+    padding-bottom:24px;
+  }
+
+  /* ---------- fret-dot motif divider ---------- */
+  .motif{
+    height:10px;
+    width:100%;
+    background-image: radial-gradient(circle at 6px 5px, var(--amber) 2.4px, transparent 2.5px);
+    background-size: 16px 10px;
+    opacity:0.9;
+  }
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    background: var(--walnut);
+    color: var(--paper);
+    padding:14px 16px 16px;
+    position:sticky;
+    top:0;
+    z-index:30;
+  }
+  .topbar-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:9px;
+  }
+  .brand-mark{
+    width:34px; height:34px;
+    border-radius:9px;
+    background:var(--amber);
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px;
+    overflow:hidden;
+  }
+  .brand-name{
+    font-family:'Fraunces', serif;
+    font-size:16px;
+    font-weight:600;
+    line-height:1;
+  }
+  .brand-tag{
+    font-size:10px;
+    color:#C9C7C4;
+    letter-spacing:0.04em;
+    margin-top:2px;
+  }
+  .topbar-icons{
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .icon-btn{
+    width:38px; height:38px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.12);
+    color:var(--paper);
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+    font-size:17px;
+  }
+  .icon-btn .dot{
+    position:absolute;
+    top:6px; right:6px;
+    width:7px; height:7px;
+    border-radius:50%;
+    background:var(--amber);
+    border:1.5px solid var(--walnut);
+  }
+  .admin-chip{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:rgba(255,255,255,0.1);
+    padding:5px 10px 5px 5px;
+    border-radius:30px;
+  }
+  .admin-chip .av{
+    width:28px; height:28px;
+    border-radius:50%;
+    background:var(--amber);
+    display:flex; align-items:center; justify-content:center;
+    font-size:13px;
+    font-weight:700;
+    color:var(--walnut-deep);
+  }
+  .admin-chip .info{ line-height:1.2; }
+  .admin-chip b{ font-size:11.5px; font-weight:700; display:block; }
+  .admin-chip span{ font-size:9.5px; color:#C9C7C4; }
+
+  .searchbar{
+    background:var(--white);
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:11px 14px;
+    box-shadow: var(--shadow);
+    margin-top:14px;
+  }
+  .searchbar input{
+    border:none;
+    outline:none;
+    flex:1;
+    font-family:inherit;
+    font-size:14px;
+    color:var(--ink);
+    background:transparent;
+  }
+  .searchbar input::placeholder{ color:#A8A6A2; }
+  .searchbar .lens{ color:var(--ink-soft); font-size:15px; }
+
+  /* ---------- Page head ---------- */
+  .page-head{
+    padding:20px 16px 4px;
+  }
+  .eyebrow{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--walnut);
+    margin-bottom:5px;
+  }
+  .page-head h1{
+    font-size:22px;
+    font-weight:600;
+    color:var(--ink);
+    margin-bottom:5px;
+  }
+  .page-head p{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    line-height:1.5;
+    max-width:320px;
+  }
+
+  /* ---------- Settings layout: tabs on TOP, symmetric row ---------- */
+  .settings-wrap{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    margin:18px 16px 0;
+    align-items:stretch;
+  }
+
+  .settings-content{
+    flex:1;
+    min-width:0;
+    background:var(--white);
+    border-radius:16px;
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+    padding:18px 16px;
+  }
+
+  .settings-tabs{
+    order:-1;
+    display:flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+    gap:8px;
+    width:100%;
+  }
+  .tab-btn{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+    text-align:center;
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:10px 6px;
+    box-shadow:var(--shadow);
+    transition:background 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+    flex:1 1 0;
+    min-width:0;
+  }
+  .tab-btn .tab-ic{
+    font-size:18px;
+    width:32px; height:32px;
+    border-radius:10px;
+    background:var(--paper);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .tab-btn span{
+    font-size:9.5px;
+    font-weight:700;
+    color:var(--ink-soft);
+    line-height:1.2;
+  }
+  .tab-btn:active{ transform:scale(0.96); }
+  .tab-btn.active{
+    background:var(--walnut);
+    border-color:var(--walnut);
+  }
+  .tab-btn.active .tab-ic{
+    background:var(--amber);
+  }
+  .tab-btn.active span{ color:var(--paper); }
+  .tab-btn.back{
+    border-color:rgba(216,38,44,0.3);
+  }
+  .tab-btn.back .tab-ic{
+    background:rgba(216,38,44,0.12);
+  }
+  .tab-btn.back span{ color:var(--cherry); }
+
+  @media (hover:hover){
+    .tab-btn:hover:not(.active){ background:var(--paper); }
+    .tab-btn.back:hover{ background:rgba(216,38,44,0.08); }
+  }
+
+  /* ---------- Tab panel content ---------- */
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+
+  .panel-title{
+    font-size:15px;
+    font-weight:700;
+    margin-bottom:4px;
+  }
+  .panel-sub{
+    font-size:11.5px;
+    color:var(--ink-soft);
+    margin-bottom:16px;
+    line-height:1.5;
+  }
+
+  .field-group{ margin-bottom:14px; }
+  .field-group label{
+    display:block;
+    font-size:11px;
+    font-weight:700;
+    color:var(--ink-soft);
+    margin-bottom:6px;
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+  }
+  .field-group input,
+  .field-group select,
+  .field-group textarea{
+    width:100%;
+    border:1px solid var(--line);
+    background:var(--paper);
+    border-radius:10px;
+    padding:10px 12px;
+    font-family:inherit;
+    font-size:12.5px;
+    color:var(--ink);
+    outline:none;
+  }
+  .field-group textarea{ resize:vertical; min-height:70px; }
+  .field-group input:focus,
+  .field-group select:focus,
+  .field-group textarea:focus{ border-color:var(--amber); }
+  .field-group input[readonly]{
+    background:var(--paper-deep);
+    color:var(--ink-soft);
+    cursor:not-allowed;
+  }
+
+  .password-field{ position:relative; }
+  .password-field input{ padding-right:38px; }
+  .pwd-toggle{
+    position:absolute;
+    right:6px;
+    top:50%;
+    transform:translateY(-50%);
+    background:transparent;
+    font-size:14px;
+    color:var(--ink-soft);
+    width:26px; height:26px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:8px;
+  }
+  .pwd-toggle:hover{ background:var(--paper); }
+
+  .field-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  .optional-tag{
+    text-transform:none;
+    font-weight:500;
+    color:#A8A6A2;
+    letter-spacing:0;
+  }
+
+  .section-divider{
+    font-size:10.5px;
+    font-weight:700;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    padding-top:6px;
+    margin:6px 0 12px;
+    border-top:1px solid var(--line);
+    padding-top:14px;
+  }
+
+  .logo-upload{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    margin-bottom:16px;
+  }
+  .logo-preview{
+    width:110px; height:110px;
+    border-radius:20px;
+    background:var(--paper);
+    border:1px dashed var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-size:40px;
+    flex-shrink:0;
+    overflow:hidden;
+  }
+
+  /* ---------- Maps preview + picker ---------- */
+  .maps-preview{
+    position:relative;
+    width:100%;
+    height:150px;
+    border-radius:12px;
+    overflow:hidden;
+    border:1px solid var(--line);
+    background:var(--paper);
+  }
+  .maps-preview iframe{
+    width:100%;
+    height:100%;
+    border:0;
+    display:block;
+  }
+  .maps-pick-btn{
+    position:absolute;
+    left:8px;
+    bottom:8px;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:var(--white);
+    color:var(--ink);
+    font-family:inherit;
+    font-weight:700;
+    font-size:11px;
+    padding:6px 10px 6px 6px;
+    border-radius:20px;
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+    cursor:pointer;
+  }
+  .maps-pick-btn .tab-ic{
+    border-radius:50%;
+    color:var(--walnut-deep);
+  }
+
+  /* ---------- Maps modal ---------- */
+  .modal-overlay{
+    display:flex;
+    position:fixed;
+    inset:0;
+    background:rgba(10,10,10,0);
+    z-index:100;
+    align-items:flex-end;
+    justify-content:center;
+    padding:0;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity 0.32s ease, background 0.32s ease, visibility 0s linear 0.32s;
+  }
+  .modal-overlay.open{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+    background:rgba(10,10,10,0.55);
+    transition:opacity 0.32s ease, background 0.32s ease, visibility 0s linear 0s;
+  }
+  .modal-box{
+    background:var(--paper);
+    width:100%;
+    max-width:480px;
+    max-height:88vh;
+    border-radius:20px 20px 0 0;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    transform:translateY(100%);
+    transition:transform 0.38s cubic-bezier(0.32,0.72,0,1);
+  }
+  .modal-overlay.open .modal-box{
+    transform:translateY(0);
+  }
+  .modal-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 16px 10px;
+    border-bottom:1px solid var(--line);
+  }
+  .modal-title{
+    font-family:'Fraunces', serif;
+    font-size:16px;
+    font-weight:600;
+    color:var(--ink);
+  }
+  .modal-close{
+    width:30px; height:30px;
+    border-radius:50%;
+    background:var(--paper-deep);
+    color:var(--ink-soft);
+    font-size:14px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .modal-search{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:9px 12px;
+    margin:12px 16px 0;
+  }
+  .modal-search .lens{ color:var(--ink-soft); font-size:14px; }
+  .modal-search input{
+    flex:1;
+    border:none;
+    outline:none;
+    font-family:inherit;
+    font-size:13px;
+    color:var(--ink);
+    background:transparent;
+  }
+  .modal-search button{
+    background:var(--walnut);
+    color:var(--paper);
+    font-weight:700;
+    font-size:11px;
+    padding:7px 12px;
+    border-radius:9px;
+  }
+  .modal-map-wrap{
+    flex:1;
+    min-height:280px;
+    margin:12px 16px 0;
+    border-radius:14px;
+    overflow:hidden;
+    border:1px solid var(--line);
+  }
+  .modal-map-wrap iframe{
+    width:100%;
+    height:100%;
+    min-height:280px;
+    border:0;
+    display:block;
+  }
+  .modal-hint{
+    font-size:11px;
+    color:var(--ink-soft);
+    margin:8px 16px 0;
+    line-height:1.5;
+  }
+  .modal-actions{
+    display:flex;
+    gap:10px;
+    padding:14px 16px 18px;
+    border-top:1px solid var(--line);
+  }
+  .modal-actions .btn-mini{ flex:1; justify-content:center; }
+
+  /* ---------- Modal input data (Administrator, Akun Pembayaran, Kategori
+     Produk): selalu tampil di tengah halaman, fade + scale-in, di semua
+     ukuran layar termasuk smartphone ---------- */
+  .modal-overlay.modal-data{
+    align-items:center;
+    padding:20px;
+  }
+  .modal-overlay.modal-data .modal-box{
+    border-radius:20px;
+    max-height:85vh;
+    transform:scale(0.94);
+    transition:transform 0.28s cubic-bezier(0.32,0.72,0,1), opacity 0.28s ease;
+    opacity:0;
+  }
+  .modal-overlay.modal-data.open .modal-box{
+    transform:scale(1);
+    opacity:1;
+  }
+  .modal-overlay.modal-data .modal-box-tall{
+    max-height:85vh;
+  }
+
+  /* ---------- Modal with scrollable form body ---------- */
+  .modal-box-tall{ max-height:92vh; }
+  .modal-body{
+    flex:1;
+    min-height:0;
+    overflow-y:auto;
+    padding:14px 16px 4px;
+  }
+  .modal-body .field-group:last-child{ margin-bottom:4px; }
+
+  .photo-upload{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .photo-preview{
+    width:56px; height:56px;
+    border-radius:50%;
+    background:var(--paper);
+    border:1px dashed var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-size:22px;
+    flex-shrink:0;
+    overflow:hidden;
+    color:var(--ink-soft);
+  }
+  .photo-preview img{
+    width:100%; height:100%;
+    object-fit:cover;
+  }
+  .photo-hint{
+    font-size:10px;
+    color:var(--ink-soft);
+    margin-top:5px;
+  }
+
+  .btn-mini{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    background:var(--white);
+    color:var(--ink);
+    font-weight:700;
+    font-size:11.5px;
+    padding:9px 14px;
+    border-radius:10px;
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+    transition:background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  .btn-mini:hover{
+    background:var(--green);
+    color:var(--white);
+    border-color:var(--green);
+  }
+  .btn-mini.ghost{
+    background:transparent;
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+    box-shadow:none;
+  }
+  .btn-mini.ghost:hover{
+    background:var(--green);
+    color:var(--white);
+    border-color:var(--green);
+  }
+  .btn-mini.full{ width:100%; justify-content:center; margin-top:6px; }
+
+  /* Admin list */
+  .admin-list-item{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:11px 8px;
+    border-radius:12px;
+    border-bottom:1px solid var(--line);
+  }
+  .admin-list-item:last-child{ border-bottom:none; }
+  .admin-list-item .av{
+    width:38px; height:38px;
+    border-radius:50%;
+    background:var(--amber);
+    display:flex; align-items:center; justify-content:center;
+    font-size:14px;
+    font-weight:700;
+    color:var(--walnut-deep);
+    flex-shrink:0;
+  }
+  .admin-list-item .info{ flex:1; min-width:0; }
+  .admin-list-item .info b{ font-size:12.5px; font-weight:700; display:block; }
+  .admin-list-item .info span{ font-size:10.5px; color:var(--ink-soft); }
+  .role-pill{
+    font-size:9.5px;
+    font-weight:700;
+    padding:4px 9px;
+    border-radius:20px;
+    background:rgba(20,20,20,0.08);
+    color:var(--walnut);
+    white-space:nowrap;
+  }
+  .role-pill.owner{ background:rgba(216,38,44,0.12); color:var(--cherry); }
+  .row-actions{ display:flex; gap:6px; margin-left:4px; }
+  .row-btn{
+    width:26px; height:26px;
+    border-radius:8px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-size:11px;
+    color:var(--ink-soft);
+    flex-shrink:0;
+  }
+  .row-btn.danger{ color:var(--cherry); }
+
+  /* Payment accounts */
+  .pay-card{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px;
+    border:1px solid var(--line);
+    border-radius:14px;
+    margin-bottom:10px;
+    background:var(--paper);
+  }
+  .pay-card .bank-ic{
+    width:40px; height:40px;
+    border-radius:10px;
+    background:var(--white);
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px;
+    flex-shrink:0;
+  }
+  .pay-card .info{ flex:1; min-width:0; }
+  .pay-card .info b{ font-size:12.5px; font-weight:700; display:block; }
+  .pay-card .info span{ font-size:10.5px; color:var(--ink-soft); }
+  .status-pill{
+    font-size:9.5px;
+    font-weight:700;
+    padding:3px 8px;
+    border-radius:20px;
+  }
+  .status-pill.done{ background:rgba(31,138,76,0.12); color:var(--green); }
+  .status-pill.pending{ background:rgba(216,38,44,0.12); color:var(--cherry); }
+
+  /* Holiday list */
+  .holiday-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:11px 8px;
+    border-bottom:1px solid var(--line);
+  }
+  .holiday-item:last-child{ border-bottom:none; }
+  .holiday-date{
+    width:44px; height:44px;
+    border-radius:12px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .holiday-date .d{ font-size:14px; font-weight:700; line-height:1; font-family:'Fraunces', serif; }
+  .holiday-date .m{ font-size:8.5px; color:var(--ink-soft); text-transform:uppercase; font-weight:700; }
+  .holiday-item .info{ flex:1; min-width:0; }
+  .holiday-item .info b{ font-size:12.5px; font-weight:700; display:block; }
+  .holiday-item .info span{ font-size:10.5px; color:var(--ink-soft); }
+
+  .toggle-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px 2px;
+    border-bottom:1px solid var(--line);
+  }
+  .toggle-row:last-child{ border-bottom:none; }
+  .toggle-row .t-label b{ font-size:12.5px; display:block; }
+  .toggle-row .t-label span{ font-size:10.5px; color:var(--ink-soft); }
+  .switch{
+    width:38px; height:22px;
+    border-radius:20px;
+    background:var(--line);
+    position:relative;
+    flex-shrink:0;
+    cursor:pointer;
+    transition:background 0.2s ease;
+  }
+  .switch::after{
+    content:"";
+    position:absolute;
+    top:2px; left:2px;
+    width:18px; height:18px;
+    border-radius:50%;
+    background:var(--white);
+    transition:transform 0.2s ease;
+    box-shadow:0 1px 3px rgba(0,0,0,0.25);
+  }
+  .switch.on{ background:var(--amber); }
+  .switch.on::after{ transform:translateX(16px); }
+
+  @media (min-width:768px){
+    body{ background:var(--paper-deep); }
+    .app{
+      max-width:920px;
+      min-height:auto;
+      padding-bottom:50px;
+      box-shadow:0 20px 60px -20px rgba(10,10,10,0.25);
+      margin:0 auto;
+    }
+
+    .topbar{ padding:20px 28px 22px; }
+    .brand-mark{ width:40px; height:40px; font-size:21px; border-radius:11px; }
+    .brand-name{ font-size:18px; }
+    .brand-tag{ font-size:11px; }
+    .icon-btn{ width:42px; height:42px; font-size:19px; }
+    .admin-chip b{ font-size:12.5px; }
+    .admin-chip span{ font-size:10.5px; }
+    .searchbar{ max-width:440px; padding:13px 16px; margin-top:16px; }
+    .searchbar input{ font-size:15px; }
+
+    .page-head{ padding:28px 28px 4px; }
+    .page-head h1{ font-size:29px; }
+    .page-head p{ font-size:13.5px; max-width:420px; }
+    .eyebrow{ font-size:12px; }
+
+    .settings-wrap{ margin:20px 28px 0; gap:18px; }
+    .settings-tabs{ gap:10px; }
+    .tab-btn{ padding:16px 10px; border-radius:16px; }
+    .tab-btn .tab-ic{ width:42px; height:42px; font-size:22px; border-radius:12px; }
+    .tab-btn span{ font-size:11.5px; }
+    .settings-content{ padding:30px 32px; border-radius:20px; }
+
+    .panel-title{ font-size:18px; }
+    .panel-sub{ font-size:13px; margin-bottom:22px; }
+    .field-group{ margin-bottom:18px; }
+    .field-group label{ font-size:12px; margin-bottom:7px; }
+    .field-group input,
+    .field-group select,
+    .field-group textarea{ padding:13px 15px; font-size:13.5px; border-radius:12px; }
+    .btn-mini{ font-size:13px; padding:11px 18px; border-radius:12px; }
+    .logo-preview{ width:130px; height:130px; font-size:46px; border-radius:22px; }
+
+    .admin-list-item{ padding:14px 10px; gap:14px; }
+    .admin-list-item .av{ width:46px; height:46px; font-size:16px; }
+    .admin-list-item .info b{ font-size:13.5px; }
+    .admin-list-item .info span{ font-size:11.5px; }
+    .role-pill{ font-size:10.5px; padding:5px 11px; }
+    .row-btn{ width:30px; height:30px; font-size:12px; border-radius:9px; }
+
+    .pay-card{ padding:15px; border-radius:16px; gap:14px; }
+    .pay-card .bank-ic{ width:46px; height:46px; font-size:20px; border-radius:12px; }
+    .pay-card .info b{ font-size:13.5px; }
+    .pay-card .info span{ font-size:11.5px; }
+    .status-pill{ font-size:10.5px; padding:4px 10px; }
+
+    .holiday-item{ padding:13px 10px; gap:14px; }
+    .holiday-date{ width:50px; height:50px; border-radius:14px; }
+    .holiday-date .d{ font-size:16px; }
+    .holiday-date .m{ font-size:9.5px; }
+    .holiday-item .info b{ font-size:13.5px; }
+    .holiday-item .info span{ font-size:11.5px; }
+
+    .toggle-row{ padding:13px 4px; }
+    .toggle-row .t-label b{ font-size:13.5px; }
+    .toggle-row .t-label span{ font-size:11.5px; }
+    .switch{ width:42px; height:24px; }
+    .switch::after{ width:20px; height:20px; }
+    .switch.on::after{ transform:translateX(18px); }
+  }
+  @media (min-width:1024px){
+    .app{ max-width:1140px; }
+    .topbar{ padding:22px 44px 24px; }
+    .page-head{ padding:34px 44px 4px; }
+    .page-head h1{ font-size:32px; }
+    .page-head p{ font-size:14px; max-width:480px; }
+    .settings-wrap{ margin:24px 44px 48px; gap:22px; }
+    .settings-tabs{ gap:12px; }
+    .tab-btn{ padding:18px 10px; }
+    .tab-btn .tab-ic{ width:46px; height:46px; font-size:24px; }
+    .tab-btn span{ font-size:12px; }
+    .settings-content{ padding:36px 40px; }
+    .panel-title{ font-size:20px; }
+    .field-row{ gap:14px; }
+  }
+
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-row">
+      <div class="brand">
+        <div class="brand-mark" id="navbarLogo">🎸</div>
+        <div>
+          <div class="brand-name">Arya Music Store</div>
+          <div class="brand-tag">Panel Admin</div>
+        </div>
+      </div>
+      <div class="topbar-icons">
+        <a class="icon-btn" href="#" aria-label="Notifikasi">🔔<span class="dot"></span></a>
+        <div class="admin-chip">
+          <div class="av">RA</div>
+          <div class="info">
+            <b>Rian A.</b>
+            <span>Admin Toko</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="searchbar">
+      <span class="lens">🔍</span>
+      <input type="text" placeholder="Cari pengaturan...">
+    </div>
+  </header>
+
+  <div class="motif"></div>
+
+  <!-- PAGE HEAD -->
+  <div class="page-head">
+    <div class="eyebrow">Panel Admin</div>
+    <h1>Pengaturan</h1>
+    <p>Kelola profil toko, akun administrator, akun pembayaran, dan hari libur operasional.</p>
+  </div>
+
+  <!-- SETTINGS LAYOUT -->
+  <div class="settings-wrap">
+
+    <!-- CONTENT -->
+    <div class="settings-content">
+
+      <!-- PROFIL TOKO -->
+      <div class="tab-panel active" id="panel-profil">
+        <div class="panel-title">Profil Toko</div>
+        <div class="panel-sub">Informasi ini akan tampil pada struk, halaman pelanggan, dan dokumen resmi toko.</div>
+
+        <div class="field-group">
+          <label>Logo</label>
+          <div class="logo-upload">
+            <div class="logo-preview" id="logoPreview">🎸</div>
+            <div>
+              <button class="btn-mini" type="button" id="changeLogoBtn">Ganti Logo</button>
+              <input type="file" id="logoInput" accept="image/*" style="display:none;">
+            </div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>ID Data</label>
+          <input type="text" value="TKO-AMS-0001" id="profilIdField" readonly>
+        </div>
+
+        <div class="field-group">
+          <label>Nama Toko</label>
+          <input type="text" value="Arya Music Store" id="profilNamaTokoField">
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <label>NIB <span class="optional-tag">(opsional)</span></label>
+            <input type="text" value="" placeholder="Nomor Induk Berusaha" id="profilNibField">
+          </div>
+          <div class="field-group">
+            <label>Owner</label>
+            <input type="text" value="Rian Adiyatma" id="profilOwnerField">
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Alamat</label>
+          <textarea id="profilAlamatField">Jl. Melodi Raya No. 12, Bandung, Jawa Barat</textarea>
+        </div>
+        <div class="field-group">
+          <label>Lokasi (Maps)</label>
+          <div class="maps-preview">
+            <iframe id="mapsPreviewFrame"
+              src="https://www.google.com/maps?q=Jl.+Melodi+Raya+No.+12,+Bandung,+Jawa+Barat&output=embed"
+              loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <button type="button" class="maps-pick-btn" id="openMapsModalBtn">
+              <span class="tab-ic" style="width:22px;height:22px;font-size:13px;background:var(--amber);">📍</span>
+              Pilih Lokasi
+            </button>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Koordinat</label>
+          <input type="text" id="mapsCoordField" placeholder="Koordinat akan muncul setelah lokasi disimpan" readonly>
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <label>Telepon/WA</label>
+            <input type="text" value="0812-3456-7890" id="profilTlpField">
+          </div>
+          <div class="field-group">
+            <label>Email</label>
+            <input type="email" value="admin@aryamusicstore.id" id="profilEmailField">
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Slogan Toko</label>
+          <input type="text" value="Nada Terbaik untuk Setiap Cerita" id="profilSloganField">
+        </div>
+
+        <div class="section-divider">Akun Login</div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label>Username</label>
+            <input type="text" value="admin_arya" id="profilUsernameField">
+          </div>
+          <div class="field-group">
+            <label>Password</label>
+            <div class="password-field">
+              <input type="password" value="••••••••" id="pwd-profil">
+              <button type="button" class="pwd-toggle" data-target="pwd-profil">👁</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-divider">Media Sosial</div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label>Instagram <span class="optional-tag">(opsional)</span></label>
+            <input type="text" placeholder="@aryamusicstore" id="profilInstagramField">
+          </div>
+          <div class="field-group">
+            <label>Facebook <span class="optional-tag">(opsional)</span></label>
+            <input type="text" placeholder="Arya Music Store" id="profilFacebookField">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <label>Youtube <span class="optional-tag">(opsional)</span></label>
+            <input type="text" placeholder="Arya Music Store" id="profilYoutubeField">
+          </div>
+          <div class="field-group">
+            <label>Tik Tok <span class="optional-tag">(opsional)</span></label>
+            <input type="text" placeholder="@aryamusicstore" id="profilTiktokField">
+          </div>
+        </div>
+
+        <button class="btn-mini full" type="button" id="saveProfilBtn">Simpan Perubahan</button>
+        <div id="profilSaveStatus" style="margin-top:8px;font-size:12px;text-align:center;"></div>
+      </div>
+
+      <!-- ADMINISTRATOR -->
+      <div class="tab-panel" id="panel-admin">
+        <div class="panel-title">Administrator</div>
+        <div class="panel-sub">Kelola akun admin yang memiliki akses ke panel toko.</div>
+
+        <div class="admin-list-item">
+          <div class="av">RA</div>
+          <div class="info"><b>Rian Adiyatma</b><span>rian@aryamusicstore.id</span></div>
+          <span class="role-pill owner">Owner</span>
+          <div class="row-actions">
+            <button class="row-btn" type="button">✎</button>
+          </div>
+        </div>
+        <div class="admin-list-item">
+          <div class="av">DP</div>
+          <div class="info"><b>Dimas Prasetyo</b><span>dimas@aryamusicstore.id</span></div>
+          <span class="role-pill">Admin</span>
+          <div class="row-actions">
+            <button class="row-btn" type="button">✎</button>
+            <button class="row-btn danger" type="button">🗑</button>
+          </div>
+        </div>
+        <div class="admin-list-item">
+          <div class="av">SR</div>
+          <div class="info"><b>Siti Rahma</b><span>siti@aryamusicstore.id</span></div>
+          <span class="role-pill">Kasir</span>
+          <div class="row-actions">
+            <button class="row-btn" type="button">✎</button>
+            <button class="row-btn danger" type="button">🗑</button>
+          </div>
+        </div>
+
+        <button class="btn-mini full" type="button" id="openAddAdminBtn">+ Tambah Administrator</button>
+      </div>
+
+      <!-- AKUN PEMBAYARAN -->
+      <div class="tab-panel" id="panel-pembayaran">
+        <div class="panel-title">Akun Pembayaran</div>
+        <div class="panel-sub">Rekening dan metode pembayaran yang digunakan untuk menerima transaksi pelanggan.</div>
+
+        <div id="paymentListWrap">
+          <div class="pay-card" id="paymentLoadingCard">
+            <div class="info"><span>Memuat data akun pembayaran...</span></div>
+          </div>
+        </div>
+
+        <button class="btn-mini full" type="button" id="openAddPaymentBtn">+ Tambah Akun Pembayaran</button>
+      </div>
+
+      <!-- KATEGORI PRODUK -->
+      <div class="tab-panel" id="panel-kategori">
+        <div class="panel-title">Kategori Produk</div>
+        <div class="panel-sub">Kelola kategori yang digunakan untuk mengelompokkan produk di toko.</div>
+
+        <div class="admin-list-item">
+          <div class="av">🎸</div>
+          <div class="info"><b>Gitar Akustik</b><span>24 produk</span></div>
+          <div class="row-actions">
+            <button class="row-btn" type="button">✎</button>
+            <button class="row-btn danger" type="button">🗑</button>
+          </div>
+        </div>
+        <div class="admin-list-item">
+          <div class="av">🎸</div>
+          <div class="info"><b>Gitar Elektrik</b><span>31 produk</span></div>
+          <div class="row-actions">
+            <button class="row-btn" type="button">✎</button>
+            <button class="row-btn danger" type="button">🗑</button>
+          </div>
+        </div>
+        <div class="admin-list-item">
+          <div class="av">🎛️</div>
+          <div class="info"><b>Efek &amp; Pedal</b><span>17 produk</span></div>
+          <div class="row-actions">
+            <button class="row-btn" type="button">✎</button>
+            <button class="row-btn danger" type="button">🗑</button>
+          </div>
+        </div>
+        <div class="admin-list-item">
+          <div class="av">🔊</div>
+          <div class="info"><b>Amplifier</b><span>12 produk</span></div>
+          <div class="row-actions">
+            <button class="row-btn" type="button">✎</button>
+            <button class="row-btn danger" type="button">🗑</button>
+          </div>
+        </div>
+        <div class="admin-list-item">
+          <div class="av">🎼</div>
+          <div class="info"><b>Senar &amp; Aksesori</b><span>45 produk</span></div>
+          <div class="row-actions">
+            <button class="row-btn" type="button">✎</button>
+            <button class="row-btn danger" type="button">🗑</button>
+          </div>
+        </div>
+        <div class="admin-list-item">
+          <div class="av">🎒</div>
+          <div class="info"><b>Case &amp; Tas</b><span>9 produk</span></div>
+          <div class="row-actions">
+            <button class="row-btn" type="button">✎</button>
+            <button class="row-btn danger" type="button">🗑</button>
+          </div>
+        </div>
+
+        <button class="btn-mini full" type="button" id="openAddCategoryBtn">+ Tambah Kategori</button>
+      </div>
+
+    </div>
+
+    <!-- TABS (right side) -->
+    <div class="settings-tabs">
+      <button class="tab-btn active" type="button" data-tab="panel-profil">
+        <span class="tab-ic">🏬</span>
+        <span>Profil Toko</span>
+      </button>
+      <button class="tab-btn" type="button" data-tab="panel-admin">
+        <span class="tab-ic">👤</span>
+        <span>Administrator</span>
+      </button>
+      <button class="tab-btn" type="button" data-tab="panel-pembayaran">
+        <span class="tab-ic">💳</span>
+        <span>Akun Pembayaran</span>
+      </button>
+      <button class="tab-btn" type="button" data-tab="panel-kategori">
+        <span class="tab-ic">🏷️</span>
+        <span>Kategori Produk</span>
+      </button>
+      <a class="tab-btn back" href="dashboardadmin.html">
+        <span class="tab-ic">↩️</span>
+        <span>Kembali Ke Dashboard</span>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- MAPS MODAL -->
+  <div class="modal-overlay" id="mapsModalOverlay">
+    <div class="modal-box">
+      <div class="modal-head">
+        <div class="modal-title">Pilih Lokasi Toko</div>
+        <button type="button" class="modal-close" id="closeMapsModalBtn">✕</button>
+      </div>
+      <div class="modal-search">
+        <span class="lens">🔍</span>
+        <input type="text" id="mapsSearchInput" placeholder="Cari alamat, nama tempat, atau lat,lng...">
+        <button type="button" id="mapsSearchBtn">Cari</button>
+      </div>
+      <button type="button" class="btn-mini ghost" id="useMyLocationBtn" style="margin-top:8px;width:100%;">
+        📡 Gunakan Lokasi Saya Saat Ini
+      </button>
+      <div class="modal-map-wrap">
+        <div id="modalLeafletMap" style="width:100%;height:100%;min-height:280px;"></div>
+      </div>
+      <div class="field-group" style="margin-top:10px;margin-bottom:0;">
+        <label>Koordinat Terpilih</label>
+        <input type="text" id="modalCoordPreview" placeholder="Belum ada koordinat" readonly>
+      </div>
+      <div class="modal-hint">Ketik alamat/nama tempat lalu tekan "Cari" (atau ketik langsung koordinat "lat,lng"), tekan "Gunakan Lokasi Saya Saat Ini", <b>atau langsung klik/geser pin di peta</b>, lalu tekan "Simpan Lokasi".</div>
+      <div class="modal-actions">
+        <button type="button" class="btn-mini ghost" id="cancelMapsBtn">Batal</button>
+        <button type="button" class="btn-mini" id="saveMapsBtn">Simpan Lokasi</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD ADMIN MODAL -->
+  <div class="modal-overlay modal-data" id="addAdminModalOverlay">
+    <div class="modal-box modal-box-tall">
+      <div class="modal-head">
+        <div class="modal-title">Tambah Administrator</div>
+        <button type="button" class="modal-close" id="closeAddAdminBtn">✕</button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="field-group">
+          <label>Photo</label>
+          <div class="photo-upload">
+            <div class="photo-preview" id="adminPhotoPreview">👤</div>
+            <div>
+              <button class="btn-mini" type="button" id="adminPhotoBtn">Upload Photo</button>
+              <input type="file" accept="image/*" id="adminPhotoInput" style="display:none;">
+              <div class="photo-hint">JPG/PNG, maks 2MB</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>ID Admin</label>
+          <input type="text" id="adminIdField" readonly>
+        </div>
+
+        <div class="field-group">
+          <label>Nama Admin</label>
+          <input type="text" id="adminNameField" placeholder="Nama lengkap sesuai KTP">
+        </div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label>NIK</label>
+            <input type="text" id="adminNikField" placeholder="16 digit NIK" maxlength="16" inputmode="numeric">
+          </div>
+          <div class="field-group">
+            <label>Role</label>
+            <select id="adminRoleField">
+              <option value="">Pilih role</option>
+              <option value="Cashier">Cashier</option>
+              <option value="Teknisi">Teknisi</option>
+              <option value="Pramuniaga">Pramuniaga</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label>Tempat Lahir</label>
+            <input type="text" id="adminBirthPlaceField" placeholder="Kota kelahiran">
+          </div>
+          <div class="field-group">
+            <label>Tanggal Lahir</label>
+            <input type="date" id="adminBirthDateField">
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>Alamat</label>
+          <textarea id="adminAddressField" placeholder="Alamat domisili"></textarea>
+        </div>
+
+        <div class="field-group">
+          <label>Telepon/WA</label>
+          <input type="text" id="adminPhoneField" placeholder="0812xxxxxxxx">
+        </div>
+
+        <div class="field-group">
+          <label>Password</label>
+          <div class="password-field">
+            <input type="password" id="adminPasswordField" placeholder="Password akun admin">
+            <button type="button" class="pwd-toggle" data-target="adminPasswordField">👁</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-mini ghost" id="cancelAddAdminBtn">Batal</button>
+        <button type="button" class="btn-mini" id="saveAddAdminBtn">Simpan Administrator</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD PAYMENT ACCOUNT MODAL -->
+  <div class="modal-overlay modal-data" id="addPaymentModalOverlay">
+    <div class="modal-box">
+      <div class="modal-head">
+        <div class="modal-title">Tambah Akun Pembayaran</div>
+        <button type="button" class="modal-close" id="closeAddPaymentBtn">✕</button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="field-group">
+          <label>ID Akun</label>
+          <input type="text" id="paymentIdField" readonly>
+        </div>
+
+        <div class="field-group">
+          <label>Nama Bank/E-Wallet</label>
+          <input type="text" id="paymentBankField" placeholder="cth. BCA, Mandiri, OVO, QRIS">
+        </div>
+
+        <div class="field-group">
+          <label>Nomor Akun</label>
+          <input type="text" id="paymentNumberField" placeholder="Nomor rekening / nomor akun" inputmode="numeric">
+        </div>
+
+        <div class="field-group">
+          <label>Nama Pemilik Akun</label>
+          <input type="text" id="paymentOwnerField" placeholder="Nama sesuai buku rekening">
+        </div>
+
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-mini ghost" id="cancelAddPaymentBtn">Batal</button>
+        <button type="button" class="btn-mini" id="saveAddPaymentBtn">Simpan Akun</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD CATEGORY MODAL -->
+  <div class="modal-overlay modal-data" id="addCategoryModalOverlay">
+    <div class="modal-box">
+      <div class="modal-head">
+        <div class="modal-title">Tambah Kategori</div>
+        <button type="button" class="modal-close" id="closeAddCategoryBtn">✕</button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="field-group">
+          <label>ID Kategori</label>
+          <input type="text" id="categoryIdField" readonly>
+        </div>
+
+        <div class="field-group">
+          <label>Nama Kategori</label>
+          <input type="text" id="categoryNameField" placeholder="cth. Gitar Akustik">
+        </div>
+
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-mini ghost" id="cancelAddCategoryBtn">Batal</button>
+        <button type="button" class="btn-mini" id="saveAddCategoryBtn">Simpan Kategori</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const tabButtons = document.querySelectorAll('.tab-btn[data-tab]');
+  const panels = document.querySelectorAll('.tab-panel');
+
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.getAttribute('data-tab');
+
+      tabButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      panels.forEach(p => p.classList.remove('active'));
+      document.getElementById(target).classList.add('active');
+    });
+  });
+
+  document.querySelectorAll('.switch').forEach(sw => {
+    sw.addEventListener('click', () => sw.classList.toggle('on'));
+  });
+
+  document.querySelectorAll('.pwd-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const input = document.getElementById(btn.getAttribute('data-target'));
+      if(input.type === 'password'){
+        input.type = 'text';
+        btn.textContent = '🙈';
+      } else {
+        input.type = 'password';
+        btn.textContent = '👁';
+      }
+    });
+  });
+
+  /* ---------- Simpan Profil Toko ke Supabase ---------- */
+  const SUPABASE_URL = 'https://gkkwhehaxumgoxqklauu.supabase.co/rest/v1/';
+  const SUPABASE_PROJECT_URL = 'https://gkkwhehaxumgoxqklauu.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdra3doZWhheHVtZ294cWtsYXV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMwMzgyOTksImV4cCI6MjA5ODYxNDI5OX0.zRTCMwQfuMI4vEfOIq6ABi4rOOHOZShjFWaofCfwX6g';
+  const STORAGE_BUCKET = 'aset';
+  const PASSWORD_MASK = '••••••••';
+
+  const profilIdField = document.getElementById('profilIdField');
+  const profilNamaTokoField = document.getElementById('profilNamaTokoField');
+  const profilNibField = document.getElementById('profilNibField');
+  const profilOwnerField = document.getElementById('profilOwnerField');
+  const profilAlamatField = document.getElementById('profilAlamatField');
+  const profilTlpField = document.getElementById('profilTlpField');
+  const profilEmailField = document.getElementById('profilEmailField');
+  const profilSloganField = document.getElementById('profilSloganField');
+  const profilUsernameField = document.getElementById('profilUsernameField');
+  const profilPasswordField = document.getElementById('pwd-profil');
+  const profilInstagramField = document.getElementById('profilInstagramField');
+  const profilFacebookField = document.getElementById('profilFacebookField');
+  const profilYoutubeField = document.getElementById('profilYoutubeField');
+  const profilTiktokField = document.getElementById('profilTiktokField');
+  const saveProfilBtn = document.getElementById('saveProfilBtn');
+  const profilSaveStatus = document.getElementById('profilSaveStatus');
+
+  /* ---------- Ganti Logo (upload ke Supabase Storage) ---------- */
+  const logoPreview = document.getElementById('logoPreview');
+  const navbarLogo = document.getElementById('navbarLogo');
+  const changeLogoBtn = document.getElementById('changeLogoBtn');
+  const logoInput = document.getElementById('logoInput');
+  let logoUrl = ''; // URL publik logo yang baru diunggah (kosong = tidak berubah)
+
+  // update tampilan logo di preview form sekaligus di navbar
+  function setLogoDisplay(url){
+    if(url){
+      const imgHtml = '<img src="' + url + '" alt="Logo toko" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">';
+      logoPreview.innerHTML = imgHtml;
+      navbarLogo.innerHTML = imgHtml;
+    }else{
+      logoPreview.innerHTML = '🎸';
+      navbarLogo.innerHTML = '🎸';
+    }
+  }
+
+  changeLogoBtn.addEventListener('click', () => logoInput.click());
+
+  async function uploadLogoToSupabase(file){
+    const extMatch = file.name.match(/\.([a-zA-Z0-9]+)$/);
+    const ext = extMatch ? extMatch[1].toLowerCase() : 'png';
+    const fileName = 'logo_' + profilIdField.value.trim().replace(/[^a-zA-Z0-9_-]/g, '') + '_' + Date.now() + '.' + ext;
+    const uploadUrl = SUPABASE_PROJECT_URL + '/storage/v1/object/' + STORAGE_BUCKET + '/' + fileName;
+
+    const res = await fetch(uploadUrl, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+        'Content-Type': file.type || 'application/octet-stream',
+        'x-upsert': 'true'
+      },
+      body: file
+    });
+
+    if(!res.ok){
+      const errText = await res.text();
+      throw new Error(errText || ('HTTP ' + res.status));
+    }
+
+    return SUPABASE_PROJECT_URL + '/storage/v1/object/public/' + STORAGE_BUCKET + '/' + fileName;
+  }
+
+  logoInput.addEventListener('change', async () => {
+    const file = logoInput.files[0];
+    if(!file) return;
+
+    // preview lokal langsung biar responsif, sambil menunggu proses upload
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setLogoDisplay(e.target.result);
+    };
+    reader.readAsDataURL(file);
+
+    const originalBtnText = changeLogoBtn.textContent;
+    changeLogoBtn.disabled = true;
+    changeLogoBtn.textContent = 'Mengunggah...';
+    profilSaveStatus.textContent = '';
+
+    try{
+      logoUrl = await uploadLogoToSupabase(file);
+      profilSaveStatus.textContent = '✅ Logo berhasil diunggah. Klik "Simpan Perubahan" untuk menyimpannya.';
+      profilSaveStatus.style.color = 'var(--green)';
+    }catch(err){
+      console.error('Gagal mengunggah logo:', err);
+      logoUrl = '';
+      profilSaveStatus.textContent = '⚠️ Gagal mengunggah logo: ' + err.message;
+      profilSaveStatus.style.color = 'var(--amber)';
+    }finally{
+      changeLogoBtn.disabled = false;
+      changeLogoBtn.textContent = originalBtnText;
+      logoInput.value = '';
+    }
+  });
+
+  async function saveProfilToko(){
+    const id = profilIdField.value.trim();
+    if(!id){
+      profilSaveStatus.textContent = '⚠️ ID Data tidak boleh kosong.';
+      profilSaveStatus.style.color = 'var(--amber)';
+      return;
+    }
+
+    const payload = {
+      id: id,
+      nama_toko: profilNamaTokoField.value.trim(),
+      nib: profilNibField.value.trim(),
+      owner: profilOwnerField.value.trim(),
+      alamat: profilAlamatField.value.trim(),
+      koordinat: document.getElementById('mapsCoordField').value.trim(),
+      tlp: profilTlpField.value.trim(),
+      email: profilEmailField.value.trim(),
+      slogan: profilSloganField.value.trim(),
+      username: profilUsernameField.value.trim(),
+      instagram: profilInstagramField.value.trim(),
+      facebook: profilFacebookField.value.trim(),
+      youtube: profilYoutubeField.value.trim(),
+      tiktok: profilTiktokField.value.trim()
+    };
+
+    // logo hanya dikirim kalau memang ada logo baru yang berhasil diunggah
+    if(logoUrl){
+      payload.logo = logoUrl;
+    }
+
+    // password hanya dikirim kalau memang diubah (bukan lambang mask default)
+    const pwdVal = profilPasswordField.value;
+    if(pwdVal && pwdVal !== PASSWORD_MASK){
+      payload.password = pwdVal;
+    }
+
+    const originalText = saveProfilBtn.textContent;
+    saveProfilBtn.disabled = true;
+    saveProfilBtn.textContent = 'Menyimpan...';
+    profilSaveStatus.textContent = '';
+
+    try{
+      const res = await fetch(SUPABASE_URL + 'identitas?on_conflict=id', {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'resolution=merge-duplicates,return=representation'
+        },
+        body: JSON.stringify([payload])
+      });
+
+      if(!res.ok){
+        const errBody = await res.text();
+        throw new Error(errBody || ('HTTP ' + res.status));
+      }
+
+      profilSaveStatus.textContent = '✅ Perubahan berhasil disimpan ke Supabase.';
+      profilSaveStatus.style.color = 'var(--green)';
+    }catch(err){
+      console.error('Gagal menyimpan profil toko ke Supabase:', err);
+      profilSaveStatus.textContent = '⚠️ Gagal menyimpan: ' + err.message;
+      profilSaveStatus.style.color = 'var(--amber)';
+    }finally{
+      saveProfilBtn.disabled = false;
+      saveProfilBtn.textContent = originalText;
+    }
+  }
+
+  saveProfilBtn.addEventListener('click', saveProfilToko);
+
+  /* ---------- Maps modal ---------- */
+  const mapsOverlay = document.getElementById('mapsModalOverlay');
+  const openMapsBtn = document.getElementById('openMapsModalBtn');
+  const closeMapsBtn = document.getElementById('closeMapsModalBtn');
+  const cancelMapsBtn = document.getElementById('cancelMapsBtn');
+  const saveMapsBtn = document.getElementById('saveMapsBtn');
+  const mapsSearchBtn = document.getElementById('mapsSearchBtn');
+  const mapsSearchInput = document.getElementById('mapsSearchInput');
+  const mapsPreviewFrame = document.getElementById('mapsPreviewFrame');
+  const useMyLocationBtn = document.getElementById('useMyLocationBtn');
+  const modalCoordPreview = document.getElementById('modalCoordPreview');
+  const mapsCoordField = document.getElementById('mapsCoordField');
+
+  // koordinat default kalau belum ada koordinat tersimpan sama sekali (pusat kota Bandung)
+  const DEFAULT_COORD = { lat: -6.9175, lng: 107.6191 };
+
+  // koordinat yang sedang aktif di dalam modal (belum tentu sudah disimpan)
+  let modalCoord = null; // { lat, lng }
+  let leafletMap = null;
+  let leafletMarker = null;
+
+  function formatCoord(lat, lng){
+    return lat.toFixed(6) + ', ' + lng.toFixed(6);
+  }
+
+  function buildEmbedUrlFromCoord(lat, lng){
+    return 'https://www.google.com/maps?q=' + lat + ',' + lng + '&z=17&output=embed';
+  }
+
+  // cek apakah teks yang diketik sudah berupa koordinat "lat,lng" / "lat, lng"
+  function parseCoordText(text){
+    const m = text.trim().match(/^(-?\d{1,3}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)$/);
+    if(!m) return null;
+    const lat = parseFloat(m[1]);
+    const lng = parseFloat(m[2]);
+    if(isNaN(lat) || isNaN(lng)) return null;
+    if(lat < -90 || lat > 90 || lng < -180 || lng > 180) return null;
+    return { lat, lng };
+  }
+
+  /* ---------- Ambil (load) data Profil Toko dari Supabase saat halaman dibuka ---------- */
+  async function loadProfilToko(){
+    try{
+      const res = await fetch(SUPABASE_URL + 'identitas?select=*&limit=1', {
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+        }
+      });
+
+      if(!res.ok){
+        const errBody = await res.text();
+        throw new Error(errBody || ('HTTP ' + res.status));
+      }
+
+      const rows = await res.json();
+      const data = (rows && rows.length) ? rows[0] : null;
+
+      const coordField = document.getElementById('mapsCoordField');
+
+      if(!data){
+        // belum ada data di Supabase -> kosongkan semua field
+        profilIdField.value = '';
+        profilNamaTokoField.value = '';
+        profilNibField.value = '';
+        profilOwnerField.value = '';
+        profilAlamatField.value = '';
+        profilTlpField.value = '';
+        profilEmailField.value = '';
+        profilSloganField.value = '';
+        profilUsernameField.value = '';
+        profilPasswordField.value = '';
+        profilInstagramField.value = '';
+        profilFacebookField.value = '';
+        profilYoutubeField.value = '';
+        profilTiktokField.value = '';
+        coordField.value = '';
+        setLogoDisplay('');
+        return;
+      }
+
+      profilIdField.value = data.id || '';
+      profilNamaTokoField.value = data.nama_toko || '';
+      profilNibField.value = data.nib || '';
+      profilOwnerField.value = data.owner || '';
+      profilAlamatField.value = data.alamat || '';
+      profilTlpField.value = data.tlp || '';
+      profilEmailField.value = data.email || '';
+      profilSloganField.value = data.slogan || '';
+      profilUsernameField.value = data.username || '';
+      profilPasswordField.value = data.password ? PASSWORD_MASK : '';
+      profilInstagramField.value = data.instagram || '';
+      profilFacebookField.value = data.facebook || '';
+      profilYoutubeField.value = data.youtube || '';
+      profilTiktokField.value = data.tiktok || '';
+
+      coordField.value = data.koordinat || '';
+      const parsedCoord = data.koordinat ? parseCoordText(data.koordinat) : null;
+      if(parsedCoord){
+        mapsPreviewFrame.src = buildEmbedUrlFromCoord(parsedCoord.lat, parsedCoord.lng);
+      }
+
+      setLogoDisplay(data.logo || '');
+    }catch(err){
+      console.error('Gagal memuat data identitas dari Supabase:', err);
+      profilSaveStatus.textContent = '⚠️ Gagal memuat data: ' + err.message;
+      profilSaveStatus.style.color = 'var(--amber)';
+    }
+  }
+
+  loadProfilToko();
+
+  // inisialisasi peta Leaflet (sekali saja) — klik atau geser pin akan langsung mengisi koordinat
+  function ensureLeafletMap(initialLat, initialLng){
+    if(leafletMap){
+      leafletMap.setView([initialLat, initialLng], 17);
+      leafletMarker.setLatLng([initialLat, initialLng]);
+      return;
+    }
+    leafletMap = L.map('modalLeafletMap').setView([initialLat, initialLng], 17);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(leafletMap);
+
+    leafletMarker = L.marker([initialLat, initialLng], { draggable: true }).addTo(leafletMap);
+
+    leafletMarker.on('dragend', () => {
+      const pos = leafletMarker.getLatLng();
+      setModalCoord(pos.lat, pos.lng);
+    });
+
+    // klik di mana saja pada peta = pindahkan pin ke titik itu
+    leafletMap.on('click', (e) => {
+      leafletMarker.setLatLng(e.latlng);
+      setModalCoord(e.latlng.lat, e.latlng.lng);
+    });
+  }
+
+  function setModalCoord(lat, lng){
+    modalCoord = { lat, lng };
+    modalCoordPreview.value = formatCoord(lat, lng);
+  }
+
+  // geocoding alamat -> koordinat menggunakan OpenStreetMap Nominatim (gratis, tanpa API key)
+  async function geocodeAddress(query){
+    try{
+      const res = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(query));
+      const data = await res.json();
+      if(data && data.length > 0){
+        return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
+      }
+    }catch(err){
+      console.error('Gagal mengambil koordinat dari alamat:', err);
+    }
+    return null;
+  }
+
+  function openMapsModal(){
+    mapsSearchInput.value = '';
+
+    // pakai koordinat yang sudah tersimpan sebelumnya (jika ada), kalau belum pakai default
+    const existing = mapsCoordField.value ? parseCoordText(mapsCoordField.value) : null;
+    const startCoord = existing || DEFAULT_COORD;
+
+    mapsOverlay.classList.add('open');
+
+    // peta baru bisa diukur ukurannya setelah modal benar-benar terlihat
+    setTimeout(() => {
+      ensureLeafletMap(startCoord.lat, startCoord.lng);
+      leafletMap.invalidateSize();
+      setModalCoord(startCoord.lat, startCoord.lng);
+    }, 50);
+  }
+  function closeMapsModal(){
+    mapsOverlay.classList.remove('open');
+  }
+
+  openMapsBtn.addEventListener('click', openMapsModal);
+  closeMapsBtn.addEventListener('click', closeMapsModal);
+  cancelMapsBtn.addEventListener('click', closeMapsModal);
+  mapsOverlay.addEventListener('click', (e) => {
+    if(e.target === mapsOverlay) closeMapsModal();
+  });
+
+  async function searchMapsLocation(){
+    const q = mapsSearchInput.value.trim();
+    if(!q) return;
+
+    // jika admin langsung mengetik koordinat "lat,lng", pakai langsung
+    const typedCoord = parseCoordText(q);
+    if(typedCoord){
+      ensureLeafletMap(typedCoord.lat, typedCoord.lng);
+      setModalCoord(typedCoord.lat, typedCoord.lng);
+      return;
+    }
+
+    // jika berupa nama tempat/alamat, geocode untuk cari koordinatnya lalu geser peta ke sana
+    mapsSearchBtn.disabled = true;
+    mapsSearchBtn.textContent = '...';
+    const coord = await geocodeAddress(q);
+    mapsSearchBtn.disabled = false;
+    mapsSearchBtn.textContent = 'Cari';
+
+    if(coord){
+      ensureLeafletMap(coord.lat, coord.lng);
+      setModalCoord(coord.lat, coord.lng);
+    } else {
+      alert('Lokasi tidak ditemukan. Coba kata kunci lain, atau klik langsung titiknya di peta.');
+    }
+  }
+  mapsSearchBtn.addEventListener('click', searchMapsLocation);
+  mapsSearchInput.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter'){
+      e.preventDefault();
+      searchMapsLocation();
+    }
+  });
+
+  useMyLocationBtn.addEventListener('click', () => {
+    if(!navigator.geolocation){
+      alert('Perangkat/browser ini tidak mendukung deteksi lokasi.');
+      return;
+    }
+    useMyLocationBtn.disabled = true;
+    useMyLocationBtn.textContent = '📡 Mendeteksi lokasi...';
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const { latitude, longitude } = pos.coords;
+        ensureLeafletMap(latitude, longitude);
+        mapsSearchInput.value = formatCoord(latitude, longitude);
+        setModalCoord(latitude, longitude);
+        useMyLocationBtn.disabled = false;
+        useMyLocationBtn.textContent = '📡 Gunakan Lokasi Saya Saat Ini';
+      },
+      (err) => {
+        console.error(err);
+        alert('Tidak bisa mengambil lokasi saat ini. Pastikan izin lokasi sudah diaktifkan.');
+        useMyLocationBtn.disabled = false;
+        useMyLocationBtn.textContent = '📡 Gunakan Lokasi Saya Saat Ini';
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  });
+
+  saveMapsBtn.addEventListener('click', () => {
+    if(!modalCoord){
+      alert('Pilih titik lokasi terlebih dahulu di peta.');
+      return;
+    }
+    // simpan koordinat terpilih ke textbox "Koordinat" & perbarui preview utama
+    mapsCoordField.value = formatCoord(modalCoord.lat, modalCoord.lng);
+    mapsPreviewFrame.src = buildEmbedUrlFromCoord(modalCoord.lat, modalCoord.lng);
+    closeMapsModal();
+  });
+
+  /* ---------- Add Administrator modal ---------- */
+  const addAdminOverlay = document.getElementById('addAdminModalOverlay');
+  const openAddAdminBtn = document.getElementById('openAddAdminBtn');
+  const closeAddAdminBtn = document.getElementById('closeAddAdminBtn');
+  const cancelAddAdminBtn = document.getElementById('cancelAddAdminBtn');
+  const saveAddAdminBtn = document.getElementById('saveAddAdminBtn');
+
+  const adminIdField = document.getElementById('adminIdField');
+  const adminNameField = document.getElementById('adminNameField');
+  const adminNikField = document.getElementById('adminNikField');
+  const adminRoleField = document.getElementById('adminRoleField');
+  const adminBirthPlaceField = document.getElementById('adminBirthPlaceField');
+  const adminBirthDateField = document.getElementById('adminBirthDateField');
+  const adminAddressField = document.getElementById('adminAddressField');
+  const adminPhoneField = document.getElementById('adminPhoneField');
+  const adminPasswordField = document.getElementById('adminPasswordField');
+
+  const adminPhotoBtn = document.getElementById('adminPhotoBtn');
+  const adminPhotoInput = document.getElementById('adminPhotoInput');
+  const adminPhotoPreview = document.getElementById('adminPhotoPreview');
+  let adminPhotoDataUrl = '';
+
+  const adminList = document.querySelectorAll('#panel-admin .admin-list-item');
+  let adminCounter = adminList.length;
+
+  function generateAdminId(){
+    adminCounter += 1;
+    return 'ADM-' + String(adminCounter).padStart(4, '0');
+  }
+
+  function resetAddAdminForm(){
+    adminNameField.value = '';
+    adminNikField.value = '';
+    adminRoleField.value = '';
+    adminBirthPlaceField.value = '';
+    adminBirthDateField.value = '';
+    adminAddressField.value = '';
+    adminPhoneField.value = '';
+    adminPasswordField.value = '';
+    adminPasswordField.type = 'password';
+    adminPhotoInput.value = '';
+    adminPhotoDataUrl = '';
+    adminPhotoPreview.innerHTML = '👤';
+    adminIdField.value = generateAdminId();
+  }
+
+  function openAddAdminModal(){
+    resetAddAdminForm();
+    addAdminOverlay.classList.add('open');
+  }
+  function closeAddAdminModal(){
+    addAdminOverlay.classList.remove('open');
+  }
+
+  openAddAdminBtn.addEventListener('click', openAddAdminModal);
+  closeAddAdminBtn.addEventListener('click', closeAddAdminModal);
+  cancelAddAdminBtn.addEventListener('click', closeAddAdminModal);
+  addAdminOverlay.addEventListener('click', (e) => {
+    if(e.target === addAdminOverlay) closeAddAdminModal();
+  });
+
+  adminPhotoBtn.addEventListener('click', () => adminPhotoInput.click());
+  adminPhotoInput.addEventListener('change', () => {
+    const file = adminPhotoInput.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      adminPhotoDataUrl = e.target.result;
+      adminPhotoPreview.innerHTML = '<img src="' + adminPhotoDataUrl + '" alt="Foto admin">';
+    };
+    reader.readAsDataURL(file);
+  });
+
+  function getInitials(name){
+    const parts = name.trim().split(/\s+/);
+    const initials = (parts[0] ? parts[0][0] : '') + (parts[1] ? parts[1][0] : '');
+    return initials.toUpperCase() || 'AD';
+  }
+
+  saveAddAdminBtn.addEventListener('click', () => {
+    const name = adminNameField.value.trim();
+    if(!name){
+      adminNameField.focus();
+      return;
+    }
+    const role = adminRoleField.value || 'Belum diatur';
+
+    const item = document.createElement('div');
+    item.className = 'admin-list-item';
+
+    const avHtml = adminPhotoDataUrl
+      ? '<img src="' + adminPhotoDataUrl + '" alt="' + name + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">'
+      : getInitials(name);
+
+    item.innerHTML =
+      '<div class="av">' + avHtml + '</div>' +
+      '<div class="info"><b>' + name + '</b><span>' + (adminPhoneField.value.trim() || adminIdField.value) + '</span></div>' +
+      '<span class="role-pill">' + role + '</span>' +
+      '<div class="row-actions">' +
+        '<button class="row-btn" type="button">✎</button>' +
+        '<button class="row-btn danger" type="button">🗑</button>' +
+      '</div>';
+
+    openAddAdminBtn.parentNode.insertBefore(item, openAddAdminBtn);
+
+    item.querySelector('.row-btn.danger').addEventListener('click', () => item.remove());
+
+    closeAddAdminModal();
+  });
+
+  /* ---------- Add Payment Account modal ---------- */
+  const addPaymentOverlay = document.getElementById('addPaymentModalOverlay');
+  const openAddPaymentBtn = document.getElementById('openAddPaymentBtn');
+  const closeAddPaymentBtn = document.getElementById('closeAddPaymentBtn');
+  const cancelAddPaymentBtn = document.getElementById('cancelAddPaymentBtn');
+  const saveAddPaymentBtn = document.getElementById('saveAddPaymentBtn');
+
+  const paymentIdField = document.getElementById('paymentIdField');
+  const paymentBankField = document.getElementById('paymentBankField');
+  const paymentNumberField = document.getElementById('paymentNumberField');
+  const paymentOwnerField = document.getElementById('paymentOwnerField');
+
+  const paymentListWrap = document.getElementById('paymentListWrap');
+  let allPaymentRows = [];   // cache data akun pembayaran dari Supabase
+  let paymentCounter = 0;
+
+  function nextPaymentCounterFrom(id){
+    const m = String(id || '').match(/(\d+)\s*$/);
+    if(m){
+      const n = parseInt(m[1], 10);
+      if(!isNaN(n) && n > paymentCounter) paymentCounter = n;
+    }
+  }
+
+  function generatePaymentId(){
+    paymentCounter += 1;
+    return 'PAY-' + String(paymentCounter).padStart(4, '0');
+  }
+
+  function guessBankIcon(bankName){
+    const n = String(bankName || '').toLowerCase();
+    if(n.includes('qris') || n.includes('ovo') || n.includes('gopay') || n.includes('dana') || n.includes('shopeepay')){
+      return '📱';
+    }
+    return '🏦';
+  }
+
+  function buildPaymentCard(data){
+    const item = document.createElement('div');
+    item.className = 'pay-card';
+    item.innerHTML =
+      '<div class="bank-ic">' + guessBankIcon(data.nama_akun) + '</div>' +
+      '<div class="info">' +
+        '<b>' + (data.nama_akun || '-') + ' — ' + (data.nomor || '-') + '</b>' +
+        '<span>' + (data.nama_pemilik ? 'a.n. ' + data.nama_pemilik : data.id) + '</span>' +
+      '</div>' +
+      '<span class="status-pill done">Aktif</span>';
+    return item;
+  }
+
+  function renderPaymentList(){
+    paymentListWrap.innerHTML = '';
+    if(!allPaymentRows.length){
+      const empty = document.createElement('div');
+      empty.className = 'pay-card';
+      empty.innerHTML = '<div class="info"><span>Belum ada akun pembayaran yang ditambahkan.</span></div>';
+      paymentListWrap.appendChild(empty);
+      return;
+    }
+    allPaymentRows.forEach((data) => paymentListWrap.appendChild(buildPaymentCard(data)));
+  }
+
+  /* ---------- Ambil (load) daftar Akun Pembayaran dari tabel "akunpembayaran" di Supabase ---------- */
+  async function loadAkunPembayaran(){
+    try{
+      const res = await fetch(SUPABASE_URL + 'akunpembayaran?select=*', {
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+        }
+      });
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      const rows = await res.json();
+
+      allPaymentRows = rows || [];
+      paymentCounter = 0;
+      allPaymentRows.forEach((data) => nextPaymentCounterFrom(data.id));
+
+      renderPaymentList();
+    }catch(err){
+      console.error('Gagal memuat data akun pembayaran dari Supabase:', err);
+      paymentListWrap.innerHTML = '<div class="pay-card"><div class="info"><span>⚠️ Gagal memuat akun pembayaran.</span></div></div>';
+    }
+  }
+
+  loadAkunPembayaran();
+
+  function resetAddPaymentForm(){
+    paymentBankField.value = '';
+    paymentNumberField.value = '';
+    paymentOwnerField.value = '';
+    paymentIdField.value = generatePaymentId();
+  }
+
+  function openAddPaymentModal(){
+    resetAddPaymentForm();
+    addPaymentOverlay.classList.add('open');
+  }
+  function closeAddPaymentModal(){
+    addPaymentOverlay.classList.remove('open');
+  }
+
+  openAddPaymentBtn.addEventListener('click', openAddPaymentModal);
+  closeAddPaymentBtn.addEventListener('click', closeAddPaymentModal);
+  cancelAddPaymentBtn.addEventListener('click', closeAddPaymentModal);
+  addPaymentOverlay.addEventListener('click', (e) => {
+    if(e.target === addPaymentOverlay) closeAddPaymentModal();
+  });
+
+  /* ---------- Simpan Akun Pembayaran ke tabel "akunpembayaran" di Supabase ---------- */
+  saveAddPaymentBtn.addEventListener('click', async () => {
+    const bank = paymentBankField.value.trim();
+    const number = paymentNumberField.value.trim();
+    const owner = paymentOwnerField.value.trim();
+    if(!bank || !number){
+      (bank ? paymentNumberField : paymentBankField).focus();
+      return;
+    }
+
+    const payload = {
+      id: paymentIdField.value,
+      nama_akun: bank,
+      nomor: number,
+      nama_pemilik: owner
+    };
+
+    const originalBtnText = saveAddPaymentBtn.textContent;
+    saveAddPaymentBtn.textContent = 'Menyimpan...';
+    saveAddPaymentBtn.disabled = true;
+
+    try{
+      const res = await fetch(SUPABASE_URL + 'akunpembayaran', {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if(!res.ok){
+        const errText = await res.text();
+        throw new Error(errText || ('HTTP ' + res.status));
+      }
+
+      await loadAkunPembayaran();
+      closeAddPaymentModal();
+    }catch(err){
+      console.error('Gagal menyimpan akun pembayaran ke Supabase:', err);
+      alert('Gagal menyimpan akun pembayaran: ' + err.message);
+    }finally{
+      saveAddPaymentBtn.textContent = originalBtnText;
+      saveAddPaymentBtn.disabled = false;
+    }
+  });
+
+  /* ---------- Add Category modal ---------- */
+  const addCategoryOverlay = document.getElementById('addCategoryModalOverlay');
+  const openAddCategoryBtn = document.getElementById('openAddCategoryBtn');
+  const closeAddCategoryBtn = document.getElementById('closeAddCategoryBtn');
+  const cancelAddCategoryBtn = document.getElementById('cancelAddCategoryBtn');
+  const saveAddCategoryBtn = document.getElementById('saveAddCategoryBtn');
+
+  const categoryIdField = document.getElementById('categoryIdField');
+  const categoryNameField = document.getElementById('categoryNameField');
+
+  let categoryCounter = document.querySelectorAll('#panel-kategori .admin-list-item').length;
+
+  function generateCategoryId(){
+    categoryCounter += 1;
+    return 'KAT-' + String(categoryCounter).padStart(4, '0');
+  }
+
+  function resetAddCategoryForm(){
+    categoryNameField.value = '';
+    categoryIdField.value = generateCategoryId();
+  }
+
+  function openAddCategoryModal(){
+    resetAddCategoryForm();
+    addCategoryOverlay.classList.add('open');
+  }
+  function closeAddCategoryModal(){
+    addCategoryOverlay.classList.remove('open');
+  }
+
+  openAddCategoryBtn.addEventListener('click', openAddCategoryModal);
+  closeAddCategoryBtn.addEventListener('click', closeAddCategoryModal);
+  cancelAddCategoryBtn.addEventListener('click', closeAddCategoryModal);
+  addCategoryOverlay.addEventListener('click', (e) => {
+    if(e.target === addCategoryOverlay) closeAddCategoryModal();
+  });
+
+  saveAddCategoryBtn.addEventListener('click', () => {
+    const name = categoryNameField.value.trim();
+    if(!name){
+      categoryNameField.focus();
+      return;
+    }
+
+    const item = document.createElement('div');
+    item.className = 'admin-list-item';
+    item.innerHTML =
+      '<div class="av">🏷️</div>' +
+      '<div class="info"><b>' + name + '</b><span>0 produk</span></div>' +
+      '<div class="row-actions">' +
+        '<button class="row-btn" type="button">✎</button>' +
+        '<button class="row-btn danger" type="button">🗑</button>' +
+      '</div>';
+
+    openAddCategoryBtn.parentNode.insertBefore(item, openAddCategoryBtn);
+
+    item.querySelector('.row-btn.danger').addEventListener('click', () => item.remove());
+
+    closeAddCategoryModal();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Stok — ARYA MUSIC STORE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F3F1;
+    --paper-deep:#E7E5E1;
+    --ink:#161616;
+    --ink-soft:#5A5A5A;
+    --walnut:#141414;
+    --walnut-deep:#000000;
+    --amber:#D8262C;
+    --cherry:#9E1B1F;
+    --green:#1F8A4C;
+    --line:#DEDBD5;
+    --white:#FFFFFF;
+    --radius:18px;
+    --shadow: 0 8px 24px -10px rgba(10,10,10,0.20);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--paper-deep);
+    min-height:100vh;
+    color:var(--ink);
+    font-family:'Plus Jakarta Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    display:flex;
+    justify-content:center;
+  }
+  h1,h2,h3,.display{ font-family:'Fraunces', serif; letter-spacing:-0.01em; }
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit; border:none; cursor:pointer;}
+  img{display:block; max-width:100%;}
+  ::-webkit-scrollbar{width:8px; height:8px;}
+  ::-webkit-scrollbar-thumb{background:#CFCCC7; border-radius:8px;}
+
+  .app{
+    width:100%;
+    max-width:480px;
+    min-height:100vh;
+    background:var(--paper);
+    position:relative;
+    box-shadow: 0 0 60px rgba(0,0,0,0.18);
+    padding-bottom:24px;
+  }
+
+  .motif{
+    height:10px; width:100%;
+    background-image: radial-gradient(circle at 6px 5px, var(--amber) 2.4px, transparent 2.5px);
+    background-size: 16px 10px; opacity:0.9;
+  }
+
+  /* ---------- Top bar ---------- */
+  .topbar{ background: var(--walnut); color: var(--paper); padding:14px 16px 16px; position:sticky; top:0; z-index:30; }
+  .topbar-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .brand{ display:flex; align-items:center; gap:9px; }
+  .brand-mark{
+    width:34px; height:34px; border-radius:9px; background:var(--amber);
+    display:flex; align-items:center; justify-content:center; font-size:18px; overflow:hidden;
+  }
+  .brand-name{ font-family:'Fraunces', serif; font-size:16px; font-weight:600; line-height:1; }
+  .brand-tag{ font-size:10px; color:#C9C7C4; letter-spacing:0.04em; margin-top:2px; }
+  .topbar-icons{ display:flex; align-items:center; gap:6px; }
+  .icon-btn{
+    width:38px; height:38px; border-radius:50%; background:rgba(255,255,255,0.12);
+    color:var(--paper); display:flex; align-items:center; justify-content:center; position:relative; font-size:17px;
+  }
+  .icon-btn .dot{
+    position:absolute; top:6px; right:6px; width:7px; height:7px; border-radius:50%;
+    background:var(--amber); border:1.5px solid var(--walnut);
+  }
+  .admin-chip{
+    display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1);
+    padding:5px 10px 5px 5px; border-radius:30px;
+  }
+  .admin-chip .av{
+    width:28px; height:28px; border-radius:50%; background:var(--amber);
+    display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; color:var(--walnut-deep);
+  }
+  .admin-chip .info{ line-height:1.2; }
+  .admin-chip b{ font-size:11.5px; font-weight:700; display:block; }
+  .admin-chip span{ font-size:9.5px; color:#C9C7C4; }
+
+  .searchbar{
+    background:var(--white); border-radius:14px; display:flex; align-items:center;
+    gap:9px; padding:11px 14px; box-shadow: var(--shadow); margin-top:14px;
+  }
+  .searchbar input{ border:none; outline:none; flex:1; font-family:inherit; font-size:14px; color:var(--ink); background:transparent; }
+  .searchbar input::placeholder{ color:#A8A6A2; }
+  .searchbar .lens{ color:var(--ink-soft); font-size:15px; }
+
+  /* ---------- Page head ---------- */
+  .page-head{ padding:20px 16px 4px; }
+  .eyebrow{ font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--walnut); margin-bottom:5px; }
+  .page-head h1{ font-size:22px; font-weight:600; color:var(--ink); margin-bottom:5px; }
+  .page-head p{ font-size:12.5px; color:var(--ink-soft); line-height:1.5; max-width:320px; }
+
+  /* ---------- Quick nav ---------- */
+  .quick-nav{
+    display:flex; gap:8px; overflow-x:auto; padding:4px 16px 0; margin-top:14px;
+    -webkit-overflow-scrolling:touch; scrollbar-width:none;
+  }
+  .quick-nav::-webkit-scrollbar{ display:none; }
+  .qn-btn{
+    display:flex; flex-direction:row; align-items:center; justify-content:center;
+    gap:8px; flex:1; min-width:0; text-align:center; background:var(--white);
+    border:1px solid var(--line); border-radius:14px; padding:12px 10px;
+    box-shadow:var(--shadow); transition:background 0.15s ease, transform 0.15s ease;
+  }
+  .qn-btn:active{ transform:scale(0.96); }
+  .qn-btn .qn-ic{
+    font-size:17px; width:30px; height:30px; border-radius:10px;
+    background:var(--paper); display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .qn-btn span.qn-label{ font-size:11px; font-weight:700; color:var(--ink-soft); line-height:1.2; }
+  .qn-btn:disabled{ opacity:0.6; pointer-events:none; }
+  .qn-btn.active{ background:var(--walnut); border-color:var(--walnut); }
+  .qn-btn.active .qn-ic{ background:var(--amber); }
+  .qn-btn.active span.qn-label{ color:var(--paper); }
+  .qn-btn.back{ border-color:rgba(216,38,44,0.3); }
+  .qn-btn.back .qn-ic{ background:rgba(216,38,44,0.12); }
+  .qn-btn.back span.qn-label{ color:var(--cherry); }
+  @media (hover:hover){
+    .qn-btn:hover:not(.active){ background:var(--paper); }
+    .qn-btn.back:hover{ background:rgba(216,38,44,0.08); }
+  }
+
+  /* ---------- Stat cards ---------- */
+  .stat-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:16px 16px 0; }
+  .stat-card{ background:var(--white); border:1px solid var(--line); border-radius:14px; padding:12px 8px; box-shadow:var(--shadow); text-align:center; }
+  .stat-card .num{ font-family:'Fraunces', serif; font-size:19px; font-weight:700; color:var(--ink); }
+  .stat-card .lbl{ font-size:9px; color:var(--ink-soft); margin-top:3px; font-weight:700; text-transform:uppercase; letter-spacing:0.02em; }
+  .stat-card.warn .num{ color:var(--cherry); }
+
+  /* ---------- Content panel ---------- */
+  .content-panel{
+    margin:14px 16px 0; background:var(--white); border-radius:16px;
+    border:1px solid var(--line); box-shadow:var(--shadow); padding:16px;
+  }
+  .panel-title{ font-size:15px; font-weight:700; margin-bottom:4px; }
+  .panel-sub{ font-size:11.5px; color:var(--ink-soft); margin-bottom:14px; line-height:1.5; }
+
+  .filter-chips{ display:flex; gap:7px; overflow-x:auto; padding-bottom:4px; margin-bottom:12px; scrollbar-width:none; }
+  .filter-chips::-webkit-scrollbar{ display:none; }
+  .chip{
+    flex-shrink:0; padding:7px 13px; border-radius:20px; background:var(--paper);
+    border:1px solid var(--line); font-size:11px; font-weight:700; color:var(--ink-soft); white-space:nowrap;
+  }
+  .chip.active{ background:var(--walnut); border-color:var(--walnut); color:var(--paper); }
+
+  /* ---------- Stock item ---------- */
+  .stock-item{ display:flex; align-items:center; gap:11px; padding:11px 2px; border-bottom:1px solid var(--line); }
+  .stock-item:last-child{ border-bottom:none; }
+  .stock-item .thumb{
+    width:44px; height:44px; border-radius:12px; background:var(--paper); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0;
+  }
+  .stock-item .info{ flex:1; min-width:0; }
+  .stock-item .info b{ font-size:12.5px; font-weight:700; display:block; }
+  .stock-item .info .meta{ font-size:10px; color:var(--ink-soft); margin-top:2px; }
+  .stock-item .qty-block{ text-align:right; flex-shrink:0; }
+  .stock-item .qty-block .qty{ font-size:14px; font-weight:700; font-family:'Fraunces', serif; color:var(--ink); }
+  .stock-item .qty-block .qty-unit{ font-size:9.5px; color:var(--ink-soft); }
+  .stock-item .qty-unit-row{ display:flex; align-items:center; justify-content:flex-end; gap:4px; margin-top:2px; }
+  .gear-btn{
+    position:relative; width:24px; height:24px; border-radius:7px; background:var(--paper);
+    border:1px solid var(--line); display:flex; align-items:center; justify-content:center;
+    font-size:13px; color:var(--ink-soft); flex-shrink:0; padding:0;
+    transition:background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+  }
+  .gear-btn:hover{ background:var(--amber); border-color:var(--amber); transform:scale(1.06); }
+  .gear-btn:active{ transform:scale(0.94); }
+  .gear-btn .gear-tooltip{
+    position:absolute; bottom:135%; right:0; background:var(--walnut); color:var(--paper);
+    font-size:9.5px; font-weight:700; padding:5px 9px; border-radius:8px; white-space:nowrap;
+    opacity:0; visibility:hidden; transform:translateY(4px); pointer-events:none;
+    transition:opacity 0.18s ease, transform 0.18s ease; z-index:6;
+  }
+  .gear-btn .gear-tooltip::after{
+    content:''; position:absolute; top:100%; right:7px; border:5px solid transparent; border-top-color:var(--walnut);
+  }
+  .gear-btn:hover .gear-tooltip,
+  .gear-btn:focus .gear-tooltip,
+  .gear-btn:active .gear-tooltip{ opacity:1; visibility:visible; transform:translateY(0); }
+  .stock-badge{ font-size:9px; font-weight:700; padding:3px 8px; border-radius:20px; white-space:nowrap; margin-top:3px; display:inline-block; }
+  .stock-badge.aman{ background:rgba(31,138,76,0.12); color:var(--green); }
+  .stock-badge.menipis{ background:rgba(216,38,44,0.12); color:var(--cherry); }
+  .stock-badge.habis{ background:rgba(20,20,20,0.1); color:var(--ink-soft); }
+  .row-btn{
+    width:26px; height:26px; border-radius:8px; background:var(--paper); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; font-size:11px; color:var(--ink-soft); flex-shrink:0; margin-left:4px;
+  }
+
+  .empty-state{ text-align:center; padding:26px 10px; color:var(--ink-soft); font-size:12px; }
+
+  .btn-mini{
+    display:inline-flex; align-items:center; gap:5px; background:var(--amber);
+    color:var(--walnut-deep); font-weight:700; font-size:11.5px; padding:9px 14px; border-radius:10px;
+  }
+  .btn-mini.ghost{ background:transparent; border:1px solid var(--line); color:var(--ink-soft); }
+  .btn-mini.full{ width:100%; justify-content:center; margin-top:6px; }
+
+  /* ---------- Modal ---------- */
+  .modal-overlay{
+    display:flex; position:fixed; inset:0; background:rgba(10,10,10,0); z-index:100;
+    align-items:center; justify-content:center; padding:20px;
+    opacity:0; visibility:hidden; pointer-events:none;
+    transition:opacity 0.32s ease, background 0.32s ease, visibility 0s linear 0.32s;
+  }
+  .modal-overlay.open{
+    opacity:1; visibility:visible; pointer-events:auto; background:rgba(10,10,10,0.55);
+    transition:opacity 0.32s ease, background 0.32s ease, visibility 0s linear 0s;
+  }
+  .modal-box{
+    background:var(--paper); width:100%; max-width:480px; max-height:88vh; border-radius:20px;
+    display:flex; flex-direction:column; overflow:hidden; transform:scale(0.94); opacity:0;
+    transition:transform 0.28s cubic-bezier(0.32,0.72,0,1), opacity 0.28s ease;
+  }
+  .modal-overlay.open .modal-box{ transform:scale(1); opacity:1; }
+  .modal-head{ display:flex; align-items:center; justify-content:space-between; padding:16px 16px 10px; border-bottom:1px solid var(--line); }
+  .modal-title{ font-family:'Fraunces', serif; font-size:16px; font-weight:600; color:var(--ink); }
+  .modal-close{
+    width:30px; height:30px; border-radius:50%; background:var(--paper-deep); color:var(--ink-soft);
+    font-size:14px; display:flex; align-items:center; justify-content:center;
+  }
+  .modal-body{ flex:1; min-height:0; overflow-y:auto; padding:14px 16px 4px; }
+  .modal-body .field-group:last-child{ margin-bottom:4px; }
+  .modal-actions{ display:flex; gap:10px; padding:14px 16px 18px; border-top:1px solid var(--line); }
+
+  .field-group{ margin-bottom:14px; }
+  .field-group label{
+    display:block; font-size:11px; font-weight:700; color:var(--ink-soft);
+    margin-bottom:6px; text-transform:uppercase; letter-spacing:0.03em;
+  }
+  .field-group input, .field-group select, .field-group textarea{
+    width:100%; border:1px solid var(--line); background:var(--white); border-radius:10px;
+    padding:10px 12px; font-family:inherit; font-size:12.5px; color:var(--ink); outline:none;
+  }
+  .field-group input:focus, .field-group select:focus, .field-group textarea:focus{ border-color:var(--amber); }
+  .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+
+  /* Jenis penyesuaian pill select */
+  .adj-type-row{ display:flex; gap:8px; margin-bottom:14px; }
+  .adj-type{
+    flex:1; text-align:center; padding:10px 6px; border-radius:10px; border:1px solid var(--line);
+    background:var(--white); font-size:11px; font-weight:700; color:var(--ink-soft); cursor:pointer;
+  }
+  .adj-type.active{ background:var(--walnut); border-color:var(--walnut); color:var(--paper); }
+  .adj-type.masuk.active{ background:var(--green); border-color:var(--green); }
+  .adj-type.keluar.active{ background:var(--cherry); border-color:var(--cherry); }
+
+  @media (min-width:768px){
+    body{ background:var(--paper-deep); }
+    .app{ max-width:920px; min-height:auto; padding-bottom:50px; box-shadow:0 20px 60px -20px rgba(10,10,10,0.25); margin:0 auto; }
+    .topbar{ padding:20px 28px 22px; }
+    .brand-mark{ width:40px; height:40px; font-size:21px; border-radius:11px; }
+    .brand-name{ font-size:18px; }
+    .icon-btn{ width:42px; height:42px; font-size:19px; }
+    .searchbar{ max-width:440px; padding:13px 16px; margin-top:16px; }
+    .page-head{ padding:28px 28px 4px; }
+    .page-head h1{ font-size:29px; }
+    .page-head p{ font-size:13.5px; max-width:420px; }
+    .quick-nav{ padding:4px 28px 0; }
+    .stat-row{ margin:18px 28px 0; }
+    .content-panel{ margin:18px 28px 0; padding:24px 28px; border-radius:20px; }
+    .panel-title{ font-size:18px; }
+    .field-group input, .field-group select, .field-group textarea{ padding:13px 15px; font-size:13.5px; border-radius:12px; }
+  }
+  @media (min-width:1024px){
+    .app{ max-width:1140px; }
+    .topbar{ padding:22px 44px 24px; }
+    .page-head{ padding:34px 44px 4px; }
+    .page-head h1{ font-size:32px; }
+    .quick-nav{ padding:4px 44px 0; }
+    .stat-row{ margin:22px 44px 0; }
+    .content-panel{ margin:22px 44px 48px; padding:28px 32px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- TOP BAR (navbar) -->
+  <header class="topbar">
+    <div class="topbar-row">
+      <div class="brand">
+        <div class="brand-mark">🎸</div>
+        <div>
+          <div class="brand-name">Arya Music Store</div>
+          <div class="brand-tag">Panel Admin</div>
+        </div>
+      </div>
+      <div class="topbar-icons">
+        <a class="icon-btn" href="#" aria-label="Notifikasi">🔔<span class="dot"></span></a>
+        <div class="admin-chip">
+          <div class="av">RA</div>
+          <div class="info">
+            <b>Rian A.</b>
+            <span>Admin Toko</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="searchbar">
+      <span class="lens">🔍</span>
+      <input type="text" id="searchInput" placeholder="Cari produk...">
+    </div>
+  </header>
+
+  <div class="motif"></div>
+
+  <!-- PAGE HEAD -->
+  <div class="page-head">
+    <div class="eyebrow">Panel Admin</div>
+    <h1>Stok</h1>
+    <p>Pantau ketersediaan stok produk dan lakukan penyesuaian stok masuk/keluar.</p>
+  </div>
+
+  <!-- QUICK NAV -->
+  <nav class="quick-nav">
+    <a class="qn-btn back" href="dashboardadmin.html">
+      <span class="qn-ic">↩️</span><span class="qn-label">Dashboard</span>
+    </a>
+    <button class="qn-btn" type="button" id="tarikDataProdukBtn">
+      <span class="qn-ic">⬇️</span><span class="qn-label">Tarik Data Produk</span>
+    </button>
+  </nav>
+
+  <!-- STATS -->
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="num" id="statTotal">6</div>
+      <div class="lbl">Total Produk</div>
+    </div>
+    <div class="stat-card warn">
+      <div class="num" id="statMenipis">2</div>
+      <div class="lbl">Stok Menipis</div>
+    </div>
+    <div class="stat-card warn">
+      <div class="num" id="statHabis">1</div>
+      <div class="lbl">Stok Habis</div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content-panel">
+    <div class="panel-title">Daftar Stok Produk</div>
+    <div class="panel-sub">Jumlah stok saat ini untuk setiap produk. Ketuk "Sesuaikan" untuk mencatat stok masuk/keluar.</div>
+
+    <div class="filter-chips" id="filterChips">
+      <button class="chip active" type="button" data-filter="Semua">Semua</button>
+      <button class="chip" type="button" data-filter="aman">Aman</button>
+      <button class="chip" type="button" data-filter="menipis">Menipis</button>
+      <button class="chip" type="button" data-filter="habis">Habis</button>
+    </div>
+
+    <div id="stockList">
+      <div class="empty-state" id="stockLoadingState">Memuat data stok...</div>
+    </div>
+
+    <div class="empty-state" id="emptyState" style="display:none;">Tidak ada produk yang cocok.</div>
+  </div>
+
+</div>
+
+<!-- MODAL: Atur Stok Awal -->
+<div class="modal-overlay" id="stokModalOverlay">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title">Atur Stok Awal</div>
+      <button type="button" class="modal-close" id="stokModalCloseX" aria-label="Tutup">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+        <div class="thumb" id="stokModalThumb" style="width:52px; height:52px; font-size:22px;">📦</div>
+        <div style="min-width:0;">
+          <div style="font-size:13.5px; font-weight:700;" id="stokModalNama">-</div>
+          <div style="font-size:11px; color:var(--ink-soft); margin-top:2px;" id="stokModalMeta">-</div>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Jumlah Stok</label>
+        <input type="number" id="stokModalJumlah" min="0" step="1" inputmode="numeric" placeholder="0">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn-mini ghost full" id="stokModalCancel">Cancel</button>
+      <button type="button" class="btn-mini full" id="stokModalUpdate">Update Stok</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ---------- Search & filter ---------- */
+  const searchInput = document.getElementById('searchInput');
+  const filterChips = document.querySelectorAll('#filterChips .chip');
+  const stockItems = () => document.querySelectorAll('#stockList .stock-item');
+  const emptyState = document.getElementById('emptyState');
+  let activeFilter = 'Semua';
+
+  function updateStats(){
+    const items = stockItems();
+    document.getElementById('statTotal').textContent = items.length;
+    document.getElementById('statMenipis').textContent = document.querySelectorAll('#stockList .stock-item[data-status="menipis"]').length;
+    document.getElementById('statHabis').textContent = document.querySelectorAll('#stockList .stock-item[data-status="habis"]').length;
+  }
+
+  function applyFilters(){
+    const q = searchInput.value.trim().toLowerCase();
+    let visibleCount = 0;
+    stockItems().forEach(item => {
+      const status = item.getAttribute('data-status');
+      const haystack = item.getAttribute('data-nama');
+      const matchFilter = (activeFilter === 'Semua' || status === activeFilter);
+      const matchSearch = !q || haystack.includes(q);
+      const show = matchFilter && matchSearch;
+      item.style.display = show ? 'flex' : 'none';
+      if(show) visibleCount++;
+    });
+    emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+  }
+
+  searchInput.addEventListener('input', applyFilters);
+  filterChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      filterChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      activeFilter = chip.getAttribute('data-filter');
+      applyFilters();
+    });
+  });
+
+  /* ---------- Supabase config ---------- */
+  const SUPABASE_URL = 'https://gkkwhehaxumgoxqklauu.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdra3doZWhheHVtZ294cWtsYXV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMwMzgyOTksImV4cCI6MjA5ODYxNDI5OX0.zRTCMwQfuMI4vEfOIq6ABi4rOOHOZShjFWaofCfwX6g';
+  const SUPABASE_STOK_TABLE = 'stokproduk';
+  const SUPABASE_PRODUK_TABLE = 'dataproduk';
+
+  const stockListEl = document.getElementById('stockList');
+
+  function escapeHtml(str){
+    return String(str == null ? '' : str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  /* Tentukan status stok: habis (0), menipis (<=5), aman (>5) */
+  function computeStockStatus(jumlah){
+    const n = Number(jumlah) || 0;
+    if(n <= 0) return 'habis';
+    if(n <= 5) return 'menipis';
+    return 'aman';
+  }
+
+  function buildStockItemHtml(data){
+    const jumlah = Number(data.jumlah_stok) || 0;
+    const status = computeStockStatus(jumlah);
+    const statusLabel = status === 'aman' ? 'Aman' : (status === 'menipis' ? 'Menipis' : 'Habis');
+    const namaProduk = data.nama_produk || '-';
+    const kodeProduk = data.kode_produk || '-';
+    const namaAttr = (namaProduk + ' ' + kodeProduk).toLowerCase();
+    const metaText = [kodeProduk, data.merk].filter(Boolean).join(' · ');
+    const thumbContent = data.photo_produk
+      ? '<img src="' + escapeHtml(data.photo_produk) + '" alt="' + escapeHtml(namaProduk) + '" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">'
+      : '📦';
+
+    return (
+      '<div class="stock-item" data-status="' + status + '" data-nama="' + escapeHtml(namaAttr) + '">' +
+        '<div class="thumb">' + thumbContent + '</div>' +
+        '<div class="info">' +
+          '<b>' + escapeHtml(namaProduk) + '</b>' +
+          '<div class="meta">' + escapeHtml(metaText || '-') + '</div>' +
+          '<span class="stock-badge ' + status + '">' + statusLabel + '</span>' +
+        '</div>' +
+        '<div class="qty-block">' +
+          '<div class="qty">' + jumlah + '</div>' +
+          '<div class="qty-unit-row">' +
+            '<div class="qty-unit">Stok</div>' +
+            '<button type="button" class="gear-btn" aria-label="Atur Stok Awal" ' +
+              'data-kode="' + escapeHtml(kodeProduk) + '" ' +
+              'data-nama="' + escapeHtml(namaProduk) + '" ' +
+              'data-merk="' + escapeHtml(data.merk || '') + '" ' +
+              'data-photo="' + escapeHtml(data.photo_produk || '') + '" ' +
+              'data-jumlah="' + jumlah + '">' +
+              '⚙️' +
+              '<span class="gear-tooltip">Atur Stok Awal</span>' +
+            '</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>'
+    );
+  }
+
+  /* ---------- Ambil data stok dari tabel stokproduk di Supabase ---------- */
+  async function fetchStokProduk(){
+    stockListEl.innerHTML = '<div class="empty-state">Memuat data stok...</div>';
+    try{
+      const res = await fetch(SUPABASE_URL + '/rest/v1/' + SUPABASE_STOK_TABLE + '?select=*&order=nama_produk.asc', {
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+        }
+      });
+      if(!res.ok){
+        const errText = await res.text();
+        throw new Error(errText || ('HTTP ' + res.status));
+      }
+      const rows = await res.json();
+
+      if(!rows || !rows.length){
+        stockListEl.innerHTML = '';
+        emptyState.style.display = 'block';
+        updateStats();
+        return;
+      }
+
+      stockListEl.innerHTML = rows.map(buildStockItemHtml).join('');
+      updateStats();
+      applyFilters();
+    }catch(err){
+      console.error('Gagal memuat data stok dari Supabase:', err);
+      stockListEl.innerHTML = '<div class="empty-state">⚠️ Gagal memuat data stok.</div>';
+    }
+  }
+
+  /* ---------- Tarik Data Produk: salin kode_produk, nama_produk, merk, photo_produk dari
+     tabel dataproduk ke tabel stokproduk, lewati kode_produk yang sudah ada di stokproduk ---------- */
+  const tarikDataProdukBtn = document.getElementById('tarikDataProdukBtn');
+
+  async function fetchAllDataProduk(){
+    const res = await fetch(SUPABASE_URL + '/rest/v1/' + SUPABASE_PRODUK_TABLE + '?select=kode_produk,nama_produk,merk,photo_produk', {
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+      }
+    });
+    if(!res.ok){
+      const errText = await res.text();
+      throw new Error(errText || ('HTTP ' + res.status));
+    }
+    return res.json();
+  }
+
+  async function fetchExistingStokKode(){
+    const res = await fetch(SUPABASE_URL + '/rest/v1/' + SUPABASE_STOK_TABLE + '?select=kode_produk', {
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+      }
+    });
+    if(!res.ok){
+      const errText = await res.text();
+      throw new Error(errText || ('HTTP ' + res.status));
+    }
+    const rows = await res.json();
+    return new Set(rows.map(r => r.kode_produk));
+  }
+
+  async function insertStokProdukBatch(rows){
+    const res = await fetch(SUPABASE_URL + '/rest/v1/' + SUPABASE_STOK_TABLE, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(rows)
+    });
+    if(!res.ok){
+      const errText = await res.text();
+      throw new Error(errText || ('HTTP ' + res.status));
+    }
+  }
+
+  tarikDataProdukBtn.addEventListener('click', async () => {
+    const originalHtml = tarikDataProdukBtn.innerHTML;
+    tarikDataProdukBtn.disabled = true;
+    tarikDataProdukBtn.innerHTML = '<span class="qn-ic">⏳</span><span class="qn-label">Menarik data...</span>';
+
+    try{
+      const [produkRows, existingKodeSet] = await Promise.all([
+        fetchAllDataProduk(),
+        fetchExistingStokKode()
+      ]);
+
+      // Hanya produk yang kode_produk-nya BELUM ada di stokproduk
+      const produkBaru = produkRows.filter(p => p.kode_produk && !existingKodeSet.has(p.kode_produk));
+
+      if(!produkBaru.length){
+        alert('Tidak ada produk baru untuk ditarik. Semua kode_produk di dataproduk sudah ada di stokproduk.');
+        return;
+      }
+
+      const payload = produkBaru.map(p => ({
+        kode_produk: p.kode_produk,
+        nama_produk: p.nama_produk || '',
+        merk: p.merk || '',
+        photo_produk: p.photo_produk || ''
+      }));
+
+      await insertStokProdukBatch(payload);
+
+      alert('Berhasil menarik ' + produkBaru.length + ' produk baru ke tabel stokproduk.');
+      await fetchStokProduk();
+    }catch(err){
+      console.error('Gagal menarik data produk ke stokproduk:', err);
+      alert('Gagal menarik data produk: ' + err.message);
+    }finally{
+      tarikDataProdukBtn.disabled = false;
+      tarikDataProdukBtn.innerHTML = originalHtml;
+    }
+  });
+
+  fetchStokProduk();
+
+  /* ---------- Modal: Atur Stok Awal ---------- */
+  const stokModalOverlay = document.getElementById('stokModalOverlay');
+  const stokModalThumb = document.getElementById('stokModalThumb');
+  const stokModalNama = document.getElementById('stokModalNama');
+  const stokModalMeta = document.getElementById('stokModalMeta');
+  const stokModalJumlah = document.getElementById('stokModalJumlah');
+  const stokModalUpdateBtn = document.getElementById('stokModalUpdate');
+  const stokModalCancelBtn = document.getElementById('stokModalCancel');
+  const stokModalCloseXBtn = document.getElementById('stokModalCloseX');
+  let currentEditKode = null;
+
+  function openStokModal(btn){
+    currentEditKode = btn.getAttribute('data-kode');
+    const nama = btn.getAttribute('data-nama') || '-';
+    const merk = btn.getAttribute('data-merk') || '';
+    const photo = btn.getAttribute('data-photo') || '';
+    const jumlah = btn.getAttribute('data-jumlah') || '0';
+
+    stokModalNama.textContent = nama;
+    stokModalMeta.textContent = [currentEditKode, merk].filter(Boolean).join(' · ') || '-';
+    stokModalThumb.innerHTML = photo
+      ? '<img src="' + escapeHtml(photo) + '" alt="' + escapeHtml(nama) + '" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">'
+      : '📦';
+    stokModalJumlah.value = jumlah;
+
+    stokModalOverlay.classList.add('open');
+    setTimeout(() => stokModalJumlah.focus(), 50);
+  }
+
+  function closeStokModal(){
+    stokModalOverlay.classList.remove('open');
+    currentEditKode = null;
+  }
+
+  stockListEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('.gear-btn');
+    if(!btn) return;
+    openStokModal(btn);
+  });
+
+  stokModalCancelBtn.addEventListener('click', closeStokModal);
+  stokModalCloseXBtn.addEventListener('click', closeStokModal);
+  stokModalOverlay.addEventListener('click', (e) => {
+    if(e.target === stokModalOverlay) closeStokModal();
+  });
+
+  stokModalUpdateBtn.addEventListener('click', async () => {
+    if(!currentEditKode) return;
+    const newJumlah = Number(stokModalJumlah.value);
+    if(!Number.isFinite(newJumlah) || newJumlah < 0){
+      alert('Jumlah stok tidak valid.');
+      return;
+    }
+
+    const originalText = stokModalUpdateBtn.textContent;
+    stokModalUpdateBtn.disabled = true;
+    stokModalUpdateBtn.textContent = 'Menyimpan...';
+
+    try{
+      const res = await fetch(
+        SUPABASE_URL + '/rest/v1/' + SUPABASE_STOK_TABLE + '?kode_produk=eq.' + encodeURIComponent(currentEditKode),
+        {
+          method: 'PATCH',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({ jumlah_stok: newJumlah })
+        }
+      );
+      if(!res.ok){
+        const errText = await res.text();
+        throw new Error(errText || ('HTTP ' + res.status));
+      }
+
+      closeStokModal();
+      await fetchStokProduk();
+    }catch(err){
+      console.error('Gagal memperbarui stok:', err);
+      alert('Gagal memperbarui stok: ' + err.message);
+    }finally{
+      stokModalUpdateBtn.disabled = false;
+      stokModalUpdateBtn.textContent = originalText;
+    }
+  });
+</script>
+</body>
+</html>

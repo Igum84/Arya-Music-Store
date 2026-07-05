@@ -1,0 +1,1863 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Operasional — ARYA MUSIC STORE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F3F1;
+    --paper-deep:#E7E5E1;
+    --ink:#161616;
+    --ink-soft:#5A5A5A;
+    --walnut:#141414;
+    --walnut-deep:#000000;
+    --amber:#D8262C;
+    --cherry:#9E1B1F;
+    --green:#1F8A4C;
+    --line:#DEDBD5;
+    --white:#FFFFFF;
+    --radius:18px;
+    --shadow: 0 8px 24px -10px rgba(10,10,10,0.20);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--paper-deep);
+    min-height:100vh;
+    color:var(--ink);
+    font-family:'Plus Jakarta Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    display:flex;
+    justify-content:center;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit; border:none; cursor:pointer;}
+  img{display:block; max-width:100%;}
+  ::-webkit-scrollbar{width:8px; height:8px;}
+  ::-webkit-scrollbar-thumb{background:#CFCCC7; border-radius:8px;}
+
+  .app{
+    width:100%;
+    max-width:480px;
+    min-height:100vh;
+    background:var(--paper);
+    position:relative;
+    box-shadow: 0 0 60px rgba(0,0,0,0.18);
+    padding-bottom:24px;
+  }
+
+  /* ---------- fret-dot motif divider ---------- */
+  .motif{
+    height:10px;
+    width:100%;
+    background-image: radial-gradient(circle at 6px 5px, var(--amber) 2.4px, transparent 2.5px);
+    background-size: 16px 10px;
+    opacity:0.9;
+  }
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    background: var(--walnut);
+    color: var(--paper);
+    padding:14px 16px 16px;
+    position:sticky;
+    top:0;
+    z-index:30;
+  }
+  .topbar-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:9px;
+  }
+  .brand-mark{
+    width:34px; height:34px;
+    border-radius:9px;
+    background:var(--amber);
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px;
+    overflow:hidden;
+  }
+  .brand-name{
+    font-family:'Fraunces', serif;
+    font-size:16px;
+    font-weight:600;
+    line-height:1;
+  }
+  .brand-tag{
+    font-size:10px;
+    color:#C9C7C4;
+    letter-spacing:0.04em;
+    margin-top:2px;
+  }
+  .topbar-icons{
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .icon-btn{
+    width:38px; height:38px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.12);
+    color:var(--paper);
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+    font-size:17px;
+  }
+  .icon-btn .dot{
+    position:absolute;
+    top:6px; right:6px;
+    width:7px; height:7px;
+    border-radius:50%;
+    background:var(--amber);
+    border:1.5px solid var(--walnut);
+  }
+  .admin-chip{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:rgba(255,255,255,0.1);
+    padding:5px 10px 5px 5px;
+    border-radius:30px;
+  }
+  .admin-chip .av{
+    width:28px; height:28px;
+    border-radius:50%;
+    background:var(--amber);
+    display:flex; align-items:center; justify-content:center;
+    font-size:13px;
+    font-weight:700;
+    color:var(--walnut-deep);
+  }
+  .admin-chip .info{ line-height:1.2; }
+  .admin-chip b{ font-size:11.5px; font-weight:700; display:block; }
+  .admin-chip span{ font-size:9.5px; color:#C9C7C4; }
+
+  .searchbar{
+    background:var(--white);
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:11px 14px;
+    box-shadow: var(--shadow);
+    margin-top:14px;
+  }
+  .searchbar input{
+    border:none;
+    outline:none;
+    flex:1;
+    font-family:inherit;
+    font-size:14px;
+    color:var(--ink);
+    background:transparent;
+  }
+  .searchbar input::placeholder{ color:#A8A6A2; }
+  .searchbar .lens{ color:var(--ink-soft); font-size:15px; }
+
+  /* ---------- Page head ---------- */
+  .page-head{
+    padding:20px 16px 4px;
+  }
+  .eyebrow{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--walnut);
+    margin-bottom:5px;
+  }
+  .page-head h1{
+    font-size:22px;
+    font-weight:600;
+    color:var(--ink);
+    margin-bottom:5px;
+  }
+  .page-head p{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    line-height:1.5;
+    max-width:320px;
+  }
+
+  /* ---------- Chart card: Pengeluaran Bulanan ---------- */
+  .chart-card{
+    margin:16px 16px 0;
+    background:var(--white);
+    border-radius:16px;
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+    padding:18px 16px 16px;
+    overflow:hidden;
+  }
+  .chart-header{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:12px;
+    flex-wrap:wrap;
+  }
+  .chart-eyebrow{
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--cherry);
+    margin-bottom:4px;
+  }
+  .chart-header .panel-title{ margin-bottom:1px; }
+  .chart-header .panel-sub{ margin-bottom:0; }
+  .chart-total-wrap{ text-align:right; }
+  .chart-total{
+    font-family:'Fraunces', serif;
+    font-size:19px;
+    font-weight:600;
+    color:var(--ink);
+    line-height:1.15;
+    white-space:nowrap;
+  }
+  .chart-trend-line{
+    font-size:10px;
+    color:var(--ink-soft);
+    margin-top:3px;
+    white-space:nowrap;
+  }
+  .chart-trend{ font-weight:800; }
+  .chart-trend.up{ color:var(--green); }
+  .chart-trend.down{ color:var(--cherry); }
+  .monthly-chart-wrap{
+    width:100%;
+    box-sizing:border-box;
+  }
+  .monthly-chart-wrap svg{
+    width:100%;
+    height:auto;
+    display:block;
+  }
+  .chart-empty{
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:12px;
+    padding:34px 10px;
+    line-height:1.5;
+  }
+  .chart-legend{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:10px;
+    font-size:10px;
+    color:var(--ink-soft);
+  }
+  .chart-legend .dot{
+    width:8px; height:8px;
+    border-radius:50%;
+    background:var(--amber);
+    display:inline-block;
+  }
+
+  /* ---------- Action row (Dashboard + Tambah Pengeluaran) ---------- */
+  .ops-actions{
+    display:flex;
+    gap:10px;
+    margin:14px 16px 0;
+  }
+  .ops-actions .btn-mini{ flex:1; justify-content:center; }
+
+  /* ---------- Content card ---------- */
+  .content-card{
+    margin:16px 16px 0;
+    background:var(--white);
+    border-radius:16px;
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+    padding:18px 16px;
+  }
+  .panel-title{
+    font-size:15px;
+    font-weight:700;
+    margin-bottom:4px;
+  }
+  .panel-sub{
+    font-size:11.5px;
+    color:var(--ink-soft);
+    margin-bottom:16px;
+    line-height:1.5;
+  }
+
+  /* ---------- Tabs kategori pengeluaran ---------- */
+  .expense-tabs{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:8px;
+    margin-bottom:14px;
+  }
+  .expense-tab-btn{
+    background:var(--paper);
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+    font-weight:700;
+    font-size:10px;
+    line-height:1.25;
+    padding:10px 5px;
+    border-radius:12px;
+    text-align:center;
+    transition:background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  .expense-tab-btn.active{
+    background:var(--walnut);
+    border-color:var(--walnut);
+    color:var(--paper);
+  }
+  @media (hover:hover){
+    .expense-tab-btn:hover:not(.active){ background:var(--paper-deep); }
+  }
+
+  /* ---------- Ringkasan Total Pengeluaran (khusus tab Total Pengeluaran Usaha) ---------- */
+  .total-summary-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:8px;
+    margin-bottom:14px;
+  }
+  .total-summary-card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:12px 10px;
+    border-top:3px solid var(--line);
+  }
+  .total-summary-card.produk{ border-top-color:var(--cherry); }
+  .total-summary-card.operasional{ border-top-color:var(--green); }
+  .total-summary-card.all{ border-top-color:var(--walnut); }
+  .total-summary-card .label{
+    font-size:9.5px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+    color:var(--ink-soft);
+    line-height:1.3;
+    margin-bottom:6px;
+  }
+  .total-summary-card .value{
+    font-family:'Fraunces', serif;
+    font-size:14px;
+    font-weight:600;
+    color:var(--ink);
+    line-height:1.2;
+  }
+
+  /* ---------- Kotak pencarian data pengeluaran ---------- */
+  .table-search{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:9px 12px;
+    margin-bottom:14px;
+  }
+  .table-search input{
+    border:none;
+    outline:none;
+    flex:1;
+    background:transparent;
+    font-family:inherit;
+    font-size:12.5px;
+    color:var(--ink);
+    min-width:0;
+  }
+  .table-search input::placeholder{ color:#A8A6A2; }
+  .table-search .lens{ color:var(--ink-soft); font-size:14px; flex-shrink:0; }
+  .table-search .clear-search{
+    flex-shrink:0;
+    width:20px; height:20px;
+    border-radius:50%;
+    background:var(--paper-deep);
+    color:var(--ink-soft);
+    font-size:11px;
+    display:none;
+    align-items:center;
+    justify-content:center;
+  }
+  .table-search.has-value .clear-search{ display:flex; }
+
+  /* ---------- Badge kategori pengeluaran ---------- */
+  .category-pill{
+    font-size:9.5px;
+    font-weight:700;
+    padding:4px 9px;
+    border-radius:20px;
+    white-space:nowrap;
+  }
+  .category-pill.produk{ background:rgba(216,38,44,0.12); color:var(--cherry); }
+  .category-pill.operasional{ background:rgba(31,138,76,0.12); color:var(--green); }
+
+  /* ---------- Data table ---------- */
+  .table-wrap{
+    overflow-x:auto;
+    border:1px solid var(--line);
+    border-radius:14px;
+    -webkit-overflow-scrolling:touch;
+  }
+  table.data-table{
+    width:100%;
+    min-width:680px;
+    border-collapse:collapse;
+    font-size:12px;
+  }
+  table.data-table thead th{
+    background:var(--paper);
+    color:var(--walnut);
+    text-align:left;
+    font-size:10.5px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    padding:11px 12px;
+    border-bottom:1px solid var(--line);
+    white-space:nowrap;
+  }
+  table.data-table tbody td{
+    padding:11px 12px;
+    border-bottom:1px solid var(--line);
+    color:var(--ink);
+    vertical-align:middle;
+    white-space:nowrap;
+  }
+  table.data-table tbody tr:last-child td{ border-bottom:none; }
+  table.data-table tbody tr:hover{ background:var(--paper); }
+  table.data-table tbody tr.row-clickable{ cursor:pointer; }
+  table.data-table tbody tr.row-clickable:hover{ background:var(--paper-deep); }
+  .code-tag{
+    font-weight:700;
+    font-size:11px;
+    color:var(--cherry);
+  }
+  .total-cell{
+    font-weight:700;
+  }
+  .receipt-link{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    font-size:11px;
+    font-weight:700;
+    color:var(--walnut);
+    background:var(--paper);
+    border:1px solid var(--line);
+    padding:5px 10px;
+    border-radius:20px;
+  }
+  .receipt-link:hover{ background:var(--paper-deep); }
+  .no-receipt{
+    font-size:11px;
+    color:#A8A6A2;
+    font-style:italic;
+  }
+  .empty-row td{
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:12px;
+    padding:24px 12px;
+    white-space:normal;
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn-mini{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    background:var(--white);
+    color:var(--ink);
+    font-weight:700;
+    font-size:11.5px;
+    padding:9px 14px;
+    border-radius:10px;
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+    transition:background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  .btn-mini:hover{
+    background:var(--green);
+    color:var(--white);
+    border-color:var(--green);
+  }
+  .btn-mini.ghost{
+    background:transparent;
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+    box-shadow:none;
+  }
+  .btn-mini.ghost:hover{
+    background:var(--green);
+    color:var(--white);
+    border-color:var(--green);
+  }
+  .btn-mini.full{ width:100%; justify-content:center; margin-top:6px; }
+  .btn-mini.dark{
+    background:var(--walnut);
+    color:var(--paper);
+    border-color:var(--walnut);
+  }
+  .btn-mini.dark:hover{
+    background:var(--amber);
+    border-color:var(--amber);
+    color:var(--white);
+  }
+  .btn-mini.danger{
+    background:transparent;
+    border:1px solid rgba(216,38,44,0.35);
+    color:var(--amber);
+    box-shadow:none;
+  }
+  .btn-mini.danger:hover{
+    background:var(--amber);
+    border-color:var(--amber);
+    color:var(--white);
+  }
+
+  /* ---------- Kotak nilai detail (read-only) di modal Detail Pengeluaran ---------- */
+  .detail-value{
+    width:100%;
+    border:1px solid var(--line);
+    background:var(--paper);
+    border-radius:10px;
+    padding:10px 12px;
+    font-size:12.5px;
+    color:var(--ink);
+    min-height:18px;
+    word-break:break-word;
+  }
+  .detail-value.empty{ color:#A8A6A2; }
+  .detail-value a{ color:var(--cherry); font-weight:700; }
+  .detail-value.no-pad{ padding:0; overflow:hidden; }
+
+  /* ---------- Field groups (form) ---------- */
+  .field-group{ margin-bottom:14px; }
+  .field-group label{
+    display:block;
+    font-size:11px;
+    font-weight:700;
+    color:var(--ink-soft);
+    margin-bottom:6px;
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+  }
+  .field-group input,
+  .field-group select,
+  .field-group textarea{
+    width:100%;
+    border:1px solid var(--line);
+    background:var(--paper);
+    border-radius:10px;
+    padding:10px 12px;
+    font-family:inherit;
+    font-size:12.5px;
+    color:var(--ink);
+    outline:none;
+  }
+  .field-group input:focus,
+  .field-group select:focus,
+  .field-group textarea:focus{ border-color:var(--amber); }
+  .field-group input[readonly]{
+    background:var(--paper-deep);
+    color:var(--ink-soft);
+    cursor:not-allowed;
+  }
+
+  .photo-upload{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .photo-preview{
+    width:56px; height:56px;
+    border-radius:14px;
+    background:var(--paper);
+    border:1px dashed var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-size:22px;
+    flex-shrink:0;
+    overflow:hidden;
+    color:var(--ink-soft);
+  }
+  .photo-preview img{
+    width:100%; height:100%;
+    object-fit:cover;
+  }
+  .photo-hint{
+    font-size:10px;
+    color:var(--ink-soft);
+    margin-top:5px;
+  }
+
+  /* ---------- Modal ---------- */
+  .modal-overlay{
+    display:flex;
+    position:fixed;
+    inset:0;
+    background:rgba(10,10,10,0);
+    z-index:100;
+    align-items:flex-end;
+    justify-content:center;
+    padding:0;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity 0.32s ease, background 0.32s ease, visibility 0s linear 0.32s;
+  }
+  .modal-overlay.open{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+    background:rgba(10,10,10,0.55);
+    transition:opacity 0.32s ease, background 0.32s ease, visibility 0s linear 0s;
+  }
+  .modal-box{
+    background:var(--paper);
+    width:100%;
+    max-width:480px;
+    max-height:88vh;
+    border-radius:20px 20px 0 0;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    transform:translateY(100%);
+    transition:transform 0.38s cubic-bezier(0.32,0.72,0,1);
+  }
+  .modal-overlay.open .modal-box{
+    transform:translateY(0);
+  }
+  .modal-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 16px 10px;
+    border-bottom:1px solid var(--line);
+  }
+  .modal-title{
+    font-family:'Fraunces', serif;
+    font-size:16px;
+    font-weight:600;
+    color:var(--ink);
+  }
+  .modal-close{
+    width:30px; height:30px;
+    border-radius:50%;
+    background:var(--paper-deep);
+    color:var(--ink-soft);
+    font-size:14px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .modal-actions{
+    display:flex;
+    gap:10px;
+    padding:14px 16px 18px;
+    border-top:1px solid var(--line);
+  }
+  .modal-actions .btn-mini{ flex:1; justify-content:center; }
+
+  /* Modal input data: tampil di tengah halaman, fade + scale-in */
+  .modal-overlay.modal-data{
+    align-items:center;
+    padding:20px;
+  }
+  .modal-overlay.modal-data .modal-box{
+    border-radius:20px;
+    max-height:85vh;
+    transform:scale(0.94);
+    transition:transform 0.28s cubic-bezier(0.32,0.72,0,1), opacity 0.28s ease;
+    opacity:0;
+  }
+  .modal-overlay.modal-data.open .modal-box{
+    transform:scale(1);
+    opacity:1;
+  }
+
+  .modal-box-tall{ max-height:92vh; }
+  .modal-body{
+    flex:1;
+    min-height:0;
+    overflow-y:auto;
+    padding:14px 16px 4px;
+  }
+  .modal-body .field-group:last-child{ margin-bottom:4px; }
+
+  /* Modal Tambah Pengeluaran: padding kiri-kanan diperkecil jadi 10px */
+  #addExpenseModalOverlay .modal-body{
+    padding-left:10px;
+    padding-right:10px;
+  }
+
+  /* Preview Nota/Tanda Terima berukuran besar */
+  .receipt-preview-large{
+    width:100%;
+    height:220px;
+    border-radius:16px;
+    background:var(--paper);
+    border:1.5px dashed var(--line);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:44px;
+    color:var(--ink-soft);
+    overflow:hidden;
+    margin-bottom:10px;
+  }
+  .receipt-preview-large img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    background:var(--white);
+  }
+
+  /* Preview gambar nota di modal Detail Pengeluaran (bisa diklik untuk membuka di tab baru) */
+  .detail-nota-preview{
+    display:block;
+    width:100%;
+    height:220px;
+    border-radius:12px;
+    overflow:hidden;
+    background:var(--white);
+    border:1px solid var(--line);
+    cursor:pointer;
+    transition:opacity 0.15s ease;
+  }
+  .detail-nota-preview:hover{ opacity:0.85; }
+  .detail-nota-preview img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    display:block;
+  }
+
+  @media (min-width:768px){
+    body{ background:var(--paper-deep); }
+    .app{
+      max-width:920px;
+      min-height:auto;
+      padding-bottom:50px;
+      box-shadow:0 20px 60px -20px rgba(10,10,10,0.25);
+      margin:0 auto;
+    }
+
+    .topbar{ padding:20px 28px 22px; }
+    .brand-mark{ width:40px; height:40px; font-size:21px; border-radius:11px; }
+    .brand-name{ font-size:18px; }
+    .brand-tag{ font-size:11px; }
+    .icon-btn{ width:42px; height:42px; font-size:19px; }
+    .admin-chip b{ font-size:12.5px; }
+    .admin-chip span{ font-size:10.5px; }
+    .searchbar{ max-width:440px; padding:13px 16px; margin-top:16px; }
+    .searchbar input{ font-size:15px; }
+
+    .page-head{ padding:28px 28px 4px; }
+    .page-head h1{ font-size:29px; }
+    .page-head p{ font-size:13.5px; max-width:420px; }
+    .eyebrow{ font-size:12px; }
+
+    .ops-actions{ margin:20px 28px 0; }
+    .ops-actions .btn-mini{ font-size:13px; padding:11px 18px; border-radius:12px; }
+
+    .chart-card{ margin:20px 28px 0; padding:26px 28px 24px; border-radius:20px; }
+    .chart-total{ font-size:23px; }
+    .chart-trend-line{ font-size:11px; }
+
+    .content-card{ margin:18px 28px 0; padding:30px 32px; border-radius:20px; }
+    .panel-title{ font-size:18px; }
+    .panel-sub{ font-size:13px; margin-bottom:22px; }
+
+    .expense-tabs{ gap:10px; margin-bottom:18px; }
+    .expense-tab-btn{ font-size:12px; padding:12px 10px; border-radius:14px; }
+    .table-search{ padding:11px 14px; border-radius:14px; margin-bottom:18px; }
+    .table-search input{ font-size:13.5px; }
+
+    table.data-table{ font-size:13px; }
+    table.data-table thead th{ padding:13px 14px; font-size:11px; }
+    table.data-table tbody td{ padding:13px 14px; }
+
+    .field-group{ margin-bottom:18px; }
+    .field-group label{ font-size:12px; margin-bottom:7px; }
+    .field-group input,
+    .field-group select,
+    .field-group textarea{ padding:13px 15px; font-size:13.5px; border-radius:12px; }
+    .btn-mini{ font-size:13px; padding:11px 18px; border-radius:12px; }
+  }
+  @media (min-width:1024px){
+    .app{ max-width:1140px; }
+    .topbar{ padding:22px 44px 24px; }
+    .page-head{ padding:34px 44px 4px; }
+    .page-head h1{ font-size:32px; }
+    .page-head p{ font-size:14px; max-width:480px; }
+    .ops-actions{ margin:24px 44px 0; }
+    .chart-card{ margin:24px 44px 0; padding:30px 36px 28px; }
+    .content-card{ margin:22px 44px 48px; padding:36px 40px; }
+    .panel-title{ font-size:20px; }
+    .expense-tab-btn{ font-size:12.5px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-row">
+      <div class="brand">
+        <div class="brand-mark" id="navbarLogo">🎸</div>
+        <div>
+          <div class="brand-name">Arya Music Store</div>
+          <div class="brand-tag">Panel Admin</div>
+        </div>
+      </div>
+      <div class="topbar-icons">
+        <a class="icon-btn" href="#" aria-label="Notifikasi">🔔<span class="dot"></span></a>
+        <div class="admin-chip">
+          <div class="av">RA</div>
+          <div class="info">
+            <b>Rian A.</b>
+            <span>Admin Toko</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="motif"></div>
+
+  <!-- PAGE HEAD -->
+  <div class="page-head">
+    <div class="eyebrow">Panel Admin</div>
+    <h1>Operasional</h1>
+    <p>Pantau riwayat pengeluaran usaha beserta bukti nota/tanda terima setiap transaksi.</p>
+  </div>
+
+  <!-- CHART: PENGELUARAN BULANAN -->
+  <div class="chart-card">
+    <div class="chart-header">
+      <div>
+        <div class="chart-eyebrow">Grafik Pengeluaran</div>
+        <div class="panel-title">Pengeluaran Bulanan</div>
+        <div class="panel-sub">6 bulan terakhir</div>
+      </div>
+      <div class="chart-total-wrap">
+        <div class="chart-total" id="monthlyChartTotal">Rp 0</div>
+        <div class="chart-trend-line" id="monthlyChartStat">Bulan ini</div>
+      </div>
+    </div>
+    <div class="monthly-chart-wrap" id="monthlyChartWrap">
+      <div class="chart-empty">Memuat grafik...</div>
+    </div>
+    <div class="chart-legend"><span class="dot"></span> Bulan berjalan</div>
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="ops-actions">
+    <a class="btn-mini dark" href="dashboardadmin.html">🏠 Dashboard</a>
+    <button class="btn-mini" type="button" id="openAddExpenseBtn">+ Tambah Pengeluaran</button>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content-card">
+    <div class="panel-title">Riwayat Pengeluaran Usaha</div>
+    <div class="panel-sub">Daftar seluruh transaksi pengeluaran usaha yang telah dicatat.</div>
+
+    <div class="expense-tabs">
+      <button class="expense-tab-btn active" type="button" data-category="produk">Pembelian Produk Penjualan</button>
+      <button class="expense-tab-btn" type="button" data-category="operasional">Pengeluaran Operasional</button>
+      <button class="expense-tab-btn" type="button" data-category="total">Total Pengeluaran Usaha</button>
+    </div>
+
+    <div class="total-summary-grid" id="totalSummaryGrid" style="display:none;">
+      <div class="total-summary-card produk">
+        <div class="label">Pembelian Produk Penjualan</div>
+        <div class="value" id="summaryTotalProduk">Rp 0</div>
+      </div>
+      <div class="total-summary-card operasional">
+        <div class="label">Pengeluaran Operasional</div>
+        <div class="value" id="summaryTotalOperasional">Rp 0</div>
+      </div>
+      <div class="total-summary-card all">
+        <div class="label">Total Pengeluaran Usaha</div>
+        <div class="value" id="summaryTotalSemua">Rp 0</div>
+      </div>
+    </div>
+
+    <div class="table-search" id="tableSearchWrap">
+      <span class="lens">🔍</span>
+      <input type="text" id="expenseSearchInput" placeholder="Cari kode, nama barang/jasa, atau purchaser...">
+      <button type="button" class="clear-search" id="clearSearchBtn">✕</button>
+    </div>
+
+    <div class="table-wrap">
+      <table class="data-table" id="expenseTable">
+        <thead>
+          <tr>
+            <th>Kode Pengeluaran</th>
+            <th>Nama Barang/Jasa</th>
+            <th>Tanggal</th>
+            <th>Total Pengeluaran</th>
+            <th>Nota/Tanda Terima</th>
+            <th>Purchaser</th>
+            <th>Kategori</th>
+          </tr>
+        </thead>
+        <tbody id="expenseTableBody">
+          <tr class="empty-row" id="expenseLoadingRow">
+            <td colspan="7">Memuat data pengeluaran...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- MODAL: TAMBAH PENGELUARAN -->
+<div class="modal-overlay modal-data" id="addExpenseModalOverlay">
+  <div class="modal-box modal-box-tall">
+    <div class="modal-head">
+      <div class="modal-title">Tambah Pengeluaran</div>
+      <button type="button" class="modal-close" id="closeAddExpenseBtn">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field-group">
+        <label>Kode Pengeluaran</label>
+        <input type="text" id="expenseCodeField" readonly>
+      </div>
+      <div class="field-group">
+        <label>Kategori Pengeluaran</label>
+        <select id="expenseCategoryField">
+          <option value="produk">Pembelian Produk Penjualan</option>
+          <option value="operasional">Pengeluaran Operasional</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label>Nama Barang/Jasa</label>
+        <input type="text" id="expenseNameField" placeholder="Contoh: Senar Gitar Grade A">
+      </div>
+      <div class="field-group">
+        <label>Tanggal</label>
+        <input type="date" id="expenseDateField">
+      </div>
+      <div class="field-group">
+        <label>Total Pengeluaran</label>
+        <input type="number" id="expenseTotalField" placeholder="0" min="0" step="1000">
+      </div>
+      <div class="field-group">
+        <label>Nota/Tanda Terima <span style="text-transform:none;font-weight:500;color:#A8A6A2;">(opsional)</span></label>
+        <div class="receipt-preview-large" id="expenseReceiptPreview">🧾</div>
+        <button class="btn-mini full" type="button" id="expenseReceiptBtn">Unggah Nota</button>
+        <input type="file" id="expenseReceiptInput" accept="image/*,.pdf" style="display:none;">
+        <div class="photo-hint" style="text-align:center;">Format JPG, PNG, atau PDF.</div>
+      </div>
+      <div class="field-group">
+        <label>Purchaser</label>
+        <input type="text" id="expensePurchaserField" placeholder="Nama pembeli/pemohon">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-mini ghost" type="button" id="cancelAddExpenseBtn">Batal</button>
+      <button class="btn-mini" type="button" id="saveAddExpenseBtn">Simpan Pengeluaran</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: DETAIL PENGELUARAN -->
+<div class="modal-overlay modal-data" id="expenseDetailModalOverlay">
+  <div class="modal-box modal-box-tall">
+    <div class="modal-head">
+      <div class="modal-title">Detail Pengeluaran</div>
+      <button type="button" class="modal-close" id="closeDetailExpenseBtn">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field-group">
+        <label>Kode Pengeluaran</label>
+        <div class="detail-value" id="detailKode">-</div>
+      </div>
+      <div class="field-group">
+        <label>Nama Barang/Jasa</label>
+        <div class="detail-value" id="detailNama">-</div>
+      </div>
+      <div class="field-group">
+        <label>Tanggal</label>
+        <div class="detail-value" id="detailTanggal">-</div>
+      </div>
+      <div class="field-group">
+        <label>Total Pengeluaran</label>
+        <div class="detail-value" id="detailTotal">-</div>
+      </div>
+      <div class="field-group">
+        <label>Nota/Tanda Terima</label>
+        <div class="detail-value" id="detailNota">-</div>
+      </div>
+      <div class="field-group">
+        <label>Purchaser</label>
+        <div class="detail-value" id="detailPurchaser">-</div>
+      </div>
+      <div class="field-group">
+        <label>Kategori</label>
+        <div class="detail-value" id="detailKategori">-</div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-mini danger" type="button" id="deleteExpenseBtn">Hapus</button>
+      <button class="btn-mini" type="button" id="editExpenseBtn">Edit</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: EDIT PENGELUARAN -->
+<div class="modal-overlay modal-data" id="editExpenseModalOverlay">
+  <div class="modal-box modal-box-tall">
+    <div class="modal-head">
+      <div class="modal-title">Edit Pengeluaran</div>
+      <button type="button" class="modal-close" id="closeEditExpenseBtn">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field-group">
+        <label>Kode Pengeluaran</label>
+        <input type="text" id="editExpenseCodeField" readonly>
+      </div>
+      <div class="field-group">
+        <label>Nama Barang/Jasa</label>
+        <input type="text" id="editExpenseNameField" placeholder="Contoh: Bayar Listrik">
+      </div>
+      <div class="field-group">
+        <label>Tanggal</label>
+        <input type="date" id="editExpenseDateField">
+      </div>
+      <div class="field-group">
+        <label>Total Pengeluaran</label>
+        <input type="number" id="editExpenseTotalField" placeholder="0" min="0" step="1000">
+      </div>
+      <div class="field-group">
+        <label>Nota/Tanda Terima <span style="text-transform:none;font-weight:500;color:#A8A6A2;">(kosongkan jika tidak ingin mengganti)</span></label>
+        <div class="receipt-preview-large" id="editExpenseReceiptPreview">🧾</div>
+        <button class="btn-mini full" type="button" id="editExpenseReceiptBtn">Ganti Nota</button>
+        <input type="file" id="editExpenseReceiptInput" accept="image/*,.pdf" style="display:none;">
+        <div class="photo-hint" style="text-align:center;">Format JPG, PNG, atau PDF.</div>
+      </div>
+      <div class="field-group">
+        <label>Purchaser</label>
+        <input type="text" id="editExpensePurchaserField" placeholder="Nama pembeli/pemohon">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-mini ghost" type="button" id="cancelEditExpenseBtn">Batal</button>
+      <button class="btn-mini" type="button" id="saveEditExpenseBtn">Simpan Perubahan</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ---------- Tarik Logo Toko dari Supabase (sama seperti pengaturan.html) ---------- */
+  const SUPABASE_URL = 'https://gkkwhehaxumgoxqklauu.supabase.co/rest/v1/';
+  const SUPABASE_PROJECT_URL = 'https://gkkwhehaxumgoxqklauu.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdra3doZWhheHVtZ294cWtsYXV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMwMzgyOTksImV4cCI6MjA5ODYxNDI5OX0.zRTCMwQfuMI4vEfOIq6ABi4rOOHOZShjFWaofCfwX6g';
+  const STORAGE_BUCKET = 'aset';
+
+  const navbarLogo = document.getElementById('navbarLogo');
+
+  function setNavbarLogo(url){
+    if(url){
+      navbarLogo.innerHTML = '<img src="' + url + '" alt="Logo toko" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">';
+    }else{
+      navbarLogo.innerHTML = '🎸';
+    }
+  }
+
+  async function loadNavbarLogo(){
+    try{
+      const res = await fetch(SUPABASE_URL + 'identitas?select=logo&limit=1', {
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+        }
+      });
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      const rows = await res.json();
+      const data = (rows && rows.length) ? rows[0] : null;
+      setNavbarLogo(data ? data.logo : '');
+    }catch(err){
+      console.error('Gagal memuat logo toko dari Supabase:', err);
+    }
+  }
+
+  loadNavbarLogo();
+
+  /* ---------- Tambah Pengeluaran modal ---------- */
+  const addExpenseOverlay = document.getElementById('addExpenseModalOverlay');
+  const openAddExpenseBtn = document.getElementById('openAddExpenseBtn');
+  const closeAddExpenseBtn = document.getElementById('closeAddExpenseBtn');
+  const cancelAddExpenseBtn = document.getElementById('cancelAddExpenseBtn');
+  const saveAddExpenseBtn = document.getElementById('saveAddExpenseBtn');
+
+  const expenseCodeField = document.getElementById('expenseCodeField');
+  const expenseCategoryField = document.getElementById('expenseCategoryField');
+  const expenseNameField = document.getElementById('expenseNameField');
+  const expenseDateField = document.getElementById('expenseDateField');
+  const expenseTotalField = document.getElementById('expenseTotalField');
+  const expensePurchaserField = document.getElementById('expensePurchaserField');
+
+  const expenseReceiptBtn = document.getElementById('expenseReceiptBtn');
+  const expenseReceiptInput = document.getElementById('expenseReceiptInput');
+  const expenseReceiptPreview = document.getElementById('expenseReceiptPreview');
+  let expenseReceiptBlob = null;   // file/blob final yang akan diunggah (sudah dikompresi jika gambar)
+  let expenseReceiptExt = '';      // ekstensi file untuk penamaan di storage
+  let expenseReceiptIsImage = false;
+
+  /* ---------- Detail & Edit Pengeluaran modal ---------- */
+  const detailOverlay = document.getElementById('expenseDetailModalOverlay');
+  const closeDetailExpenseBtn = document.getElementById('closeDetailExpenseBtn');
+  const deleteExpenseBtn = document.getElementById('deleteExpenseBtn');
+  const editExpenseBtn = document.getElementById('editExpenseBtn');
+
+  const detailKode = document.getElementById('detailKode');
+  const detailNama = document.getElementById('detailNama');
+  const detailTanggal = document.getElementById('detailTanggal');
+  const detailTotal = document.getElementById('detailTotal');
+  const detailNota = document.getElementById('detailNota');
+  const detailPurchaser = document.getElementById('detailPurchaser');
+  const detailKategori = document.getElementById('detailKategori');
+
+  const editOverlay = document.getElementById('editExpenseModalOverlay');
+  const closeEditExpenseBtn = document.getElementById('closeEditExpenseBtn');
+  const cancelEditExpenseBtn = document.getElementById('cancelEditExpenseBtn');
+  const saveEditExpenseBtn = document.getElementById('saveEditExpenseBtn');
+
+  const editExpenseCodeField = document.getElementById('editExpenseCodeField');
+  const editExpenseNameField = document.getElementById('editExpenseNameField');
+  const editExpenseDateField = document.getElementById('editExpenseDateField');
+  const editExpenseTotalField = document.getElementById('editExpenseTotalField');
+  const editExpensePurchaserField = document.getElementById('editExpensePurchaserField');
+
+  const editExpenseReceiptBtn = document.getElementById('editExpenseReceiptBtn');
+  const editExpenseReceiptInput = document.getElementById('editExpenseReceiptInput');
+  const editExpenseReceiptPreview = document.getElementById('editExpenseReceiptPreview');
+  let editExpenseReceiptBlob = null;   // hanya terisi jika user mengganti nota
+  let editExpenseReceiptExt = '';
+  let editExpenseReceiptIsImage = false;
+
+  let selectedExpenseData = null; // data baris yang sedang dibuka di modal Detail/Edit
+
+  const expenseTableBody = document.getElementById('expenseTableBody');
+  const expenseSearchInput = document.getElementById('expenseSearchInput');
+  const clearSearchBtn = document.getElementById('clearSearchBtn');
+  const tableSearchWrap = document.getElementById('tableSearchWrap');
+  const expenseTabButtons = document.querySelectorAll('.expense-tab-btn');
+  let allExpenseRows = [];        // cache seluruh data dari Supabase
+  let activeCategoryTab = 'produk'; // 'produk' | 'operasional' | 'total'
+  let expenseCounter = 0;
+
+  function nextExpenseCounterFrom(code){
+    const m = String(code || '').match(/(\d+)\s*$/);
+    if(m){
+      const n = parseInt(m[1], 10);
+      if(!isNaN(n) && n > expenseCounter) expenseCounter = n;
+    }
+  }
+
+  function generateExpenseCode(){
+    expenseCounter += 1;
+    return 'EXP-' + String(expenseCounter).padStart(4, '0');
+  }
+
+  function formatRupiah(value){
+    const num = Number(value) || 0;
+    return 'Rp ' + num.toLocaleString('id-ID');
+  }
+
+  function formatTanggal(dateStr){
+    if(!dateStr) return '-';
+    const bulan = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+    const d = new Date(dateStr + 'T00:00:00');
+    if(isNaN(d.getTime())) return dateStr;
+    return String(d.getDate()).padStart(2,'0') + ' ' + bulan[d.getMonth()] + ' ' + d.getFullYear();
+  }
+
+  function receiptFileNameFromUrl(url){
+    try{
+      const parts = url.split('/');
+      return decodeURIComponent(parts[parts.length - 1]);
+    }catch(e){
+      return 'Lihat Nota';
+    }
+  }
+
+  function formatAbbrRupiah(num){
+    const n = Number(num) || 0;
+    const abs = Math.abs(n);
+    if(abs >= 1000000){
+      const v = n / 1000000;
+      return (Number.isInteger(v) ? v : v.toFixed(1)) + 'jt';
+    }
+    if(abs >= 1000){
+      return Math.round(n / 1000) + 'rb';
+    }
+    return String(Math.round(n));
+  }
+
+  /* ---------- Grafik Pengeluaran Bulanan (dari data yang sama di tabel pengeluaran) ---------- */
+  function renderMonthlyChart(rows){
+    const bulanShort = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+    const chartWrap = document.getElementById('monthlyChartWrap');
+    const totalEl = document.getElementById('monthlyChartTotal');
+    const trendEl = document.getElementById('monthlyChartStat');
+
+    if(!rows || !rows.length){
+      chartWrap.innerHTML = '<div class="chart-empty">Belum ada data pengeluaran untuk ditampilkan.</div>';
+      totalEl.textContent = 'Rp 0';
+      trendEl.textContent = 'Bulan ini';
+      return;
+    }
+
+    const now = new Date();
+    const months = [];
+    for(let i = 5; i >= 0; i--){
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      months.push({
+        key: d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'),
+        label: bulanShort[d.getMonth()]
+      });
+    }
+
+    const totals = months.map(() => 0);
+    rows.forEach((r) => {
+      if(!r.tanggal) return;
+      const key = String(r.tanggal).slice(0, 7);
+      const idx = months.findIndex((m) => m.key === key);
+      if(idx > -1){
+        totals[idx] += Number(r.total_pengeluaran) || 0;
+      }
+    });
+
+    const currentTotal = totals[totals.length - 1];
+    const prevTotal = totals[totals.length - 2] || 0;
+    totalEl.textContent = formatRupiah(currentTotal);
+
+    if(prevTotal > 0){
+      const diffPct = Math.round(((currentTotal - prevTotal) / prevTotal) * 100);
+      const up = diffPct >= 0;
+      trendEl.innerHTML = '<span class="chart-trend ' + (up ? 'up' : 'down') + '">' + (up ? '▲' : '▼') + ' ' + Math.abs(diffPct) + '%</span> vs bulan lalu';
+    } else if(currentTotal > 0){
+      trendEl.textContent = 'Bulan ini';
+    } else {
+      trendEl.textContent = 'Belum ada pengeluaran';
+    }
+
+    const max = Math.max.apply(null, totals.concat([1]));
+    const W = 320, H = 172;
+    const padSide = 20, padTop = 26, padBottom = 26;
+    const plotW = W - padSide * 2;
+    const plotH = H - padTop - padBottom;
+    const gap = 12;
+    const barW = (plotW - gap * (months.length - 1)) / months.length;
+
+    let bars = '';
+    months.forEach((m, i) => {
+      const val = totals[i];
+      const barH = val > 0 ? Math.max((val / max) * plotH, 5) : 0;
+      const x = padSide + i * (barW + gap);
+      const y = padTop + (plotH - barH);
+      const isCurrent = i === months.length - 1;
+      const fill = isCurrent ? 'var(--amber)' : 'var(--paper-deep)';
+      const labelWeight = isCurrent ? '800' : '600';
+      const labelColor = isCurrent ? 'var(--ink)' : 'var(--ink-soft)';
+
+      bars += '<rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + barW.toFixed(1) + '" height="' + barH.toFixed(1) + '" rx="7" fill="' + fill + '"></rect>';
+      if(val > 0){
+        bars += '<text x="' + (x + barW / 2).toFixed(1) + '" y="' + (y - 7).toFixed(1) + '" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="9.5" font-weight="' + labelWeight + '" fill="' + labelColor + '">' + formatAbbrRupiah(val) + '</text>';
+      }
+      bars += '<text x="' + (x + barW / 2).toFixed(1) + '" y="' + (H - 8) + '" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="9.5" font-weight="' + (isCurrent ? '800' : '600') + '" fill="' + (isCurrent ? 'var(--cherry)' : 'var(--ink-soft)') + '">' + m.label + '</text>';
+    });
+
+    const baseline = '<line x1="' + padSide + '" y1="' + (padTop + plotH) + '" x2="' + (W - padSide) + '" y2="' + (padTop + plotH) + '" stroke="var(--line)" stroke-width="1"></line>';
+
+    chartWrap.innerHTML =
+      '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Grafik pengeluaran bulanan">' +
+      baseline + bars +
+      '</svg>';
+  }
+
+
+  /* ---------- Tentukan kategori berdasarkan isi kolom nama_pengeluaran ---------- */
+  function getRowCategory(data){
+    const nama = String(data.nama_pengeluaran || '').trim().toLowerCase();
+    return (nama === 'pembelian produk penjualan') ? 'produk' : 'operasional';
+  }
+
+  function categoryBadgeHtml(data){
+    const isOperasional = getRowCategory(data) === 'operasional';
+    const cls = isOperasional ? 'operasional' : 'produk';
+    const label = isOperasional ? 'Operasional' : 'Produk';
+    return '<span class="category-pill ' + cls + '">' + label + '</span>';
+  }
+
+  function buildExpenseRow(data){
+    const row = document.createElement('tr');
+    const receiptCell = data.nota
+      ? '<a class="receipt-link" href="' + data.nota + '" target="_blank" rel="noopener">📎 ' + receiptFileNameFromUrl(data.nota) + '</a>'
+      : '<span class="no-receipt">Tidak ada file</span>';
+
+    row.innerHTML =
+      '<td><span class="code-tag">' + data.kode_pengeluaran + '</span></td>' +
+      '<td>' + data.nama_pengeluaran + '</td>' +
+      '<td>' + formatTanggal(data.tanggal) + '</td>' +
+      '<td class="total-cell">' + formatRupiah(data.total_pengeluaran) + '</td>' +
+      '<td>' + receiptCell + '</td>' +
+      '<td>' + data.purchaser + '</td>' +
+      '<td>' + categoryBadgeHtml(data) + '</td>';
+
+    if(getRowCategory(data) === 'operasional'){
+      row.classList.add('row-clickable');
+      row.addEventListener('click', (e) => {
+        if(e.target.closest('a')) return; // biarkan link nota tetap bisa dibuka tanpa memunculkan modal
+        openDetailModal(data);
+      });
+    }
+
+    return row;
+  }
+
+  /* ---------- Filter tab kategori + pencarian, lalu render ulang tabel ---------- */
+  /* ---------- Ringkasan Total Pengeluaran (hanya tampil di tab Total Pengeluaran Usaha) ---------- */
+  const totalSummaryGrid = document.getElementById('totalSummaryGrid');
+  const summaryTotalProduk = document.getElementById('summaryTotalProduk');
+  const summaryTotalOperasional = document.getElementById('summaryTotalOperasional');
+  const summaryTotalSemua = document.getElementById('summaryTotalSemua');
+
+  function renderTotalSummary(){
+    const isTotalTab = activeCategoryTab === 'total';
+    totalSummaryGrid.style.display = isTotalTab ? 'grid' : 'none';
+    if(!isTotalTab) return;
+
+    let totalProduk = 0;
+    let totalOperasional = 0;
+
+    allExpenseRows.forEach((r) => {
+      const nominal = Number(r.total_pengeluaran) || 0;
+      if(getRowCategory(r) === 'produk'){
+        totalProduk += nominal;
+      }else{
+        totalOperasional += nominal;
+      }
+    });
+
+    summaryTotalProduk.textContent = formatRupiah(totalProduk);
+    summaryTotalOperasional.textContent = formatRupiah(totalOperasional);
+    summaryTotalSemua.textContent = formatRupiah(totalProduk + totalOperasional);
+  }
+
+  function renderExpenseTable(){
+    let rows = allExpenseRows;
+
+    if(activeCategoryTab !== 'total'){
+      rows = rows.filter((r) => getRowCategory(r) === activeCategoryTab);
+    }
+
+    renderTotalSummary();
+
+    const q = expenseSearchInput.value.trim().toLowerCase();
+    tableSearchWrap.classList.toggle('has-value', q.length > 0);
+
+    if(q){
+      rows = rows.filter((r) =>
+        String(r.kode_pengeluaran || '').toLowerCase().includes(q) ||
+        String(r.nama_pengeluaran || '').toLowerCase().includes(q) ||
+        String(r.purchaser || '').toLowerCase().includes(q)
+      );
+    }
+
+    expenseTableBody.innerHTML = '';
+
+    if(!rows.length){
+      const emptyRow = document.createElement('tr');
+      emptyRow.className = 'empty-row';
+      emptyRow.innerHTML = '<td colspan="7">' + (q ? 'Tidak ada data yang cocok dengan pencarian.' : 'Belum ada data pengeluaran pada kategori ini.') + '</td>';
+      expenseTableBody.appendChild(emptyRow);
+      return;
+    }
+
+    rows.forEach((data) => expenseTableBody.appendChild(buildExpenseRow(data)));
+  }
+
+  expenseTabButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      activeCategoryTab = btn.dataset.category;
+      expenseTabButtons.forEach((b) => b.classList.toggle('active', b === btn));
+      renderExpenseTable();
+    });
+  });
+
+  expenseSearchInput.addEventListener('input', renderExpenseTable);
+  clearSearchBtn.addEventListener('click', () => {
+    expenseSearchInput.value = '';
+    renderExpenseTable();
+    expenseSearchInput.focus();
+  });
+
+  /* ---------- Ambil (load) Riwayat Pengeluaran Usaha dari Supabase ---------- */
+  async function loadPengeluaran(){
+    try{
+      const res = await fetch(SUPABASE_URL + 'pengeluaran?select=*&order=tanggal.desc', {
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+        }
+      });
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      const rows = await res.json();
+
+      allExpenseRows = rows || [];
+      expenseCounter = 0;
+      allExpenseRows.forEach((data) => nextExpenseCounterFrom(data.kode_pengeluaran));
+
+      renderExpenseTable();
+      renderMonthlyChart(allExpenseRows);
+    }catch(err){
+      console.error('Gagal memuat data pengeluaran dari Supabase:', err);
+      expenseTableBody.innerHTML = '<tr class="empty-row"><td colspan="7">⚠️ Gagal memuat data pengeluaran.</td></tr>';
+      document.getElementById('monthlyChartWrap').innerHTML = '<div class="chart-empty">⚠️ Gagal memuat grafik.</div>';
+    }
+  }
+
+  loadPengeluaran();
+
+  function resetAddExpenseForm(){
+    expenseNameField.value = '';
+    expenseDateField.value = '';
+    expenseTotalField.value = '';
+    expensePurchaserField.value = '';
+    expenseReceiptInput.value = '';
+    expenseReceiptBlob = null;
+    expenseReceiptExt = '';
+    expenseReceiptIsImage = false;
+    expenseReceiptPreview.innerHTML = '🧾';
+    expenseCodeField.value = generateExpenseCode();
+    expenseCategoryField.value = (activeCategoryTab === 'operasional') ? 'operasional' : 'produk';
+  }
+
+  function openAddExpenseModal(){
+    resetAddExpenseForm();
+    addExpenseOverlay.classList.add('open');
+  }
+  function closeAddExpenseModal(){
+    addExpenseOverlay.classList.remove('open');
+  }
+
+  openAddExpenseBtn.addEventListener('click', openAddExpenseModal);
+  closeAddExpenseBtn.addEventListener('click', closeAddExpenseModal);
+  cancelAddExpenseBtn.addEventListener('click', closeAddExpenseModal);
+  addExpenseOverlay.addEventListener('click', (e) => {
+    if(e.target === addExpenseOverlay) closeAddExpenseModal();
+  });
+
+  /* ---------- Kompresi gambar nota maksimal 200KB sebelum ditampilkan/diunggah ---------- */
+  const MAX_NOTA_SIZE = 200 * 1024; // 200KB
+
+  function loadImageFromFile(file){
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => { resolve(img); URL.revokeObjectURL(url); };
+      img.onerror = (e) => { URL.revokeObjectURL(url); reject(e); };
+      img.src = url;
+    });
+  }
+
+  function canvasToBlob(canvas, quality){
+    return new Promise((resolve) => {
+      canvas.toBlob((blob) => resolve(blob), 'image/jpeg', quality);
+    });
+  }
+
+  async function compressImageToMax200KB(file){
+    const img = await loadImageFromFile(file);
+
+    let width = img.naturalWidth;
+    let height = img.naturalHeight;
+    const MAX_DIMENSION = 1600;
+    if(width > MAX_DIMENSION || height > MAX_DIMENSION){
+      const scale = MAX_DIMENSION / Math.max(width, height);
+      width = Math.round(width * scale);
+      height = Math.round(height * scale);
+    }
+
+    let canvas = document.createElement('canvas');
+    let ctx;
+    let blob = null;
+    let quality = 0.85;
+    let attempts = 0;
+
+    while(attempts < 12){
+      canvas.width = width;
+      canvas.height = height;
+      ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, width, height);
+      ctx.drawImage(img, 0, 0, width, height);
+
+      blob = await canvasToBlob(canvas, quality);
+      attempts += 1;
+
+      if(!blob) break;
+      if(blob.size <= MAX_NOTA_SIZE) break;
+
+      if(quality > 0.35){
+        quality -= 0.12;
+      }else{
+        width = Math.round(width * 0.82);
+        height = Math.round(height * 0.82);
+      }
+    }
+
+    return blob || file;
+  }
+
+  expenseReceiptBtn.addEventListener('click', () => expenseReceiptInput.click());
+  expenseReceiptInput.addEventListener('change', async () => {
+    const file = expenseReceiptInput.files[0];
+    if(!file) return;
+
+    if(file.type.startsWith('image/')){
+      expenseReceiptPreview.innerHTML = '⏳';
+      try{
+        const compressed = await compressImageToMax200KB(file);
+        expenseReceiptBlob = compressed;
+        expenseReceiptIsImage = true;
+        expenseReceiptExt = 'jpg';
+        const previewUrl = URL.createObjectURL(compressed);
+        expenseReceiptPreview.innerHTML = '<img src="' + previewUrl + '" alt="Nota">';
+      }catch(err){
+        console.error('Gagal mengompres gambar nota:', err);
+        expenseReceiptBlob = file;
+        expenseReceiptIsImage = true;
+        const extMatch = file.name.match(/\.([a-zA-Z0-9]+)$/);
+        expenseReceiptExt = extMatch ? extMatch[1].toLowerCase() : 'jpg';
+        const previewUrl = URL.createObjectURL(file);
+        expenseReceiptPreview.innerHTML = '<img src="' + previewUrl + '" alt="Nota">';
+      }
+    } else {
+      expenseReceiptBlob = file;
+      expenseReceiptIsImage = false;
+      const extMatch = file.name.match(/\.([a-zA-Z0-9]+)$/);
+      expenseReceiptExt = extMatch ? extMatch[1].toLowerCase() : 'pdf';
+      expenseReceiptPreview.innerHTML = '📄';
+    }
+  });
+
+  /* ---------- Unggah nota ke Supabase Storage (bucket: aset) ---------- */
+  async function uploadNotaToSupabase(kode, blob, isImage, ext){
+    const contentType = isImage ? 'image/jpeg' : (blob.type || 'application/pdf');
+    const fileName = 'nota_' + kode.replace(/[^a-zA-Z0-9_-]/g, '') + '_' + Date.now() + '.' + ext;
+    const uploadUrl = SUPABASE_PROJECT_URL + '/storage/v1/object/' + STORAGE_BUCKET + '/' + fileName;
+
+    const res = await fetch(uploadUrl, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+        'Content-Type': contentType,
+        'x-upsert': 'true'
+      },
+      body: blob
+    });
+
+    if(!res.ok){
+      const errText = await res.text();
+      throw new Error(errText || ('HTTP ' + res.status));
+    }
+
+    return SUPABASE_PROJECT_URL + '/storage/v1/object/public/' + STORAGE_BUCKET + '/' + fileName;
+  }
+
+  /* ---------- Simpan Pengeluaran ke tabel "pengeluaran" di Supabase ---------- */
+  saveAddExpenseBtn.addEventListener('click', async () => {
+    const name = expenseNameField.value.trim();
+    const date = expenseDateField.value;
+    const total = expenseTotalField.value;
+    const purchaser = expensePurchaserField.value.trim();
+
+    if(!name){ expenseNameField.focus(); return; }
+    if(!date){ expenseDateField.focus(); return; }
+    if(!total){ expenseTotalField.focus(); return; }
+    if(!purchaser){ expensePurchaserField.focus(); return; }
+
+    const kode = expenseCodeField.value;
+    const originalBtnText = saveAddExpenseBtn.textContent;
+    saveAddExpenseBtn.textContent = 'Menyimpan...';
+    saveAddExpenseBtn.disabled = true;
+
+    try{
+      let notaUrl = '';
+      if(expenseReceiptBlob){
+        notaUrl = await uploadNotaToSupabase(kode, expenseReceiptBlob, expenseReceiptIsImage, expenseReceiptExt);
+      }
+
+      const payload = {
+        kode_pengeluaran: kode,
+        nama_pengeluaran: name,
+        tanggal: date,
+        total_pengeluaran: String(total),
+        nota: notaUrl,
+        purchaser: purchaser,
+        kategori: expenseCategoryField.value
+      };
+
+      const res = await fetch(SUPABASE_URL + 'pengeluaran', {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if(!res.ok){
+        const errText = await res.text();
+        throw new Error(errText || ('HTTP ' + res.status));
+      }
+
+      await loadPengeluaran();
+
+      closeAddExpenseModal();
+    }catch(err){
+      console.error('Gagal menyimpan pengeluaran ke Supabase:', err);
+      alert('Gagal menyimpan pengeluaran: ' + err.message);
+    }finally{
+      saveAddExpenseBtn.textContent = originalBtnText;
+      saveAddExpenseBtn.disabled = false;
+    }
+  });
+
+  /* ==================================================================
+     DETAIL, EDIT & HAPUS PENGELUARAN (khusus baris kategori Operasional)
+     ================================================================== */
+
+  function detailNotaHtml(data){
+    if(!data.nota){
+      detailNota.classList.remove('no-pad');
+      return '<span style="color:#A8A6A2;">Tidak ada file</span>';
+    }
+    const isImg = /\.(jpg|jpeg|png|webp|gif)$/i.test(data.nota);
+    detailNota.classList.toggle('no-pad', isImg);
+    if(isImg){
+      return '<a href="' + data.nota + '" target="_blank" rel="noopener" class="detail-nota-preview">' +
+        '<img src="' + data.nota + '" alt="Nota">' +
+        '</a>';
+    }
+    return '<a href="' + data.nota + '" target="_blank" rel="noopener">📄 ' + receiptFileNameFromUrl(data.nota) + '</a>';
+  }
+
+  function openDetailModal(data){
+    selectedExpenseData = data;
+    detailKode.textContent = data.kode_pengeluaran || '-';
+    detailNama.textContent = data.nama_pengeluaran || '-';
+    detailTanggal.textContent = formatTanggal(data.tanggal);
+    detailTotal.textContent = formatRupiah(data.total_pengeluaran);
+    detailNota.innerHTML = detailNotaHtml(data);
+    detailPurchaser.textContent = data.purchaser || '-';
+    detailKategori.innerHTML = categoryBadgeHtml(data);
+    detailOverlay.classList.add('open');
+  }
+
+  function closeDetailModal(){
+    detailOverlay.classList.remove('open');
+  }
+
+  closeDetailExpenseBtn.addEventListener('click', closeDetailModal);
+  detailOverlay.addEventListener('click', (e) => {
+    if(e.target === detailOverlay) closeDetailModal();
+  });
+
+  /* ---------- Buka modal Edit, isi form dengan data yang dipilih ---------- */
+  function resetEditReceiptState(data){
+    editExpenseReceiptBlob = null;
+    editExpenseReceiptExt = '';
+    editExpenseReceiptIsImage = false;
+    editExpenseReceiptInput.value = '';
+    if(data && data.nota){
+      const isImg = /\.(jpg|jpeg|png|webp|gif)$/i.test(data.nota);
+      editExpenseReceiptPreview.innerHTML = isImg
+        ? '<img src="' + data.nota + '" alt="Nota">'
+        : '📄';
+    }else{
+      editExpenseReceiptPreview.innerHTML = '🧾';
+    }
+  }
+
+  function openEditModal(data){
+    editExpenseCodeField.value = data.kode_pengeluaran || '';
+    editExpenseNameField.value = data.nama_pengeluaran || '';
+    editExpenseDateField.value = data.tanggal || '';
+    editExpenseTotalField.value = data.total_pengeluaran || '';
+    editExpensePurchaserField.value = data.purchaser || '';
+    resetEditReceiptState(data);
+    closeDetailModal();
+    editOverlay.classList.add('open');
+  }
+
+  function closeEditModal(){
+    editOverlay.classList.remove('open');
+  }
+
+  editExpenseBtn.addEventListener('click', () => {
+    if(selectedExpenseData) openEditModal(selectedExpenseData);
+  });
+
+  closeEditExpenseBtn.addEventListener('click', closeEditModal);
+  cancelEditExpenseBtn.addEventListener('click', closeEditModal);
+  editOverlay.addEventListener('click', (e) => {
+    if(e.target === editOverlay) closeEditModal();
+  });
+
+  editExpenseReceiptBtn.addEventListener('click', () => editExpenseReceiptInput.click());
+  editExpenseReceiptInput.addEventListener('change', async () => {
+    const file = editExpenseReceiptInput.files[0];
+    if(!file) return;
+
+    if(file.type.startsWith('image/')){
+      editExpenseReceiptPreview.innerHTML = '⏳';
+      try{
+        const compressed = await compressImageToMax200KB(file);
+        editExpenseReceiptBlob = compressed;
+        editExpenseReceiptIsImage = true;
+        editExpenseReceiptExt = 'jpg';
+        const previewUrl = URL.createObjectURL(compressed);
+        editExpenseReceiptPreview.innerHTML = '<img src="' + previewUrl + '" alt="Nota">';
+      }catch(err){
+        console.error('Gagal mengompres gambar nota:', err);
+        editExpenseReceiptBlob = file;
+        editExpenseReceiptIsImage = true;
+        const extMatch = file.name.match(/\.([a-zA-Z0-9]+)$/);
+        editExpenseReceiptExt = extMatch ? extMatch[1].toLowerCase() : 'jpg';
+        const previewUrl = URL.createObjectURL(file);
+        editExpenseReceiptPreview.innerHTML = '<img src="' + previewUrl + '" alt="Nota">';
+      }
+    } else {
+      editExpenseReceiptBlob = file;
+      editExpenseReceiptIsImage = false;
+      const extMatch = file.name.match(/\.([a-zA-Z0-9]+)$/);
+      editExpenseReceiptExt = extMatch ? extMatch[1].toLowerCase() : 'pdf';
+      editExpenseReceiptPreview.innerHTML = '📄';
+    }
+  });
+
+  /* ---------- Simpan perubahan (UPDATE) ke tabel "pengeluaran" di Supabase ---------- */
+  saveEditExpenseBtn.addEventListener('click', async () => {
+    if(!selectedExpenseData) return;
+
+    const name = editExpenseNameField.value.trim();
+    const date = editExpenseDateField.value;
+    const total = editExpenseTotalField.value;
+    const purchaser = editExpensePurchaserField.value.trim();
+
+    if(!name){ editExpenseNameField.focus(); return; }
+    if(!date){ editExpenseDateField.focus(); return; }
+    if(!total){ editExpenseTotalField.focus(); return; }
+    if(!purchaser){ editExpensePurchaserField.focus(); return; }
+
+    const kode = editExpenseCodeField.value;
+    const originalBtnText = saveEditExpenseBtn.textContent;
+    saveEditExpenseBtn.textContent = 'Menyimpan...';
+    saveEditExpenseBtn.disabled = true;
+
+    try{
+      let notaUrl = selectedExpenseData.nota || '';
+      if(editExpenseReceiptBlob){
+        notaUrl = await uploadNotaToSupabase(kode, editExpenseReceiptBlob, editExpenseReceiptIsImage, editExpenseReceiptExt);
+      }
+
+      const payload = {
+        nama_pengeluaran: name,
+        tanggal: date,
+        total_pengeluaran: String(total),
+        nota: notaUrl,
+        purchaser: purchaser
+      };
+
+      const res = await fetch(SUPABASE_URL + 'pengeluaran?kode_pengeluaran=eq.' + encodeURIComponent(kode), {
+        method: 'PATCH',
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if(!res.ok){
+        const errText = await res.text();
+        throw new Error(errText || ('HTTP ' + res.status));
+      }
+
+      await loadPengeluaran();
+      closeEditModal();
+    }catch(err){
+      console.error('Gagal memperbarui pengeluaran di Supabase:', err);
+      alert('Gagal menyimpan perubahan: ' + err.message);
+    }finally{
+      saveEditExpenseBtn.textContent = originalBtnText;
+      saveEditExpenseBtn.disabled = false;
+    }
+  });
+
+  /* ---------- Hapus data pengeluaran dari Supabase ---------- */
+  deleteExpenseBtn.addEventListener('click', async () => {
+    if(!selectedExpenseData) return;
+
+    const kode = selectedExpenseData.kode_pengeluaran;
+    const konfirmasi = confirm('Hapus pengeluaran "' + selectedExpenseData.nama_pengeluaran + '" (' + kode + ')? Tindakan ini tidak dapat dibatalkan.');
+    if(!konfirmasi) return;
+
+    const originalBtnText = deleteExpenseBtn.textContent;
+    deleteExpenseBtn.textContent = 'Menghapus...';
+    deleteExpenseBtn.disabled = true;
+
+    try{
+      const res = await fetch(SUPABASE_URL + 'pengeluaran?kode_pengeluaran=eq.' + encodeURIComponent(kode), {
+        method: 'DELETE',
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+          'Prefer': 'return=minimal'
+        }
+      });
+
+      if(!res.ok){
+        const errText = await res.text();
+        throw new Error(errText || ('HTTP ' + res.status));
+      }
+
+      await loadPengeluaran();
+      closeDetailModal();
+    }catch(err){
+      console.error('Gagal menghapus pengeluaran dari Supabase:', err);
+      alert('Gagal menghapus pengeluaran: ' + err.message);
+    }finally{
+      deleteExpenseBtn.textContent = originalBtnText;
+      deleteExpenseBtn.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>
