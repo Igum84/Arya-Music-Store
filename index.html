@@ -405,6 +405,57 @@
     border-color:var(--walnut);
     color:var(--paper);
   }
+  .chip{ cursor:pointer; }
+
+  /* ---------- Filter bar (dropdowns) ---------- */
+  .filter-bar{
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    padding-bottom:2px;
+    scrollbar-width:none;
+  }
+  .filter-bar::-webkit-scrollbar{ display:none; }
+  .filter-select-wrap{
+    flex:0 0 auto;
+    position:relative;
+  }
+  .filter-select-wrap::after{
+    content:'▾';
+    position:absolute;
+    right:11px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:10px;
+    color:var(--ink-soft);
+    pointer-events:none;
+  }
+  .filter-select{
+    appearance:none;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    flex:0 0 auto;
+    padding:7px 26px 7px 13px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:600;
+    background:var(--white);
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+    white-space:nowrap;
+    max-width:132px;
+    font-family:inherit;
+  }
+  .filter-select:focus{ outline:none; border-color:var(--walnut); }
+  .filter-select.active-filter{
+    background:var(--walnut);
+    border-color:var(--walnut);
+    color:var(--paper);
+  }
+  .filter-select.active-filter + .filter-select-wrap::after{}
+  .filter-select-wrap:has(.filter-select.active-filter)::after{
+    color:var(--paper);
+  }
 
   /* ---------- Product grid ---------- */
   .grid{
@@ -488,6 +539,18 @@
     font-weight:500;
     margin-left:5px;
   }
+  .card-stock{
+    font-size:10px;
+    font-weight:700;
+    margin-top:5px;
+    display:flex;
+    align-items:center;
+    gap:4px;
+  }
+  .card-stock.aman{ color:#1F8A4C; }
+  .card-stock.menipis{ color:var(--cherry); }
+  .card-stock.habis{ color:var(--ink-soft); }
+  .card-stock.unknown{ color:#A6A3A0; }
   .card-meta{
     display:flex;
     align-items:center;
@@ -511,6 +574,13 @@
     font-weight:700;
   }
   .card-add svg{ width:14px; height:14px; }
+
+  .catalog-status{
+    text-align:center;
+    padding:30px 10px;
+    color:var(--ink-soft);
+    font-size:12.5px;
+  }
 
   /* ---------- Featured brand strip ---------- */
   .seller-scroll{
@@ -554,6 +624,153 @@
   .seller-info span{
     font-size:10px;
     color:var(--ink-soft);
+  }
+
+  .video-frame{
+    width:100%;
+    aspect-ratio:16/9;
+    border-radius:16px;
+    overflow:hidden;
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+    background:var(--paper-deep);
+  }
+  .video-frame iframe{
+    width:100%;
+    height:100%;
+    border:0;
+    display:block;
+  }
+  .video-caption{
+    margin-top:8px;
+  }
+  .video-caption .v-title{
+    font-size:12.5px;
+    font-weight:700;
+    color:var(--ink);
+    margin-bottom:2px;
+  }
+  .video-caption .v-date{
+    font-size:10.5px;
+    color:var(--ink-soft);
+  }
+  .video-panel{
+    background: url('bgyt.jpg') center/cover no-repeat, var(--paper-deep);
+    border-radius:20px;
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+    padding:16px;
+  }
+  .video-layout{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .video-main{ min-width:0; }
+  .video-side{
+    display:flex;
+    flex-direction:column;
+    background:rgba(255,255,255,0.92);
+    border-radius:14px;
+    padding:4px 8px;
+  }
+  .video-side-item{
+    display:flex;
+    gap:10px;
+    padding:10px 4px;
+    cursor:pointer;
+    border-bottom:1px solid var(--line);
+    transition:background 0.15s ease;
+  }
+  .video-side-item:last-child{ border-bottom:none; }
+  .video-side-item .thumb{
+    width:104px;
+    aspect-ratio:16/9;
+    border-radius:10px;
+    overflow:hidden;
+    flex-shrink:0;
+    background:var(--paper-deep);
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px;
+    border:1px solid var(--line);
+  }
+  .video-side-item .thumb img{ width:100%; height:100%; object-fit:cover; }
+  .video-side-item .info{ min-width:0; }
+  .video-side-item .info b{
+    font-size:11.5px; font-weight:700; line-height:1.35; color:var(--ink);
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+  }
+  .video-side-item .info .v-date-small{ font-size:10px; color:var(--ink-soft); margin-top:4px; }
+  @media (hover:hover){
+    .video-side-item:hover{ background:var(--paper); }
+  }
+  @media (min-width:768px){
+    .video-panel{ padding:22px; }
+    .video-layout{ flex-direction:row; align-items:flex-start; }
+    .video-main{ flex:0 0 66%; max-width:66%; }
+    .video-side{ flex:1; min-width:0; max-height:420px; overflow-y:auto; padding-right:2px; }
+  }
+
+  /* ---------- Alamat & Lokasi (Maps) ---------- */
+  .location-card{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:12px;
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    padding:14px 16px;
+    margin-bottom:12px;
+  }
+  .location-card-info{
+    display:flex;
+    align-items:flex-start;
+    gap:11px;
+  }
+  .location-card .loc-icon{
+    width:38px; height:38px;
+    border-radius:11px;
+    background:rgba(216,38,44,0.1);
+    color:var(--cherry);
+    display:flex; align-items:center; justify-content:center;
+    font-size:17px;
+    flex-shrink:0;
+  }
+  .location-card .loc-name{
+    font-size:13.5px;
+    font-weight:700;
+    color:var(--ink);
+    margin-bottom:2px;
+  }
+  .location-card .loc-address{
+    font-size:12px;
+    color:var(--ink-soft);
+    line-height:1.5;
+    max-width:260px;
+  }
+  .location-card .loc-directions{
+    flex-shrink:0;
+    font-size:11px;
+    font-weight:700;
+    color:var(--cherry);
+    white-space:nowrap;
+    padding-top:9px;
+  }
+  .location-map{
+    width:100%;
+    height:190px;
+    border-radius:16px;
+    overflow:hidden;
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+  }
+  .location-map iframe{
+    width:100%;
+    height:100%;
+    border:0;
+    display:block;
   }
 
   /* ---------- Trust footer note ---------- */
@@ -1090,6 +1307,10 @@
     .card-name{ font-size:14px; }
 
     .trust-note{ margin:30px 32px 10px; padding:24px 30px; }
+
+    .location-card{ padding:18px 22px; }
+    .location-card .loc-address{ max-width:360px; }
+    .location-map{ height:260px; border-radius:18px; }
   }
 
   /* ---------- Footer ---------- */
@@ -1313,22 +1534,6 @@
     <div class="stat"><div class="num">24 jam</div><div class="lbl">Respon konsultasi</div></div>
   </div>
 
-  <!-- CATEGORIES -->
-  <section class="section">
-    <div class="section-head">
-      <h2>Kategori</h2>
-      <a class="see-all" href="produk.html">Semua</a>
-    </div>
-    <div class="cat-scroll">
-      <a class="cat-item" href="produk.html"><div class="cat-circle">🎸</div><span>Elektrik</span></a>
-      <a class="cat-item" href="produk.html"><div class="cat-circle">🪕</div><span>Akustik</span></a>
-      <a class="cat-item" href="produk.html"><div class="cat-circle">🎛️</div><span>Efek &amp; Pedal</span></a>
-      <a class="cat-item" href="produk.html"><div class="cat-circle">〰️</div><span>Senar</span></a>
-      <a class="cat-item" href="produk.html"><div class="cat-circle">🪢</div><span>Aksesoris</span></a>
-      <a class="cat-item" href="produk.html"><div class="cat-circle">🔊</div><span>Ampli</span></a>
-    </div>
-  </section>
-
   <!-- PROMO -->
   <div class="promo-strip">
     <div class="ps-text">
@@ -1338,445 +1543,93 @@
     <div class="ps-code">Arya Music Store</div>
   </div>
 
-  <!-- FEATURED BRANDS -->
-  <section class="section">
+  <!-- FILTER + PRODUCTS -->
+  <section class="section" id="produk">
     <div class="section-head">
-      <h2>Merek Pilihan</h2>
-      <a class="see-all" href="produk.html">Lihat semua</a>
+      <h2>Our Product</h2>
     </div>
-    <div class="seller-scroll">
-      <a class="seller-card" href="produk.html">
-        <div class="seller-banner" style="background:#F0E1C4;">🎸</div>
-        <div class="seller-info">
-          <div class="seller-avatar">🎸</div>
-          <b>Voxwood</b>
-          <span>Gitar elektrik</span>
+    <div class="filter-bar">
+      <button type="button" class="chip active" id="filterSemuaBtn">Semua</button>
+      <div class="filter-select-wrap">
+        <select class="filter-select" id="filterKategori">
+          <option value="">Kategori</option>
+        </select>
+      </div>
+      <div class="filter-select-wrap">
+        <select class="filter-select" id="filterMerk">
+          <option value="">Merek</option>
+        </select>
+      </div>
+      <div class="filter-select-wrap">
+        <select class="filter-select" id="filterHarga">
+          <option value="">Harga</option>
+          <option value="0-500000">Di bawah Rp500rb</option>
+          <option value="500000-1000000">Rp500rb - Rp1jt</option>
+          <option value="1000000-3000000">Rp1jt - Rp3jt</option>
+          <option value="3000000-999999999999">Di atas Rp3jt</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid" id="productGrid"></div>
+    <div class="catalog-status" id="productGridStatus">Memuat produk...</div>
+
+
+    <div class="pagination" id="productPagination"></div>
+  </section>
+
+  <!-- VIDEO TERBARU -->
+  <section class="section" id="video-terbaru">
+    <div class="section-head">
+      <h2>Video Produk</h2>
+    </div>
+
+    <div class="video-panel">
+      <div class="video-layout">
+        <div class="video-main">
+          <div class="video-frame" id="videoTerbaruFrame" style="display:none;">
+            <iframe
+              id="videoTerbaruIframe"
+              src=""
+              title="Video Terbaru Arya Music Store"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+          <div class="video-caption" id="videoTerbaruCaption" style="display:none;">
+            <div class="v-title" id="videoTerbaruTitle"></div>
+            <div class="v-date" id="videoTerbaruDate"></div>
+          </div>
+          <div class="catalog-status" id="videoTerbaruStatus">Memuat video...</div>
         </div>
-      </a>
-      <a class="seller-card" href="produk.html">
-        <div class="seller-banner" style="background:#E7DCC6;">🪕</div>
-        <div class="seller-info">
-          <div class="seller-avatar">🪵</div>
-          <b>Marrow</b>
-          <span>Gitar akustik</span>
-        </div>
-      </a>
-      <a class="seller-card" href="produk.html">
-        <div class="seller-banner" style="background:#DCE3D4;">🎛️</div>
-        <div class="seller-info">
-          <div class="seller-avatar">🎛️</div>
-          <b>Driftline</b>
-          <span>Efek &amp; pedal</span>
-        </div>
-      </a>
+
+        <div class="video-side" id="videoSideList"></div>
+      </div>
     </div>
   </section>
 
-  <!-- FILTER CHIPS + PRODUCTS -->
-  <section class="section" id="produk">
+  <!-- ALAMAT & LOKASI -->
+  <section class="section" id="lokasi">
     <div class="section-head">
-      <h2>Produk Terbaru</h2>
-    </div>
-    <div class="chip-row">
-      <div class="chip active">Semua</div>
-      <div class="chip">Terlaris</div>
-      <div class="chip">Termurah</div>
-      <div class="chip">Baru</div>
-      <div class="chip">Rating 4.5+</div>
+      <h2>Alamat &amp; Lokasi</h2>
     </div>
 
-    <div class="grid" id="productGrid">
-      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
-        <div class="card-thumb" style="background:#F0E1C4;">
-          <span class="badge">Diskon</span>
-          <span class="fav">♡</span>
-          🎸
+    <div class="location-card">
+      <div class="location-card-info">
+        <div class="loc-icon">📍</div>
+        <div>
+          <div class="loc-name">Arya Music Store</div>
+          <div class="loc-address">Jl. Melodi Raya No. 12, Bandung, Jawa Barat</div>
         </div>
-        <div class="card-body">
-          <div class="card-shop"><span class="check">✓</span> Voxwood</div>
-          <div class="card-name">Voxwood ST-62 Sunburst</div>
-          <div class="card-price">Rp7.225.000 <span class="old">Rp8,5jt</span></div>
-          <div class="card-meta">
-            <div class="card-rating">⭐ 4.9 · 118</div>
-            <div class="card-add" onclick="openWaModal(event,'Voxwood ST-62 Sunburst')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
-          </div>
-        </div>
-      </a>
-
-      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
-        <div class="card-thumb" style="background:#E7DCC6;">
-          <span class="fav">♡</span>
-          🪕
-        </div>
-        <div class="card-body">
-          <div class="card-shop"><span class="check">✓</span> Marrow</div>
-          <div class="card-name">Marrow Dreadnought D-100</div>
-          <div class="card-price">Rp3.100.000</div>
-          <div class="card-meta">
-            <div class="card-rating">⭐ 4.8 · 76</div>
-            <div class="card-add" onclick="openWaModal(event,'Marrow Dreadnought D-100')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
-          </div>
-        </div>
-      </a>
-
-      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
-        <div class="card-thumb" style="background:#DCE3D4;">
-          <span class="badge">Baru</span>
-          <span class="fav">♡</span>
-          🎛️
-        </div>
-        <div class="card-body">
-          <div class="card-shop"><span class="check">✓</span> Driftline</div>
-          <div class="card-name">Driftline Delay Pedal</div>
-          <div class="card-price">Rp1.150.000</div>
-          <div class="card-meta">
-            <div class="card-rating">⭐ 4.7 · 54</div>
-            <div class="card-add" onclick="openWaModal(event,'Driftline Delay Pedal')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
-          </div>
-        </div>
-      </a>
-
-      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
-        <div class="card-thumb" style="background:#F0DCD4;">
-          <span class="fav">♡</span>
-          〰️
-        </div>
-        <div class="card-body">
-          <div class="card-shop"><span class="check">✓</span> Coreline</div>
-          <div class="card-name">Coreline Senar Elektrik .010</div>
-          <div class="card-price">Rp95.000</div>
-          <div class="card-meta">
-            <div class="card-rating">⭐ 4.9 · 302</div>
-            <div class="card-add" onclick="openWaModal(event,'Coreline Senar Elektrik .010')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
-          </div>
-        </div>
-      </a>
-
-      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
-        <div class="card-thumb" style="background:#F5EBC9;">
-          <span class="badge">Baru</span>
-          <span class="fav">♡</span>
-          🎯
-        </div>
-        <div class="card-body">
-          <div class="card-shop"><span class="check">✓</span> Precision</div>
-          <div class="card-name">Clip Tuner Precision T3</div>
-          <div class="card-price">Rp145.000</div>
-          <div class="card-meta">
-            <div class="card-rating">⭐ 4.8 · 91</div>
-            <div class="card-add" onclick="openWaModal(event,'Clip Tuner Precision T3')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
-          </div>
-        </div>
-      </a>
-
-      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
-        <div class="card-thumb" style="background:#E3E9F0;">
-          <span class="fav">♡</span>
-          🪢
-        </div>
-        <div class="card-body">
-          <div class="card-shop"><span class="check">✓</span> Heritage</div>
-          <div class="card-name">Strap Kulit Heritage Brown</div>
-          <div class="card-price">Rp220.000</div>
-          <div class="card-meta">
-            <div class="card-rating">⭐ 4.7 · 63</div>
-            <div class="card-add" onclick="openWaModal(event,'Strap Kulit Heritage Brown')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
-          </div>
-        </div>
-      </a>
-
-      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
-        <div class="card-thumb" style="background:#F0E1C4;">
-          <span class="fav">♡</span>
-          🔊
-        </div>
-        <div class="card-body">
-          <div class="card-shop"><span class="check">✓</span> Amperio</div>
-          <div class="card-name">Amperio A-15 Combo Amp</div>
-          <div class="card-price">Rp2.450.000</div>
-          <div class="card-meta">
-            <div class="card-rating">⭐ 4.6 · 42</div>
-            <div class="card-add" onclick="openWaModal(event,'Amperio A-15 Combo Amp')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
-          </div>
-        </div>
-      </a>
-
-      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
-        <div class="card-thumb" style="background:#E7DCC6;">
-          <span class="fav">♡</span>
-          🪢
-        </div>
-        <div class="card-body">
-          <div class="card-shop"><span class="check">✓</span> Sonora</div>
-          <div class="card-name">Sonora Capo Quick Release</div>
-          <div class="card-price">Rp65.000</div>
-          <div class="card-meta">
-            <div class="card-rating">⭐ 4.8 · 210</div>
-            <div class="card-add" onclick="openWaModal(event,'Sonora Capo Quick Release')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
-          </div>
-        </div>
-      </a>
-
-      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
-        <div class="card-thumb" style="background:#DCE3D4;">
-          <span class="fav">♡</span>
-          🎒
-        </div>
-        <div class="card-body">
-          <div class="card-shop"><span class="check">✓</span> Ridgeline</div>
-          <div class="card-name">Ridgeline Gig Bag Padded</div>
-          <div class="card-price">Rp310.000</div>
-          <div class="card-meta">
-            <div class="card-rating">⭐ 4.7 · 58</div>
-            <div class="card-add" onclick="openWaModal(event,'Ridgeline Gig Bag Padded')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
-          </div>
-        </div>
-      </a>
-
-      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
-        <div class="card-thumb" style="background:#F0DCD4;">
-          <span class="badge">Terlaris</span>
-          <span class="fav">♡</span>
-          🎯
-        </div>
-        <div class="card-body">
-          <div class="card-shop"><span class="check">✓</span> Talonpick</div>
-          <div class="card-name">Talonpick Celluloid Pack</div>
-          <div class="card-price">Rp25.000</div>
-          <div class="card-meta">
-            <div class="card-rating">⭐ 4.9 · 401</div>
-            <div class="card-add" onclick="openWaModal(event,'Talonpick Celluloid Pack')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
-          </div>
-        </div>
-      </a>
-
-      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
-        <div class="card-thumb" style="background:#F5EBC9;">
-          <span class="fav">♡</span>
-          🎸
-        </div>
-        <div class="card-body">
-          <div class="card-shop"><span class="check">✓</span> Voxwood</div>
-          <div class="card-name">Voxwood TL-40 Butterscotch</div>
-          <div class="card-price">Rp6.850.000</div>
-          <div class="card-meta">
-            <div class="card-rating">⭐ 4.8 · 87</div>
-            <div class="card-add" onclick="openWaModal(event,'Voxwood TL-40 Butterscotch')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
-          </div>
-        </div>
-      </a>
-
-      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
-        <div class="card-thumb" style="background:#E3E9F0;">
-          <span class="fav">♡</span>
-          🪕
-        </div>
-        <div class="card-body">
-          <div class="card-shop"><span class="check">✓</span> Marrow</div>
-          <div class="card-name">Marrow Parlor P-200</div>
-          <div class="card-price">Rp2.750.000</div>
-          <div class="card-meta">
-            <div class="card-rating">⭐ 4.7 · 39</div>
-            <div class="card-add" onclick="openWaModal(event,'Marrow Parlor P-200')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
-          </div>
-        </div>
-      </a>
-
-      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
-        <div class="card-thumb" style="background:#F0E1C4;">
-          <span class="fav">♡</span>
-          🎛️
-        </div>
-        <div class="card-body">
-          <div class="card-shop"><span class="check">✓</span> Driftline</div>
-          <div class="card-name">Driftline Reverb Tank</div>
-          <div class="card-price">Rp1.320.000</div>
-          <div class="card-meta">
-            <div class="card-rating">⭐ 4.8 · 66</div>
-            <div class="card-add" onclick="openWaModal(event,'Driftline Reverb Tank')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
-          </div>
-        </div>
-      </a>
-
-      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
-        <div class="card-thumb" style="background:#E7DCC6;">
-          <span class="fav">♡</span>
-          〰️
-        </div>
-        <div class="card-body">
-          <div class="card-shop"><span class="check">✓</span> Coreline</div>
-          <div class="card-name">Coreline Senar Akustik Phosphor</div>
-          <div class="card-price">Rp85.000</div>
-          <div class="card-meta">
-            <div class="card-rating">⭐ 4.8 · 176</div>
-            <div class="card-add" onclick="openWaModal(event,'Coreline Senar Akustik Phosphor')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
-          </div>
-        </div>
-      </a>
-
-      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
-        <div class="card-thumb" style="background:#DCE3D4;">
-          <span class="fav">♡</span>
-          🎯
-        </div>
-        <div class="card-body">
-          <div class="card-shop"><span class="check">✓</span> Precision</div>
-          <div class="card-name">Precision Metronome Digital M2</div>
-          <div class="card-price">Rp180.000</div>
-          <div class="card-meta">
-            <div class="card-rating">⭐ 4.6 · 48</div>
-            <div class="card-add" onclick="openWaModal(event,'Precision Metronome Digital M2')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
-          </div>
-        </div>
-      </a>
-
-      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
-        <div class="card-thumb" style="background:#F0DCD4;">
-          <span class="fav">♡</span>
-          🪢
-        </div>
-        <div class="card-body">
-          <div class="card-shop"><span class="check">✓</span> Heritage</div>
-          <div class="card-name">Heritage Strap Kanvas Woven</div>
-          <div class="card-price">Rp165.000</div>
-          <div class="card-meta">
-            <div class="card-rating">⭐ 4.6 · 52</div>
-            <div class="card-add" onclick="openWaModal(event,'Heritage Strap Kanvas Woven')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
-          </div>
-        </div>
-      </a>
-
-      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
-        <div class="card-thumb" style="background:#F5EBC9;">
-          <span class="badge">Baru</span>
-          <span class="fav">♡</span>
-          🔊
-        </div>
-        <div class="card-body">
-          <div class="card-shop"><span class="check">✓</span> Amperio</div>
-          <div class="card-name">Amperio Tube Head 50W</div>
-          <div class="card-price">Rp9.400.000</div>
-          <div class="card-meta">
-            <div class="card-rating">⭐ 4.9 · 22</div>
-            <div class="card-add" onclick="openWaModal(event,'Amperio Tube Head 50W')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
-          </div>
-        </div>
-      </a>
-
-      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
-        <div class="card-thumb" style="background:#E3E9F0;">
-          <span class="fav">♡</span>
-          🪢
-        </div>
-        <div class="card-body">
-          <div class="card-shop"><span class="check">✓</span> Sonora</div>
-          <div class="card-name">Sonora Slide Brass Tone</div>
-          <div class="card-price">Rp95.000</div>
-          <div class="card-meta">
-            <div class="card-rating">⭐ 4.5 · 30</div>
-            <div class="card-add" onclick="openWaModal(event,'Sonora Slide Brass Tone')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
-          </div>
-        </div>
-      </a>
-
-      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
-        <div class="card-thumb" style="background:#F0E1C4;">
-          <span class="fav">♡</span>
-          🎸
-        </div>
-        <div class="card-body">
-          <div class="card-shop"><span class="check">✓</span> Voxwood</div>
-          <div class="card-name">Voxwood Bass VB-4</div>
-          <div class="card-price">Rp5.600.000</div>
-          <div class="card-meta">
-            <div class="card-rating">⭐ 4.7 · 61</div>
-            <div class="card-add" onclick="openWaModal(event,'Voxwood Bass VB-4')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
-          </div>
-        </div>
-      </a>
-
-      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
-        <div class="card-thumb" style="background:#E7DCC6;">
-          <span class="fav">♡</span>
-          🪕
-        </div>
-        <div class="card-body">
-          <div class="card-shop"><span class="check">✓</span> Marrow</div>
-          <div class="card-name">Marrow Travel Mini M-50</div>
-          <div class="card-price">Rp1.980.000</div>
-          <div class="card-meta">
-            <div class="card-rating">⭐ 4.8 · 44</div>
-            <div class="card-add" onclick="openWaModal(event,'Marrow Travel Mini M-50')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
-          </div>
-        </div>
-      </a>
-
-      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
-        <div class="card-thumb" style="background:#DCE3D4;">
-          <span class="fav">♡</span>
-          🎛️
-        </div>
-        <div class="card-body">
-          <div class="card-shop"><span class="check">✓</span> Driftline</div>
-          <div class="card-name">Driftline Fuzz Drive</div>
-          <div class="card-price">Rp980.000</div>
-          <div class="card-meta">
-            <div class="card-rating">⭐ 4.7 · 73</div>
-            <div class="card-add" onclick="openWaModal(event,'Driftline Fuzz Drive')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
-          </div>
-        </div>
-      </a>
-
-      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
-        <div class="card-thumb" style="background:#F0DCD4;">
-          <span class="fav">♡</span>
-          〰️
-        </div>
-        <div class="card-body">
-          <div class="card-shop"><span class="check">✓</span> Coreline</div>
-          <div class="card-name">Coreline Senar Bass .045</div>
-          <div class="card-price">Rp135.000</div>
-          <div class="card-meta">
-            <div class="card-rating">⭐ 4.9 · 128</div>
-            <div class="card-add" onclick="openWaModal(event,'Coreline Senar Bass .045')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
-          </div>
-        </div>
-      </a>
-
-      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
-        <div class="card-thumb" style="background:#F5EBC9;">
-          <span class="fav">♡</span>
-          🪢
-        </div>
-        <div class="card-body">
-          <div class="card-shop"><span class="check">✓</span> Precision</div>
-          <div class="card-name">Precision Wall Hanger Oak</div>
-          <div class="card-price">Rp210.000</div>
-          <div class="card-meta">
-            <div class="card-rating">⭐ 4.6 · 35</div>
-            <div class="card-add" onclick="openWaModal(event,'Precision Wall Hanger Oak')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
-          </div>
-        </div>
-      </a>
-
-      <a class="card" href="produk.html" onclick="openProductModal(event, this)">
-        <div class="card-thumb" style="background:#E3E9F0;">
-          <span class="fav">♡</span>
-          🎒
-        </div>
-        <div class="card-body">
-          <div class="card-shop"><span class="check">✓</span> Heritage</div>
-          <div class="card-name">Heritage Case Hardshell</div>
-          <div class="card-price">Rp980.000</div>
-          <div class="card-meta">
-            <div class="card-rating">⭐ 4.8 · 27</div>
-            <div class="card-add" onclick="openWaModal(event,'Heritage Case Hardshell')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>
-          </div>
-        </div>
-      </a>
+      </div>
+      <a class="loc-directions" href="https://www.google.com/maps?q=Jl.+Melodi+Raya+No.+12,+Bandung,+Jawa+Barat" target="_blank" rel="noopener">Rute ↗</a>
     </div>
 
-    <div class="pagination" id="productPagination"></div>
+    <div class="location-map">
+      <iframe
+        src="https://www.google.com/maps?q=Jl.+Melodi+Raya+No.+12,+Bandung,+Jawa+Barat&output=embed"
+        loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
   </section>
 
   <!-- TRUST NOTE -->
@@ -1817,21 +1670,24 @@
         </div>
         <div class="footer-col">
           <span class="footer-col-title">Kontak</span>
-          <a href="#">0812-3456-7890</a>
+          <a href="tel:081234567890" id="footerPhoneLink">0812-3456-7890</a>
           <a href="#">aryamusicstore@gmail.com</a>
           <a href="#">Bangka Belitung, ID</a>
         </div>
       </div>
 
       <div class="footer-socials">
-        <a class="footer-social" href="#" aria-label="Instagram">
+        <a class="footer-social" id="socialInstagram" href="#" aria-label="Instagram" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
         </a>
-        <a class="footer-social" href="#" aria-label="TikTok">
+        <a class="footer-social" id="socialTiktok" href="#" aria-label="TikTok" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14.5 2h3c.1 1.9 1.5 3.5 3.5 3.8v3c-1.3 0-2.5-.4-3.5-1.1v6.6c0 3.4-2.7 6.1-6.1 6.1S5.3 17.7 5.3 14.3s2.7-6.1 6.1-6.1c.4 0 .7 0 1.1.1v3.1c-.3-.1-.7-.2-1.1-.2-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3V2z"/></svg>
         </a>
-        <a class="footer-social" href="#" aria-label="YouTube">
+        <a class="footer-social" id="socialYoutube" href="#" aria-label="YouTube" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2s-.2-1.5-.8-2.2c-.8-.8-1.7-.8-2.1-.9C15.9 4 12 4 12 4h0s-3.9 0-6.7.1c-.4.1-1.3.1-2.1.9-.6.7-.8 2.2-.8 2.2S2.2 9 2.2 10.7v1.5c0 1.8.2 3.5.2 3.5s.2 1.5.8 2.2c.8.8 1.9.8 2.4.9 1.7.2 7.4.2 7.4.2s3.9 0 6.7-.2c.4 0 1.3-.1 2.1-.9.6-.7.8-2.2.8-2.2s.2-1.7.2-3.5v-1.5c0-1.7-.2-3.5-.2-3.5zM9.9 14.6V8.9l5.4 2.9-5.4 2.8z"/></svg>
+        </a>
+        <a class="footer-social" id="socialFacebook" href="#" aria-label="Facebook" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06C2 17.08 5.66 21.24 10.44 22v-7.03H7.9v-2.91h2.54V9.85c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22C18.34 21.24 22 17.08 22 12.06z"/></svg>
         </a>
         <a class="footer-social" href="#" aria-label="Akun" onclick="openLoginModal(event)">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
@@ -1988,12 +1844,14 @@
   // ---------- Product Detail Modal ----------
   var currentProductName = '';
 
+  var DEFAULT_PM_DESC = document.getElementById('pmDesc') ? document.getElementById('pmDesc').textContent : '';
+
   function openProductModal(e, card){
     if(e){ e.preventDefault(); e.stopPropagation(); }
 
     var thumb = card.querySelector('.card-thumb');
     var badgeEl = thumb.querySelector('.badge');
-    var bg = thumb.style.background || '#F0E1C4';
+    var photoUrl = card.getAttribute('data-photo') || '';
 
     var emoji = '';
     thumb.childNodes.forEach(function(n){
@@ -2009,11 +1867,23 @@
     var oldEl = priceEl.querySelector('.old');
 
     var rating = card.querySelector('.card-rating').textContent.trim();
+    var desc = card.getAttribute('data-desc') || '';
 
     currentProductName = name;
 
-    document.getElementById('pmThumb').style.background = bg;
-    document.getElementById('pmThumbEmoji').textContent = emoji;
+    var pmThumbEl = document.getElementById('pmThumb');
+    var pmThumbEmojiEl = document.getElementById('pmThumbEmoji');
+    if(photoUrl){
+      pmThumbEl.style.background = '';
+      pmThumbEl.style.backgroundImage = "url('" + photoUrl.replace(/'/g, '%27') + "')";
+      pmThumbEl.style.backgroundSize = 'cover';
+      pmThumbEl.style.backgroundPosition = 'center';
+      pmThumbEmojiEl.textContent = '';
+    } else {
+      pmThumbEl.style.backgroundImage = '';
+      pmThumbEl.style.background = thumb.style.background || '#F0E1C4';
+      pmThumbEmojiEl.textContent = emoji;
+    }
 
     var pmBadge = document.getElementById('pmBadge');
     if(badgeEl){
@@ -2035,15 +1905,17 @@
       pmOld.style.display = 'none';
     }
 
-    document.getElementById('pmRating').textContent = rating;
+    document.getElementById('pmRating').textContent = rating || shop;
+    document.getElementById('pmDesc').textContent = desc ? desc : DEFAULT_PM_DESC;
 
+    var pmStock = document.getElementById('pmStock');
     var stock = card.getAttribute('data-stock');
-    if(!stock){
-      var hash = 0;
-      for(var i = 0; i < name.length; i++){ hash = (hash * 31 + name.charCodeAt(i)) % 97; }
-      stock = 3 + (hash % 40);
+    if(stock){
+      pmStock.textContent = 'Stok ' + stock;
+      pmStock.style.display = '';
+    } else {
+      pmStock.style.display = 'none';
     }
-    document.getElementById('pmStock').textContent = 'Stok ' + stock;
 
     document.getElementById('productModal').classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -2093,13 +1965,17 @@
   })();
 
   // ---------- Product pagination (10 per halaman) ----------
-  (function(){
+  function initProductPagination(cardsOverride){
     var PAGE_SIZE = 10;
     var grid = document.getElementById('productGrid');
     var pagination = document.getElementById('productPagination');
     if(!grid || !pagination) return;
 
-    var cards = Array.prototype.slice.call(grid.querySelectorAll('.card'));
+    var allCards = Array.prototype.slice.call(grid.querySelectorAll('.card'));
+    var cards = cardsOverride || allCards;
+    var hiddenCards = allCards.filter(function(c){ return cards.indexOf(c) === -1; });
+    hiddenCards.forEach(function(c){ c.style.display = 'none'; });
+
     var totalPages = Math.max(1, Math.ceil(cards.length / PAGE_SIZE));
     var currentPage = 1;
 
@@ -2145,8 +2021,568 @@
     }
 
     showPage(1);
-  })();
+  }
+
+  // ---------- Produk Terbaru dari Supabase (tabel dataproduk) ----------
+  var CATALOG_SUPABASE_URL = 'https://gkkwhehaxumgoxqklauu.supabase.co';
+  var CATALOG_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdra3doZWhheHVtZ294cWtsYXV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMwMzgyOTksImV4cCI6MjA5ODYxNDI5OX0.zRTCMwQfuMI4vEfOIq6ABi4rOOHOZShjFWaofCfwX6g';
+  var CATALOG_SUPABASE_TABLE = 'dataproduk';
+  var STOK_SUPABASE_TABLE = 'stokproduk';
+
+  function normalizeNamaProduk(str){
+    return String(str || '').trim().toLowerCase();
+  }
+
+  function computeStokStatus(jumlah){
+    var n = Number(jumlah) || 0;
+    if(n <= 0) return 'habis';
+    if(n <= 5) return 'menipis';
+    return 'aman';
+  }
+
+  function buildStokLabel(jumlah, found){
+    if(!found) return { cls: 'unknown', text: 'Stok tidak tersedia' };
+    var status = computeStokStatus(jumlah);
+    if(status === 'habis') return { cls: 'habis', text: '📦 Stok Habis' };
+    if(status === 'menipis') return { cls: 'menipis', text: '📦 Stok: ' + jumlah + ' (Menipis)' };
+    return { cls: 'aman', text: '📦 Stok: ' + jumlah };
+  }
+
+  function fetchStokMap(){
+    return fetch(CATALOG_SUPABASE_URL + '/rest/v1/' + STOK_SUPABASE_TABLE + '?select=nama_produk,jumlah_stok', {
+      headers: {
+        'apikey': CATALOG_SUPABASE_ANON_KEY,
+        'Authorization': 'Bearer ' + CATALOG_SUPABASE_ANON_KEY
+      }
+    })
+    .then(function(res){
+      if(!res.ok) throw new Error('Gagal memuat data stok dari Supabase.');
+      return res.json();
+    })
+    .then(function(rows){
+      var map = {};
+      (rows || []).forEach(function(r){
+        var key = normalizeNamaProduk(r.nama_produk);
+        if(!key) return;
+        var jumlah = Number(r.jumlah_stok) || 0;
+        map[key] = (map[key] || 0) + jumlah;
+      });
+      return map;
+    })
+    .catch(function(err){
+      console.error('Gagal memuat stok:', err);
+      return {};
+    });
+  }
+
+  var CATEGORY_EMOJI = {
+    'Gitar Akustik': '🪕',
+    'Gitar Elektrik': '🎸',
+    'Efek & Pedal': '🎛️',
+    'Amplifier': '🔊',
+    'Senar & Aksesori': '〰️',
+    'Case & Tas': '🎒'
+  };
+  var CATEGORY_COLORS = ['#F0E1C4', '#E7DCC6', '#DCE3D4', '#F0DCD4', '#F5EBC9', '#E3E9F0'];
+
+  function catalogParseNumber(str){
+    return Number(String(str || '').replace(/\D/g, '')) || 0;
+  }
+  function catalogFormatRupiah(num){
+    return 'Rp' + Number(num || 0).toLocaleString('id-ID');
+  }
+  function catalogPastelColor(seed){
+    var hash = 0;
+    for(var i = 0; i < seed.length; i++){ hash = (hash * 31 + seed.charCodeAt(i)) % 997; }
+    return CATEGORY_COLORS[hash % CATEGORY_COLORS.length];
+  }
+
+  function buildProductCard(row, stokMap){
+    stokMap = stokMap || {};
+    var kode = row.kode_produk || '';
+    var nama = row.nama_produk || 'Produk';
+    var kategori = row.kategori || '';
+    var merk = row.merk || '';
+    var photo = row.photo_produk || '';
+    var deskripsi = row.deskripsi || '';
+    var jualAwal = catalogParseNumber(row.harga_jual_awal);
+    var jualAkhir = catalogParseNumber(row.harga_jual_akhir) || jualAwal;
+    var discount = Number(row.discount) || 0;
+    var emoji = CATEGORY_EMOJI[kategori] || '🎸';
+    var bg = catalogPastelColor(kategori || kode || nama);
+
+    var namaKey = normalizeNamaProduk(nama);
+    var stokFound = Object.prototype.hasOwnProperty.call(stokMap, namaKey);
+    var stokJumlah = stokFound ? stokMap[namaKey] : 0;
+    var stokInfo = buildStokLabel(stokJumlah, stokFound);
+
+    var a = document.createElement('a');
+    a.className = 'card';
+    a.href = 'produk.html';
+    a.setAttribute('data-kode', kode);
+    a.setAttribute('data-desc', deskripsi);
+    a.setAttribute('data-kategori', kategori);
+    a.setAttribute('data-merk', merk);
+    a.setAttribute('data-harga', jualAkhir);
+
+    var thumb = document.createElement('div');
+    thumb.className = 'card-thumb';
+    if(photo){
+      thumb.style.backgroundImage = "url('" + photo.replace(/'/g, '%27') + "')";
+      thumb.style.backgroundSize = 'cover';
+      thumb.style.backgroundPosition = 'center';
+      a.setAttribute('data-photo', photo);
+    } else {
+      thumb.style.background = bg;
+    }
+    if(discount > 0){
+      var badge = document.createElement('span');
+      badge.className = 'badge';
+      badge.textContent = 'Diskon';
+      thumb.appendChild(badge);
+    }
+    var fav = document.createElement('span');
+    fav.className = 'fav';
+    fav.textContent = '♡';
+    thumb.appendChild(fav);
+    if(!photo){
+      thumb.appendChild(document.createTextNode(emoji));
+    }
+
+    var body = document.createElement('div');
+    body.className = 'card-body';
+
+    var shopHtml = '<span class="check">✓</span> ' + (merk || kategori || 'Arya Music Store');
+    var priceHtml = catalogFormatRupiah(jualAkhir) +
+      (discount > 0 && jualAwal > jualAkhir ? ' <span class="old">' + catalogFormatRupiah(jualAwal) + '</span>' : '');
+    var metaHtml = kategori ? ('🏷️ ' + kategori) : '';
+
+    body.innerHTML =
+      '<div class="card-shop">' + shopHtml + '</div>' +
+      '<div class="card-name"></div>' +
+      '<div class="card-price">' + priceHtml + '</div>' +
+      '<div class="card-stock ' + stokInfo.cls + '">' + stokInfo.text + '</div>' +
+      '<div class="card-meta">' +
+        '<div class="card-rating">' + metaHtml + '</div>' +
+        '<div class="card-add"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.87 9.87 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.1.11-1.78-.11a15 15 0 0 1-1.66-.62 12.6 12.6 0 0 1-4.68-4.13c-.34-.46-.68-.99-.75-1.55-.06-.5.06-.94.28-1.28.18-.28.44-.5.7-.62.13-.06.27-.07.38-.02.13.05.32.19.5.55.19.36.65 1.58.7 1.7.06.12.1.26.02.42-.08.16-.13.26-.26.4-.13.14-.27.32-.38.43-.13.13-.26.27-.11.53.15.26.68 1.12 1.46 1.82 1 .9 1.85 1.18 2.11 1.31.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.36-.22.6-.13.24.09 1.5.71 1.76.84.26.13.43.19.5.3.06.11.06.62-.18 1.3z"/></svg></div>' +
+      '</div>';
+
+    // Set nama produk lewat textContent (bukan innerHTML) supaya aman dari karakter khusus
+    body.querySelector('.card-name').textContent = nama;
+
+    a.appendChild(thumb);
+    a.appendChild(body);
+
+    a.addEventListener('click', function(e){ openProductModal(e, a); });
+    body.querySelector('.card-add').addEventListener('click', function(e){
+      openWaModal(e, nama);
+    });
+
+    return a;
+  }
+
+  function renderCatalogFromSupabase(){
+    var grid = document.getElementById('productGrid');
+    var status = document.getElementById('productGridStatus');
+    if(!grid) return;
+
+    Promise.all([
+      fetch(CATALOG_SUPABASE_URL + '/rest/v1/' + CATALOG_SUPABASE_TABLE + '?select=*&order=kode_produk.desc', {
+        headers: {
+          'apikey': CATALOG_SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + CATALOG_SUPABASE_ANON_KEY
+        }
+      })
+      .then(function(res){
+        if(!res.ok) throw new Error('Gagal memuat produk dari Supabase.');
+        return res.json();
+      }),
+      fetchStokMap()
+    ])
+    .then(function(results){
+      var rows = results[0];
+      var stokMap = results[1];
+      grid.innerHTML = '';
+      if(!rows || rows.length === 0){
+        status.textContent = 'Belum ada produk yang tersedia.';
+        status.style.display = 'block';
+        return;
+      }
+      rows.forEach(function(row){
+        grid.appendChild(buildProductCard(row, stokMap));
+      });
+      status.style.display = 'none';
+      setupProductFilters();
+    })
+    .catch(function(err){
+      console.error(err);
+      status.textContent = 'Gagal memuat produk. Coba refresh halaman.';
+      status.style.display = 'block';
+    });
+  }
+
+  // ---------- Filter: Kategori, Merek, Harga ----------
+  function setupProductFilters(){
+    var grid = document.getElementById('productGrid');
+    var status = document.getElementById('productGridStatus');
+    var semuaBtn = document.getElementById('filterSemuaBtn');
+    var kategoriSel = document.getElementById('filterKategori');
+    var merkSel = document.getElementById('filterMerk');
+    var hargaSel = document.getElementById('filterHarga');
+    if(!grid || !kategoriSel || !merkSel || !hargaSel) return;
+
+    var cards = Array.prototype.slice.call(grid.querySelectorAll('.card'));
+
+    // Isi opsi dropdown dari data yang benar-benar ada
+    var kategoriSet = [];
+    var merkSet = [];
+    cards.forEach(function(card){
+      var kat = card.getAttribute('data-kategori');
+      var mrk = card.getAttribute('data-merk');
+      if(kat && kategoriSet.indexOf(kat) === -1) kategoriSet.push(kat);
+      if(mrk && merkSet.indexOf(mrk) === -1) merkSet.push(mrk);
+    });
+    kategoriSet.sort().forEach(function(kat){
+      var opt = document.createElement('option');
+      opt.value = kat;
+      opt.textContent = kat;
+      kategoriSel.appendChild(opt);
+    });
+    merkSet.sort().forEach(function(mrk){
+      var opt = document.createElement('option');
+      opt.value = mrk;
+      opt.textContent = mrk;
+      merkSel.appendChild(opt);
+    });
+
+    function updateActiveStyles(){
+      kategoriSel.classList.toggle('active-filter', !!kategoriSel.value);
+      merkSel.classList.toggle('active-filter', !!merkSel.value);
+      hargaSel.classList.toggle('active-filter', !!hargaSel.value);
+      var anyActive = kategoriSel.value || merkSel.value || hargaSel.value;
+      semuaBtn.classList.toggle('active', !anyActive);
+    }
+
+    function applyFilters(){
+      var kat = kategoriSel.value;
+      var mrk = merkSel.value;
+      var hargaRange = hargaSel.value ? hargaSel.value.split('-') : null;
+      var min = hargaRange ? Number(hargaRange[0]) : null;
+      var max = hargaRange ? Number(hargaRange[1]) : null;
+
+      var filtered = cards.filter(function(card){
+        if(kat && card.getAttribute('data-kategori') !== kat) return false;
+        if(mrk && card.getAttribute('data-merk') !== mrk) return false;
+        if(hargaRange){
+          var harga = Number(card.getAttribute('data-harga')) || 0;
+          if(harga < min || harga > max) return false;
+        }
+        return true;
+      });
+
+      if(filtered.length === 0){
+        status.textContent = 'Tidak ada produk yang cocok dengan filter ini.';
+        status.style.display = 'block';
+      } else {
+        status.style.display = 'none';
+      }
+
+      initProductPagination(filtered);
+      updateActiveStyles();
+    }
+
+    semuaBtn.addEventListener('click', function(){
+      kategoriSel.value = '';
+      merkSel.value = '';
+      hargaSel.value = '';
+      applyFilters();
+    });
+    kategoriSel.addEventListener('change', applyFilters);
+    merkSel.addEventListener('change', applyFilters);
+    hargaSel.addEventListener('change', applyFilters);
+
+    applyFilters();
+  }
+
+  renderCatalogFromSupabase();
+
+  // ---------- Video Terbaru dari Supabase (tabel iklanyoutube) ----------
+  var VIDEO_SUPABASE_TABLE = 'iklanyoutube';
+  var videoTerbaruList = [];
+  var videoTerbaruIndex = 0;
+
+  function extractYoutubeId(url){
+    if(!url) return '';
+    var str = String(url).trim();
+    var patterns = [
+      /(?:youtube\.com\/watch\?v=)([^&\s]+)/,
+      /(?:youtu\.be\/)([^?&\s]+)/,
+      /(?:youtube\.com\/embed\/)([^?&\s]+)/,
+      /(?:youtube\.com\/shorts\/)([^?&\s]+)/
+    ];
+    for(var i = 0; i < patterns.length; i++){
+      var m = str.match(patterns[i]);
+      if(m && m[1]) return m[1];
+    }
+    return '';
+  }
+
+  function formatVideoTanggal(tgl){
+    if(!tgl) return '';
+    var d = new Date(tgl);
+    if(isNaN(d.getTime())) return tgl;
+    return d.toLocaleDateString('id-ID', { day:'2-digit', month:'long', year:'numeric' });
+  }
+
+  function escapeHtmlVideo(str){
+    return String(str == null ? '' : str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function selectVideoTerbaru(index){
+    var frame = document.getElementById('videoTerbaruFrame');
+    var iframe = document.getElementById('videoTerbaruIframe');
+    var caption = document.getElementById('videoTerbaruCaption');
+    var titleEl = document.getElementById('videoTerbaruTitle');
+    var dateEl = document.getElementById('videoTerbaruDate');
+    var status = document.getElementById('videoTerbaruStatus');
+
+    var row = videoTerbaruList[index];
+    var ytId = row ? extractYoutubeId(row.link) : '';
+    if(!row || !ytId){
+      status.textContent = 'Belum ada video marketing yang tersedia.';
+      status.style.display = 'block';
+      frame.style.display = 'none';
+      caption.style.display = 'none';
+      return;
+    }
+
+    videoTerbaruIndex = index;
+    iframe.src = 'https://www.youtube.com/embed/' + ytId;
+    titleEl.textContent = row.judul || '';
+    dateEl.textContent = formatVideoTanggal(row.tanggal);
+    frame.style.display = 'block';
+    caption.style.display = 'block';
+    status.style.display = 'none';
+
+    renderVideoSideList();
+  }
+
+  function renderVideoSideList(){
+    var sideEl = document.getElementById('videoSideList');
+    if(!sideEl) return;
+
+    var others = [];
+    videoTerbaruList.forEach(function(row, i){
+      if(i !== videoTerbaruIndex) others.push({ row: row, index: i });
+    });
+
+    if(!others.length){
+      sideEl.innerHTML = '';
+      return;
+    }
+
+    sideEl.innerHTML = others.map(function(item){
+      var row = item.row;
+      var ytId = extractYoutubeId(row.link);
+      var thumbContent = ytId
+        ? '<img src="https://img.youtube.com/vi/' + ytId + '/mqdefault.jpg" alt="' + escapeHtmlVideo(row.judul || '') + '">'
+        : '📺';
+      return (
+        '<div class="video-side-item" data-index="' + item.index + '">' +
+          '<div class="thumb">' + thumbContent + '</div>' +
+          '<div class="info">' +
+            '<b>' + escapeHtmlVideo(row.judul || '-') + '</b>' +
+            '<div class="v-date-small">' + escapeHtmlVideo(formatVideoTanggal(row.tanggal)) + '</div>' +
+          '</div>' +
+        '</div>'
+      );
+    }).join('');
+
+    Array.prototype.forEach.call(sideEl.querySelectorAll('.video-side-item'), function(el){
+      el.addEventListener('click', function(){
+        var idx = Number(el.getAttribute('data-index'));
+        selectVideoTerbaru(idx);
+      });
+    });
+  }
+
+  function renderVideoTerbaru(){
+    var frame = document.getElementById('videoTerbaruFrame');
+    var status = document.getElementById('videoTerbaruStatus');
+    var caption = document.getElementById('videoTerbaruCaption');
+    if(!frame) return;
+
+    fetch(CATALOG_SUPABASE_URL + '/rest/v1/' + VIDEO_SUPABASE_TABLE + '?select=*&order=tanggal.desc', {
+      headers: {
+        'apikey': CATALOG_SUPABASE_ANON_KEY,
+        'Authorization': 'Bearer ' + CATALOG_SUPABASE_ANON_KEY
+      }
+    })
+    .then(function(res){
+      if(!res.ok) throw new Error('Gagal memuat video dari Supabase.');
+      return res.json();
+    })
+    .then(function(rows){
+      videoTerbaruList = rows || [];
+      if(!videoTerbaruList.length){
+        status.textContent = 'Belum ada video marketing yang tersedia.';
+        status.style.display = 'block';
+        frame.style.display = 'none';
+        caption.style.display = 'none';
+        document.getElementById('videoSideList').innerHTML = '';
+        return;
+      }
+      selectVideoTerbaru(0);
+    })
+    .catch(function(err){
+      console.error(err);
+      status.textContent = 'Gagal memuat video. Coba refresh halaman.';
+      status.style.display = 'block';
+      frame.style.display = 'none';
+      caption.style.display = 'none';
+    });
+  }
+
+  renderVideoTerbaru();
+
+  // ---------- Identitas Toko dari Supabase (tabel identitas) ----------
+  var IDENTITY_SUPABASE_URL = 'https://gkkwhehaxumgoxqklauu.supabase.co';
+  var IDENTITY_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdra3doZWhheHVtZ294cWtsYXV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMwMzgyOTksImV4cCI6MjA5ODYxNDI5OX0.zRTCMwQfuMI4vEfOIq6ABi4rOOHOZShjFWaofCfwX6g';
+  var IDENTITY_SUPABASE_TABLE = 'identitas';
+
+  // deteksi apakah teks sudah berupa koordinat "lat,lng"
+  function identityParseLatLng(text){
+    if(!text) return null;
+    var m = String(text).trim().match(/^(-?\d{1,3}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)$/);
+    return m ? String(text).trim() : null;
+  }
+
+  // ubah "0812-3456-7890" jadi format WhatsApp "6281234567890"
+  function identityFormatWaNumber(tlp){
+    var digits = String(tlp || '').replace(/\D/g, '');
+    if(!digits) return null;
+    if(digits.charAt(0) === '0') digits = '62' + digits.slice(1);
+    else if(digits.indexOf('62') !== 0) digits = '62' + digits;
+    return digits;
+  }
+
+  // terima handle ("@username") maupun URL lengkap, hasilkan URL sosial media yang valid
+  function identityBuildSocialUrl(platform, value){
+    if(!value) return null;
+    value = String(value).trim();
+    if(!value) return null;
+    if(/^https?:\/\//i.test(value)) return value;
+    var handle = value.replace(/^@/, '');
+    if(!handle) return null;
+    switch(platform){
+      case 'instagram': return 'https://instagram.com/' + encodeURIComponent(handle);
+      case 'tiktok': return 'https://www.tiktok.com/@' + encodeURIComponent(handle);
+      case 'youtube': return 'https://www.youtube.com/@' + encodeURIComponent(handle);
+      case 'facebook': return 'https://www.facebook.com/' + encodeURIComponent(handle);
+    }
+    return null;
+  }
+
+  function identityApplySocialLink(id, url){
+    var el = document.getElementById(id);
+    if(!el) return;
+    if(url){
+      el.href = url;
+      el.style.display = '';
+    } else {
+      el.style.display = 'none';
+    }
+  }
+
+  function applyStoreIdentity(row){
+    if(!row) return;
+
+    var namaToko = (row.nama_toko || '').trim();
+    var slogan = (row.slogan || '').trim();
+    var logo = (row.logo || '').trim();
+    var alamat = (row.alamat || '').trim();
+    var koordinat = (row.koordinat || '').trim();
+    var tlp = (row.tlp || '').trim();
+
+    // Nama toko — semua tempat brand toko ditampilkan
+    if(namaToko){
+      document.querySelectorAll('.brand-name, .footer-name, .loc-name, .ps-code').forEach(function(el){
+        el.textContent = namaToko;
+      });
+      document.title = namaToko + ' — Alat Musik Gitar & Peripheral';
+    }
+
+    // Slogan di bawah nama toko (topbar)
+    var brandTag = document.querySelector('.brand-tag');
+    if(brandTag && slogan) brandTag.textContent = slogan;
+
+    // Logo toko
+    if(logo){
+      document.querySelectorAll('.brand-mark, .footer-mark').forEach(function(el){
+        el.innerHTML = '<img src="' + logo.replace(/"/g, '%22') + '" alt="Logo ' + (namaToko || 'Toko') + '" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">';
+      });
+    }
+
+    // Alamat & lokasi
+    if(alamat){
+      var locAddress = document.querySelector('.loc-address');
+      if(locAddress) locAddress.textContent = alamat;
+    }
+    var mapQuery = identityParseLatLng(koordinat) || alamat;
+    if(mapQuery){
+      var mapIframe = document.querySelector('.location-map iframe');
+      if(mapIframe) mapIframe.src = 'https://www.google.com/maps?q=' + encodeURIComponent(mapQuery) + '&output=embed';
+      var directionsLink = document.querySelector('.loc-directions');
+      if(directionsLink) directionsLink.href = 'https://www.google.com/maps?q=' + encodeURIComponent(mapQuery);
+    }
+
+    // Kontak / nomor telepon
+    if(tlp){
+      var footerPhoneLink = document.getElementById('footerPhoneLink');
+      if(footerPhoneLink){
+        footerPhoneLink.textContent = tlp;
+        footerPhoneLink.href = 'tel:' + tlp.replace(/\D/g, '');
+      }
+      var waNumber = identityFormatWaNumber(tlp);
+      if(waNumber && typeof waPhoneNumber !== 'undefined') waPhoneNumber = waNumber;
+    }
+
+    // Media sosial
+    identityApplySocialLink('socialInstagram', identityBuildSocialUrl('instagram', row.instagram));
+    identityApplySocialLink('socialTiktok', identityBuildSocialUrl('tiktok', row.tiktok));
+    identityApplySocialLink('socialYoutube', identityBuildSocialUrl('youtube', row.youtube));
+    identityApplySocialLink('socialFacebook', identityBuildSocialUrl('facebook', row.facebook));
+  }
+
+  function loadStoreIdentity(){
+    fetch(IDENTITY_SUPABASE_URL + '/rest/v1/' + IDENTITY_SUPABASE_TABLE + '?select=*&limit=1', {
+      headers: {
+        'apikey': IDENTITY_SUPABASE_ANON_KEY,
+        'Authorization': 'Bearer ' + IDENTITY_SUPABASE_ANON_KEY
+      }
+    })
+    .then(function(res){
+      if(!res.ok) throw new Error('Gagal memuat identitas toko dari Supabase.');
+      return res.json();
+    })
+    .then(function(rows){
+      if(rows && rows.length > 0){
+        applyStoreIdentity(rows[0]);
+      }
+    })
+    .catch(function(err){
+      console.error(err);
+    });
+  }
+
+  loadStoreIdentity();
 </script>
+
 
 </body>
 </html>
