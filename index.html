@@ -673,6 +673,8 @@
     background:rgba(255,255,255,0.92);
     border-radius:14px;
     padding:4px 8px;
+    max-height:248px;
+    overflow-y:auto;
   }
   .video-side-item{
     display:flex;
@@ -810,6 +812,11 @@
     color:#FFFFFF;
   }
   .wa-logo svg{ width:30px; height:30px; }
+  .welcome-logo{
+    background:var(--green, #1F8A4C);
+    color:#FFFFFF;
+    font-size:28px;
+  }
   .wa-product{
     background:var(--white);
     border:1px solid var(--line);
@@ -1581,7 +1588,7 @@
   <!-- VIDEO TERBARU -->
   <section class="section" id="video-terbaru">
     <div class="section-head">
-      <h2>Video Produk</h2>
+      <h2>Video Terbaru</h2>
     </div>
 
     <div class="video-panel">
@@ -1717,20 +1724,30 @@
       <p>Belanja lebih cepat & lacak pesanan gitarmu di Arya &amp; Music Store</p>
     </div>
 
-    <form onsubmit="return false;">
+    <form onsubmit="return false;" id="loginForm">
       <div class="form-group">
-        <label>Nomor HP atau Email</label>
-        <input class="form-input" type="text" placeholder="08xx-xxxx-xxxx atau email@kamu.com">
+        <label>Username</label>
+        <input class="form-input" type="text" id="loginUsernameField" placeholder="Masukkan username" autocomplete="username">
       </div>
       <div class="form-group">
         <label>Kata Sandi</label>
-        <input class="form-input" type="password" placeholder="Masukkan kata sandi">
+        <input class="form-input" type="password" id="loginPasswordField" placeholder="Masukkan kata sandi" autocomplete="current-password">
       </div>
-      <div class="form-extra">
-        <a href="#">Lupa kata sandi?</a>
-      </div>
-      <button class="btn-primary" type="submit">Masuk</button>
+      <div id="loginErrorMsg" style="display:none; font-size:12px; color:var(--cherry); margin:-6px 0 14px; font-weight:600;"></div>
+      <button class="btn-primary" type="submit" id="loginSubmitBtn">Masuk</button>
     </form>
+  </div>
+</div>
+
+<!-- WELCOME MODAL (muncul setelah username & password cocok dengan tabel identitas) -->
+<div class="modal-overlay" id="welcomeModal">
+  <div class="modal-sheet wa-sheet">
+    <div class="modal-logo welcome-logo">✅</div>
+    <div class="modal-head">
+      <h2>Selamat Datang!</h2>
+      <p id="welcomeAdminName">Admin</p>
+    </div>
+    <p style="text-align:center; font-size:11.5px; color:var(--ink-soft); margin-top:-8px;">Mengarahkan ke dashboard admin...</p>
   </div>
 </div>
 
@@ -1937,6 +1954,7 @@
 
   function openLoginModal(e){
     if(e) e.preventDefault();
+    showLoginError('');
     document.getElementById('loginModal').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
@@ -1947,6 +1965,83 @@
   document.getElementById('loginModal').addEventListener('click', function(e){
     if(e.target === this) closeLoginModal();
   });
+
+  /* ---------- Proses Login: cocokkan username & password ke tabel "identitas" ---------- */
+  function showLoginError(msg){
+    var el = document.getElementById('loginErrorMsg');
+    if(!el) return;
+    el.textContent = msg || '';
+    el.style.display = msg ? 'block' : 'none';
+  }
+
+  function openWelcomeModal(namaAdmin){
+    document.getElementById('welcomeAdminName').textContent = 'Halo, ' + (namaAdmin || 'Admin') + '!';
+    document.getElementById('welcomeModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+
+    // Setelah modal tampil sejenak, arahkan ke halaman dashboard admin
+    setTimeout(function(){
+      window.location.href = 'dashboardadmin.html';
+    }, 1600);
+  }
+
+  async function handleLoginSubmit(e){
+    if(e) e.preventDefault();
+
+    var usernameField = document.getElementById('loginUsernameField');
+    var passwordField = document.getElementById('loginPasswordField');
+    var submitBtn = document.getElementById('loginSubmitBtn');
+
+    var username = usernameField.value.trim();
+    var password = passwordField.value;
+
+    showLoginError('');
+
+    if(!username || !password){
+      showLoginError('Username dan password wajib diisi.');
+      return;
+    }
+
+    var originalLabel = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Memeriksa...';
+
+    try{
+      // Cek langsung ke tabel "identitas" di Supabase: kolom username & password harus cocok
+      var url = IDENTITY_SUPABASE_URL + '/rest/v1/' + IDENTITY_SUPABASE_TABLE +
+        '?select=owner,username,password' +
+        '&username=eq.' + encodeURIComponent(username) +
+        '&password=eq.' + encodeURIComponent(password) +
+        '&limit=1';
+
+      var res = await fetch(url, {
+        headers: {
+          'apikey': IDENTITY_SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + IDENTITY_SUPABASE_ANON_KEY
+        }
+      });
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+
+      var rows = await res.json();
+
+      if(rows && rows.length > 0){
+        var namaAdmin = rows[0].owner || 'Admin';
+        passwordField.value = '';
+        closeLoginModal();
+        openWelcomeModal(namaAdmin);
+      } else {
+        showLoginError('Username atau password salah.');
+      }
+    }catch(err){
+      console.error('Gagal memeriksa login:', err);
+      showLoginError('Gagal memeriksa login. Coba lagi.');
+    }finally{
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalLabel;
+    }
+  }
+
+  document.getElementById('loginForm').addEventListener('submit', handleLoginSubmit);
 
   // ---------- Hero carousel auto-slide ----------
   (function(){
