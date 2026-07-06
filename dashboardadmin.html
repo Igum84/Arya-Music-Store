@@ -265,6 +265,12 @@
   .stat-card.c2 .ic{ background:rgba(31,138,76,0.12); }
   .stat-card.c3 .ic{ background:rgba(20,20,20,0.08); }
   .stat-card.c4 .ic{ background:rgba(158,27,31,0.12); }
+  .stat-card.c5 .ic{ background:rgba(20,20,20,0.08); }
+  .stat-card.c6 .ic{ background:rgba(20,20,20,0.08); }
+  .stat-card.c6.profit .ic{ background:rgba(31,138,76,0.14); }
+  .stat-card.c6.profit .num{ color:var(--green); }
+  .stat-card.c6.loss .ic{ background:rgba(216,38,44,0.14); }
+  .stat-card.c6.loss .num{ color:var(--cherry); }
   .stat-card .num{
     font-family:'Fraunces', serif;
     font-size:19px;
@@ -867,29 +873,35 @@
 
   <!-- STATS -->
   <div class="stat-grid">
-    <div class="stat-card c1">
-      <div class="ic">🧾</div>
-      <div class="num">38</div>
-      <div class="lbl">Pesanan Baru</div>
-      <div class="trend up">▲ 12% minggu ini</div>
-    </div>
     <div class="stat-card c2">
-      <div class="ic">💰</div>
-      <div class="num">Rp18,4jt</div>
-      <div class="lbl">Omzet Hari Ini</div>
-      <div class="trend up">▲ 8% dari kemarin</div>
+      <div class="ic">🎸</div>
+      <div class="num" id="statTotalTipeProduk">0</div>
+      <div class="lbl">Total Tipe Produk</div>
+      <div class="trend" id="statTotalTipeProdukSub">Memuat...</div>
     </div>
     <div class="stat-card c3">
-      <div class="ic">🎸</div>
-      <div class="num">126</div>
-      <div class="lbl">Produk Aktif</div>
-      <div class="trend down">▼ 3 stok menipis</div>
+      <div class="ic">🧰</div>
+      <div class="num" id="statTotalModalProduk">Rp0</div>
+      <div class="lbl">Total Modal Pembelian Produk</div>
+      <div class="trend" id="statTotalModalProdukSub">Memuat...</div>
     </div>
     <div class="stat-card c4">
-      <div class="ic">👥</div>
-      <div class="num">842</div>
-      <div class="lbl">Total Pelanggan</div>
-      <div class="trend up">▲ 24 baru</div>
+      <div class="ic">🧾</div>
+      <div class="num" id="statTotalPengeluaran">Rp0</div>
+      <div class="lbl">Total Pengeluaran</div>
+      <div class="trend" id="statTotalPengeluaranSub">Memuat...</div>
+    </div>
+    <div class="stat-card c5">
+      <div class="ic">💵</div>
+      <div class="num" id="statTotalPenjualan">Rp0</div>
+      <div class="lbl">Total Penjualan</div>
+      <div class="trend" id="statTotalPenjualanSub">Memuat...</div>
+    </div>
+    <div class="stat-card c6" id="statNeracaCard">
+      <div class="ic" id="statNeracaIc">📊</div>
+      <div class="num" id="statNeraca">Rp0</div>
+      <div class="lbl">Neraca Laba Rugi</div>
+      <div class="trend" id="statNeracaSub">Memuat...</div>
     </div>
   </div>
 
@@ -1262,7 +1274,193 @@
       console.error('Gagal memuat logo navbar dari Supabase:', err);
     }
   }
+
   loadNavbarLogo();
+
+  /* ---------- Ringkasan Keuangan: Pengeluaran, Total Penjualan, Neraca Laba Rugi ---------- */
+  function formatRupiahSingkat(num){
+    num = Number(num) || 0;
+    const abs = Math.abs(num);
+    let hasil;
+    if(abs >= 1000000000){
+      hasil = (num / 1000000000).toFixed(1).replace('.', ',') + 'M';
+    } else if(abs >= 1000000){
+      hasil = (num / 1000000).toFixed(1).replace('.', ',') + 'jt';
+    } else if(abs >= 1000){
+      hasil = Math.round(num / 1000) + 'rb';
+    } else {
+      hasil = num.toLocaleString('id-ID');
+    }
+    return 'Rp' + hasil;
+  }
+
+  async function loadKeuanganStats(){
+    const statTotalPenjualanEl = document.getElementById('statTotalPenjualan');
+    const statTotalPenjualanSubEl = document.getElementById('statTotalPenjualanSub');
+    const statNeracaCardEl = document.getElementById('statNeracaCard');
+    const statNeracaIcEl = document.getElementById('statNeracaIc');
+    const statNeracaEl = document.getElementById('statNeraca');
+    const statNeracaSubEl = document.getElementById('statNeracaSub');
+
+    try{
+      const headers = {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+      };
+
+      const [penjualanRes, pengeluaranRes] = await Promise.all([
+        fetch(SUPABASE_URL + 'penjualan?select=total_pemasukan', { headers }),
+        fetch(SUPABASE_URL + 'pengeluaran?select=total_pengeluaran', { headers })
+      ]);
+
+      if(!penjualanRes.ok) throw new Error('Gagal memuat data penjualan (HTTP ' + penjualanRes.status + ')');
+      if(!pengeluaranRes.ok) throw new Error('Gagal memuat data pengeluaran (HTTP ' + pengeluaranRes.status + ')');
+
+      const penjualanRows = await penjualanRes.json();
+      const pengeluaranRows = await pengeluaranRes.json();
+
+      const totalPenjualan = (penjualanRows || []).reduce((sum, r) => sum + parseAngkaDariTeks(r.total_pemasukan), 0);
+      const totalPengeluaran = (pengeluaranRows || []).reduce((sum, r) => sum + parseAngkaDariTeks(r.total_pengeluaran), 0);
+      const labaRugi = totalPenjualan - totalPengeluaran;
+
+      statTotalPenjualanEl.textContent = formatRupiahSingkat(totalPenjualan);
+      statTotalPenjualanSubEl.textContent = (penjualanRows || []).length + ' transaksi penjualan';
+
+      statNeracaEl.textContent = (labaRugi < 0 ? '-' : '') + formatRupiahSingkat(Math.abs(labaRugi));
+
+      if(labaRugi >= 0){
+        statNeracaCardEl.classList.add('profit');
+        statNeracaCardEl.classList.remove('loss');
+        statNeracaIcEl.textContent = '📈';
+        statNeracaSubEl.className = 'trend up';
+        statNeracaSubEl.textContent = '▲ Untung';
+      } else {
+        statNeracaCardEl.classList.add('loss');
+        statNeracaCardEl.classList.remove('profit');
+        statNeracaIcEl.textContent = '📉';
+        statNeracaSubEl.className = 'trend down';
+        statNeracaSubEl.textContent = '▼ Rugi';
+      }
+    }catch(err){
+      console.error('Gagal memuat ringkasan keuangan dari Supabase:', err);
+      statTotalPenjualanEl.textContent = 'Rp0';
+      statTotalPenjualanSubEl.textContent = 'Gagal memuat data';
+      statNeracaEl.textContent = 'Rp0';
+      statNeracaSubEl.textContent = 'Gagal memuat data';
+    }
+  }
+
+  loadKeuanganStats();
+
+  /* ---------- Total Tipe Produk: hitung jumlah data di tabel pembelianproduk ---------- */
+  async function loadTotalTipeProduk(){
+    const statTotalTipeProdukEl = document.getElementById('statTotalTipeProduk');
+    const statTotalTipeProdukSubEl = document.getElementById('statTotalTipeProdukSub');
+
+    try{
+      const res = await fetch(SUPABASE_URL + 'pembelianproduk?select=*', {
+        method: 'HEAD',
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+          'Prefer': 'count=exact'
+        }
+      });
+
+      if(!res.ok){
+        const errBody = await res.text();
+        throw new Error(errBody || ('HTTP ' + res.status));
+      }
+
+      // Supabase mengirim total jumlah baris lewat header Content-Range, mis: "0-9/126"
+      let total = 0;
+      const contentRange = res.headers.get('content-range');
+      if(contentRange && contentRange.includes('/')){
+        const totalStr = contentRange.split('/')[1];
+        total = (totalStr === '*') ? 0 : (parseInt(totalStr, 10) || 0);
+      }
+
+      statTotalTipeProdukEl.textContent = total.toLocaleString('id-ID');
+      statTotalTipeProdukSubEl.textContent = total + ' tipe produk tercatat';
+    }catch(err){
+      console.error('Gagal memuat total tipe produk dari Supabase:', err);
+      statTotalTipeProdukEl.textContent = '0';
+      statTotalTipeProdukSubEl.textContent = 'Gagal memuat data';
+    }
+  }
+
+  loadTotalTipeProduk();
+
+  /* ---------- Total Modal Pembelian Produk: jumlahkan kolom total_belanja (text) di tabel pembelianproduk ---------- */
+  function parseAngkaDariTeks(teks){
+    if(teks === null || teks === undefined) return 0;
+    // Buang semua karakter selain digit (mis: "Rp1.250.000" atau "1,250,000" -> "1250000")
+    const bersih = String(teks).replace(/[^0-9]/g, '');
+    return bersih ? parseInt(bersih, 10) : 0;
+  }
+
+  async function loadTotalModalProduk(){
+    const statTotalModalProdukEl = document.getElementById('statTotalModalProduk');
+    const statTotalModalProdukSubEl = document.getElementById('statTotalModalProdukSub');
+
+    try{
+      const res = await fetch(SUPABASE_URL + 'pembelianproduk?select=total_belanja', {
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+        }
+      });
+
+      if(!res.ok){
+        const errBody = await res.text();
+        throw new Error(errBody || ('HTTP ' + res.status));
+      }
+
+      const rows = await res.json();
+      const totalModal = (rows || []).reduce((sum, r) => sum + parseAngkaDariTeks(r.total_belanja), 0);
+
+      statTotalModalProdukEl.textContent = formatRupiahSingkat(totalModal);
+      statTotalModalProdukSubEl.textContent = (rows || []).length + ' transaksi pembelian';
+    }catch(err){
+      console.error('Gagal memuat total modal pembelian produk dari Supabase:', err);
+      statTotalModalProdukEl.textContent = 'Rp0';
+      statTotalModalProdukSubEl.textContent = 'Gagal memuat data';
+    }
+  }
+
+  loadTotalModalProduk();
+
+  /* ---------- Total Pengeluaran: jumlahkan kolom total_pengeluaran (text) di tabel pengeluaran ---------- */
+  async function loadTotalPengeluaran(){
+    const statTotalPengeluaranEl = document.getElementById('statTotalPengeluaran');
+    const statTotalPengeluaranSubEl = document.getElementById('statTotalPengeluaranSub');
+
+    try{
+      const res = await fetch(SUPABASE_URL + 'pengeluaran?select=total_pengeluaran', {
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+        }
+      });
+
+      if(!res.ok){
+        const errBody = await res.text();
+        throw new Error(errBody || ('HTTP ' + res.status));
+      }
+
+      const rows = await res.json();
+      const totalPengeluaran = (rows || []).reduce((sum, r) => sum + parseAngkaDariTeks(r.total_pengeluaran), 0);
+
+      statTotalPengeluaranEl.textContent = formatRupiahSingkat(totalPengeluaran);
+      statTotalPengeluaranSubEl.textContent = (rows || []).length + ' transaksi pengeluaran';
+    }catch(err){
+      console.error('Gagal memuat total pengeluaran dari Supabase:', err);
+      statTotalPengeluaranEl.textContent = 'Rp0';
+      statTotalPengeluaranSubEl.textContent = 'Gagal memuat data';
+    }
+  }
+
+  loadTotalPengeluaran();
 
   /* ---------- Modal: Transaksi Pengeluaran ---------- */
   const pengeluaranModalOverlay = document.getElementById('pengeluaranModalOverlay');
