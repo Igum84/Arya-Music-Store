@@ -108,8 +108,6 @@
     display:flex;
     gap:6px;
   }
-  .desktop-nav{ display:none; }
-  .desktop-account{ display:none; }
   .icon-btn{
     width:38px; height:38px;
     border-radius:50%;
@@ -118,14 +116,6 @@
     display:flex; align-items:center; justify-content:center;
     position:relative;
     font-size:17px;
-  }
-  .icon-btn .dot{
-    position:absolute;
-    top:6px; right:6px;
-    width:7px; height:7px;
-    border-radius:50%;
-    background:var(--cherry);
-    border:1.5px solid var(--walnut);
   }
 
   .location-pill{
@@ -138,27 +128,6 @@
   }
   .location-pill b{ color:var(--paper); font-weight:600; }
   .location-pill .chev{ opacity:0.7; }
-
-  .searchbar{
-    background:var(--white);
-    border-radius:14px;
-    display:flex;
-    align-items:center;
-    gap:9px;
-    padding:11px 14px;
-    box-shadow: var(--shadow);
-  }
-  .searchbar input{
-    border:none;
-    outline:none;
-    flex:1;
-    font-family:inherit;
-    font-size:14px;
-    color:var(--ink);
-    background:transparent;
-  }
-  .searchbar input::placeholder{ color:#A8A6A2; }
-  .searchbar .lens{ color:var(--ink-soft); font-size:15px; }
 
   /* ---------- Section heads ---------- */
   .section{
@@ -1243,22 +1212,9 @@
       box-shadow:0 20px 60px -20px rgba(10,10,10,0.25);
       margin:0 auto;
     }
-    .desktop-nav{
-      display:flex;
-      gap:26px;
-      font-size:13.5px;
-      font-weight:600;
-      color:#C9C7C4;
-    }
-    .desktop-nav a{ transition:color .2s; white-space:nowrap; }
-    .desktop-nav a:hover, .desktop-nav a.active{ color:var(--amber); }
-    .desktop-account{
-      display:flex;
-      font-size:15px;
-    }
     .topbar{ padding:18px 32px 22px; }
     .topbar-row{ margin-bottom:14px; }
-    .location-pill,.searchbar{ max-width:420px; }
+    .location-pill{ max-width:420px; }
 
     .hero{
       margin:20px 32px 0;
@@ -1443,7 +1399,6 @@
   ===================================================== */
   @media (min-width:1024px){
     .app{ max-width:1180px; }
-    .desktop-nav{ gap:34px; font-size:14.5px; }
     .topbar{ padding:20px 44px 24px; }
     .hero{ margin:24px 44px 0; padding:46px 56px; }
     .hero-inner{ max-width:50%; }
@@ -1485,24 +1440,12 @@
           <div class="brand-tag">alat musik gitar & Peripheral</div>
         </div>
       </div>
-      <nav class="desktop-nav">
-        <a href="index.html" class="active">Beranda</a>
-        <a href="produk.html">Produk</a>
-        <a href="#produk">Kategori</a>
-        <a href="stok.html">Cek Stok</a>
-      </nav>
       <div class="topbar-icons">
-        <a class="icon-btn desktop-account" href="#" onclick="openLoginModal(event)" aria-label="Akun">👤</a>
-        <a class="icon-btn" href="#" aria-label="Notifikasi">🔔<span class="dot"></span></a>
-        <a class="icon-btn" href="#" aria-label="Keranjang">🛍️</a>
+        <a class="icon-btn" href="#" onclick="openLoginModal(event)" aria-label="Akun">👤</a>
       </div>
     </div>
     <div class="location-pill">
       📦 Dikirim dari <b>Mentok, Bangka Barat</b> <span class="chev">▾</span>
-    </div>
-    <div class="searchbar">
-      <span class="lens">🔍</span>
-      <input type="text" placeholder="Cari gitar, senar, pedal efek...">
     </div>
   </header>
 
